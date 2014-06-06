@@ -3,9 +3,17 @@ package com.mygdx.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.mygdx.MissingWords.MissingWords;
 
 public class MenuScreen extends BaseScreen {
+	
+	private Stage stage;
+	private ScalingViewport viewport;
+	private Image imageFondo, imagePrueba;
 	
 	public MenuScreen(MissingWords missingwords) {
 		super(missingwords);
@@ -13,22 +21,28 @@ public class MenuScreen extends BaseScreen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(1, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		myBatch.begin();
-		myBatch.draw(missingwords.getAM().get("fondo.png", Texture.class), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		myBatch.end();
+		stage.act();
+		stage.draw();
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+		stage.getViewport().update(width, height);
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		viewport = new ScalingViewport(Scaling.stretch, 800, 480);
+		stage = new Stage(viewport, missingwords.getSB());
+		
+		imageFondo = new Image(missingwords.getAM().get("background2.png", Texture.class));
+		stage.addActor(imageFondo);
+		
+		imagePrueba = new Image(missingwords.getAM().get("prueba.png", Texture.class));
+		imagePrueba.setPosition(0, 0);
+		stage.addActor(imagePrueba);
 	}
 
 	@Override

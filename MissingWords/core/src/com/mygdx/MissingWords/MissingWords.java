@@ -18,7 +18,8 @@ public class MissingWords extends Game {
 		myManager = new AssetManager();
 		MenuScreen = new MenuScreen(this);
 		
-		myManager.load("fondo.png", Texture.class);
+		myManager.load("background2.png", Texture.class);
+		myManager.load("prueba.png", Texture.class);
 		myManager.finishLoading();
 		
 		setScreen(MenuScreen);

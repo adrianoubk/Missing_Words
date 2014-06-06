@@ -7,8 +7,8 @@ import com.mygdx.MissingWords.MissingWords;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 768;
-		config.height = 512;
+		config.width = 800;
+		config.height = 480;
 		
 		new LwjglApplication(new MissingWords(), config);
 	}
