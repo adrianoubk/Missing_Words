@@ -25,10 +25,10 @@ public class TimeBar extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		backgroundBar.draw(batch, 255, 384, 290, 20);
+		backgroundBar.draw(batch, 255, 383, 290, 20);
 		
 		if (progress > 0.017)
-			loadingBar.draw(batch, 257, 385.5f, 286 * progress, 17);
+			loadingBar.draw(batch, 257, 384.5f, 286 * progress, 17);
 	}
 
 	public void setProgress(float progress) {

@@ -1,5 +1,6 @@
 package com.me.missingwords.screens;
 
+
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -33,9 +34,6 @@ public abstract class BaseScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		System.out.println(width);
-		System.out.println(height);
 		stage.getViewport().update(width, height, true);
 	}
 
