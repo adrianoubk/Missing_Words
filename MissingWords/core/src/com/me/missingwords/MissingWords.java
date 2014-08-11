@@ -26,7 +26,9 @@ public class MissingWords extends Game {
 	private SpriteBatch myBatch; 
 	
 	/* Gestor de recursos del juego */
-	public static AssetManager myManager; 
+	public static AssetManager myManager;
+	
+	public enum Category {kalender, lander};
 	
 	@Override
 	public void create() {
@@ -39,8 +41,34 @@ public class MissingWords extends Game {
 		myManager.load("background.png", Texture.class);
 		myManager.load("cuadroFichaNuevo.png", Texture.class);
 		myManager.load("a.png", Texture.class);
-		myManager.load("w.png", Texture.class);
+		myManager.load("b.png", Texture.class);
+		myManager.load("c.png", Texture.class);
+		myManager.load("d.png", Texture.class);
+		myManager.load("e.png", Texture.class);
+		myManager.load("f.png", Texture.class);
+		myManager.load("g.png", Texture.class);
+		myManager.load("h.png", Texture.class);
+		myManager.load("i.png", Texture.class);
+		myManager.load("j.png", Texture.class);
+		myManager.load("k.png", Texture.class);
+		myManager.load("l.png", Texture.class);
+		myManager.load("m.png", Texture.class);
+		myManager.load("n.png", Texture.class);
+		myManager.load("o.png", Texture.class);
+		myManager.load("p.png", Texture.class);
 		myManager.load("q.png", Texture.class);
+		myManager.load("r.png", Texture.class);
+		myManager.load("s.png", Texture.class);
+		myManager.load("t.png", Texture.class);
+		myManager.load("u.png", Texture.class);
+		myManager.load("v.png", Texture.class);
+		myManager.load("w.png", Texture.class);
+		myManager.load("x.png", Texture.class);
+		myManager.load("y.png", Texture.class);
+		myManager.load("z.png", Texture.class);
+		myManager.load("ae.png", Texture.class);
+		myManager.load("oe.png", Texture.class);
+		myManager.load("ue.png", Texture.class);
 		myManager.load("TurnBar.png", Texture.class);
 		
 		myManager.finishLoading();

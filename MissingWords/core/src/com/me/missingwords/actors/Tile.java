@@ -11,12 +11,15 @@ public class Tile extends Actor {
 	private int points;
 	private TextureRegion tileTexture;
 	
-	
 	public Tile(String letter, int points) {
 		this.letter = letter;
-		this.points = points;	
+		this.points = points;
 		tileTexture = new TextureRegion(MissingWords.myManager.get(buildPath(letter), Texture.class));
 		setDefaultSize();
+	}
+	
+	public Tile(Tile t) { // Constructor de copia
+		this(t.letter, t.points);
 	}
 
 	@Override
@@ -48,5 +51,17 @@ public class Tile extends Actor {
 	public int points() {
 		return points;
 	}
+	/*
+	private void addListeners() {
+		this.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				System.out.println("hola amigos");		
+				a.setVisible(false);
+				submitGroup.addActor(a2);
+			}
+		});
+		
+	}*/
 }
 
