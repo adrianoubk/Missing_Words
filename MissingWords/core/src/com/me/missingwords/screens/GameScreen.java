@@ -52,7 +52,7 @@ public class GameScreen extends BaseScreen {
 		submitGroup.setPosition((800 - submitGroup.getMinWidth()) / 2, 0);
 		stage.act();
 		stage.draw();
-		Table.drawDebug(stage);
+		//Table.drawDebug(stage);
 		
 		timeCounter += delta;
 		if(timeCounter >= 1 && cont >= 0){
