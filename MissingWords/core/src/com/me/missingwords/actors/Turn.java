@@ -18,12 +18,12 @@ public class Turn extends Actor {
 	
 	public Turn(int numTurn) {
 		font = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
-		turnTexture = new TextureRegion(MissingWords.myManager.get("TurnBar.png", Texture.class));
+		turnTexture = new TextureRegion(MissingWords.myManager.get("blue_button04.png", Texture.class));
 		this.numTurn = numTurn;
 	}
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(turnTexture, (800 - turnTexture.getRegionWidth()) / 2, 405);
+		batch.draw(turnTexture, (800 - turnTexture.getRegionWidth()) / 2, 425);
 		font.setColor(Color.MAROON);
 		font.draw(batch, "Turn " + numTurn, calculatePosition().x , calculatePosition().y);
 	}
@@ -33,7 +33,7 @@ public class Turn extends Actor {
 		
 		pos.x = ((800 - turnTexture.getRegionWidth()) / 2) + 
 				((turnTexture.getRegionWidth() - font.getBounds("Turn " + numTurn).width) / 2);
-		pos.y = 405 + ((8 + turnTexture.getRegionHeight() + 
+		pos.y = 425 + ((8 + turnTexture.getRegionHeight() + 
 				font.getBounds("Turn " + numTurn).height) / 2);
 		
 		return pos;

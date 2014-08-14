@@ -16,6 +16,9 @@ import com.me.missingwords.screens.*;
 
 public class MissingWords extends Game {
 	
+	public static final int VIEWPORT_WIDTH = 800;
+	public static final int VIEWPORT_HEIGHT = 480;
+	
 	public BaseScreen GameScreen;
 	
 	/* La clase SpriteBatch nos permite dibujar las texturas de nuestro juego. Agrupa 
@@ -38,7 +41,6 @@ public class MissingWords extends Game {
 	
 		myManager.load("barLoading.png", Texture.class);
 		myManager.load("barBackground.png", Texture.class);
-		myManager.load("background.png", Texture.class);
 		myManager.load("cuadroFichaNuevo.png", Texture.class);
 		myManager.load("a.png", Texture.class);
 		myManager.load("b.png", Texture.class);
@@ -70,6 +72,11 @@ public class MissingWords extends Game {
 		myManager.load("oe.png", Texture.class);
 		myManager.load("ue.png", Texture.class);
 		myManager.load("TurnBar.png", Texture.class);
+		myManager.load("bg_grasslands.png", Texture.class);
+		myManager.load("blue_button04.png", Texture.class);
+		myManager.load("grey_sliderHorizontal.png", Texture.class);
+		myManager.load("blue_button13.png", Texture.class);
+		myManager.load("blue_button14.png", Texture.class);
 		
 		myManager.finishLoading();
 		

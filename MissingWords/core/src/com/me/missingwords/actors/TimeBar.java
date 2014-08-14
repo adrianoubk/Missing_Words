@@ -14,6 +14,9 @@ public class TimeBar extends Actor {
 	private TextureRegion textureBackground;
 	private TextureRegion textureLoading;
 	private float progress = 1;
+	private float seconds = 60;
+	private float timeCounter = 1;
+	private float counter = 1;
 	
 	public TimeBar() {
 		textureBackground = new TextureRegion(MissingWords.myManager.get("barBackground.png", Texture.class));
@@ -25,18 +28,25 @@ public class TimeBar extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		backgroundBar.draw(batch, 255, 383, 290, 20);
+		backgroundBar.draw(batch, 255, 402, 290, 20); // y = 383
 		
 		if (progress > 0.017)
-			loadingBar.draw(batch, 257, 384.5f, 286 * progress, 17);
+			loadingBar.draw(batch, 257, 403.5f, 286 * progress, 17); // y = 384.5f
 	}
 
 	public void setProgress(float progress) {
 		this.progress = progress;
 	}
-	
-	
-	
-	
 
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		timeCounter += delta;
+		if(timeCounter >= 1 && seconds >= 0){
+			setProgress(counter);
+			counter -= (float) 1 / 60;
+			timeCounter = 0;
+			--seconds;
+			}	
+	}
 }

@@ -20,7 +20,8 @@ public abstract class BaseScreen implements Screen {
 	public BaseScreen(MissingWords missingwords) {
 		this.missingwords = missingwords;
 		this.myBatch = missingwords.getSB();
-		viewport = new ScalingViewport(Scaling.stretch, 800, 480);
+		viewport = new ScalingViewport(Scaling.stretch, 
+				MissingWords.VIEWPORT_WIDTH , MissingWords.VIEWPORT_HEIGHT);
 		stage = new Stage(viewport, myBatch);
 	}
 	

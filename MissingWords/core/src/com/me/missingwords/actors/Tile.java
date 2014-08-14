@@ -44,24 +44,12 @@ public class Tile extends Actor {
 		setSize(50, 50);
 	}
 	
-	public String letter() {
+	public String getLetter() {
 		return letter;
 	}
 	
-	public int points() {
+	public int getPoints() {
 		return points;
 	}
-	/*
-	private void addListeners() {
-		this.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("hola amigos");		
-				a.setVisible(false);
-				submitGroup.addActor(a2);
-			}
-		});
-		
-	}*/
 }
 

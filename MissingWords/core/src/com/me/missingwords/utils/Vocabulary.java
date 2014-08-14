@@ -2,12 +2,9 @@ package com.me.missingwords.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
