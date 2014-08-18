@@ -29,4 +29,8 @@ public class SubmitBox extends HorizontalGroup {
 	public int getNumActors() {
 		return numActors;
 	}
+	
+	public void setNumActors(int value) {
+		numActors = value;
+	}
 }

@@ -77,6 +77,8 @@ public class MissingWords extends Game {
 		myManager.load("grey_sliderHorizontal.png", Texture.class);
 		myManager.load("blue_button13.png", Texture.class);
 		myManager.load("blue_button14.png", Texture.class);
+		myManager.load("green_button11.png", Texture.class);
+		myManager.load("green_button12.png", Texture.class);
 		
 		myManager.finishLoading();
 		

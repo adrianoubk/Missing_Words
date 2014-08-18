@@ -14,8 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.*;
+import com.me.missingwords.listeners.*;
 import com.me.missingwords.utils.Scores;
 import com.me.missingwords.utils.Vocabulary;
 
@@ -32,8 +34,8 @@ public class GameScreen extends BaseScreen {
 	private Slider slider;
 	private SubmitBox submitBox;
 	private TileBox tileBox;
-	private ImageButton button;
-	private TextureRegionDrawable buttonUp, buttonDown;
+	private ImageButton button, button2;
+	private TextureRegionDrawable buttonUp, buttonDown, buttonUp2, buttonDown2;
 	
 	public GameScreen(MissingWords missingwords) {
 		super(missingwords);
@@ -85,10 +87,11 @@ public class GameScreen extends BaseScreen {
 		stage.addActor(background);
 		
 		addTiles();
-		addListeners();
 		
 		submitBox = new SubmitBox();
 		stage.addActor(submitBox);
+		
+		addListeners();
 		
 		slider = new Slider(MissingWords.myManager.get("grey_sliderHorizontal.png", Texture.class));
 		stage.addActor(slider);
@@ -105,7 +108,39 @@ public class GameScreen extends BaseScreen {
 		button = new ImageButton(buttonUp, buttonDown);
 		button.setPosition((MissingWords.VIEWPORT_WIDTH - button.getMinWidth()) / 2, 5);
 		
+		button.addListener(new InputButtonListener(vocab, submitBox, stage));
+		
 		stage.addActor(button);
+		
+		buttonUp2 = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("green_button11.png", Texture.class)));
+		buttonDown2 = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("green_button12.png", Texture.class)));
+		
+		button2 = new ImageButton(buttonUp2, buttonDown2);
+		button2.setPosition(100, 200);
+		
+		button2.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				submitBox.clear();
+				submitBox.setNumActors(0);
+				tileBox.clear();
+				tOriginal.clear();
+				tCopy.clear();
+				createTiles();
+				Collections.shuffle(tOriginal);
+
+				tCopy = new ArrayList<Tile>(); // Copia del arrayList
+				for (int i = 0; i < MAX_TILES; ++i) {
+					tCopy.add(new Tile(tOriginal.get(i)));;
+				}
+				addTiles();
+				addListeners();
+				
+				
+			}
+		});
+		
+		stage.addActor(button2);
 	}
 	
 	private void addTiles() {
@@ -183,30 +218,10 @@ public class GameScreen extends BaseScreen {
 		return newArray;
 	}
 	
-	private void addListeners() {
-		for (int i = 0; i < MAX_TILES; ++i)  {
-			final int index = i;
-			tOriginal.get(i).addListener(new ClickListener(){
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					tOriginal.get(index).setVisible(false);
-					tCopy.get(index).setSmallSize();
-					submitBox.addActor(tCopy.get(index));
-					submitBox.increaseNumActors();
-					
-					System.out.println("index: " + index);
-			
-				}
-			});
-			
-			tCopy.get(i).addListener(new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					tOriginal.get(index).setVisible(true);
-					submitBox.removeActor(tCopy.get(index));
-					submitBox.decreaseNumActors();
-				}
-			});
+	private void addListeners() {	
+		for (int i = 0; i < MAX_TILES; ++i) {
+			tOriginal.get(i).addListener(new TileListenerTable(submitBox, tOriginal.get(i), tCopy.get(i)));
+			tCopy.get(i).addListener(new TileListenerSubmit(submitBox, tOriginal.get(i), tCopy.get(i)));
 		}
 	}
 
