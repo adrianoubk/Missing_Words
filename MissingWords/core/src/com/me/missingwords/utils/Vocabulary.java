@@ -9,23 +9,33 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.me.missingwords.MissingWords.Category;
+import com.me.missingwords.MissingWords.Language;
 
 public class Vocabulary {
 	private HashMap<String, Category> vocabulary;
 	
-	public Vocabulary() throws IOException {
-		vocabulary = new HashMap<String, Category>();
-		FileHandle file = Gdx.files.internal("vocabulary.csv");
+	public Vocabulary(Language language, Category category) throws IOException {
+		vocabulary = new HashMap<String, Category>();	
+		FileHandle file = null;
+		
+		switch (language) {
+			case german: file = Gdx.files.internal("vocabulary-german.txt"); break;
+			case english: file = Gdx.files.internal("vocabulary-english.txt"); break;
+		}
+		
 		BufferedReader br = new BufferedReader(file.reader());
 		String line;
 		String[] word;
 		br.readLine(); // Saltar primera linea por el cursor
 			while((line = br.readLine()) != null) {
+				
 				word = line.split(",");
-				if (word[1].equals(Category.kalender.toString())) 
-					vocabulary.put(word[0], Category.kalender);
-				else if (word[1].equals(Category.lander.toString())) 
-					vocabulary.put(word[0], Category.lander);
+				
+				if (word[1].equals(category.toString())) {
+					vocabulary.put(word[0], category);
+				}
+				/*else if (word[1].equals(Category.lander.toString())) 
+					vocabulary.put(word[0], Category.lander); */
 			}
 			
 		/*for (Entry<String, Category> e: vocabulary.entrySet()) {

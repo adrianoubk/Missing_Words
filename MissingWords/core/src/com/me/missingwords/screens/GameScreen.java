@@ -14,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
 import com.me.missingwords.MissingWords;
+import com.me.missingwords.MissingWords.Language;
 import com.me.missingwords.actors.*;
 import com.me.missingwords.listeners.*;
 import com.me.missingwords.utils.Scores;
@@ -59,16 +59,17 @@ public class GameScreen extends BaseScreen {
 
 	@Override
 	public void show() {	
-		Gdx.input.setInputProcessor(stage);
-
+		
+		super.show();
+		
 		try {
-			vocab = new Vocabulary();
+			vocab = new Vocabulary(missingwords.selectedLanguage, missingwords.selectedCategory);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
 		try {
-			scores = new Scores();
+			scores = new Scores(missingwords.selectedLanguage);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -177,7 +178,13 @@ public class GameScreen extends BaseScreen {
 			System.out.print(arrayWord[i]);
 		}
 		
-		adaptedWord = adaptWord(arrayWord);
+		if (missingwords.selectedLanguage.equals(Language.german)) {
+			adaptedWord = adaptWord(arrayWord);
+		}
+		else {
+			for (int i = 0; i < arrayWord.length; ++i)
+				adaptedWord.add(arrayWord[i]);		
+		}
 		
 		System.out.print("\n");
 		

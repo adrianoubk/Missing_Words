@@ -20,6 +20,9 @@ public class MissingWords extends Game {
 	public static final int VIEWPORT_HEIGHT = 480;
 	
 	public BaseScreen GameScreen;
+	public BaseScreen LanguageSelectionScreen;
+	public BaseScreen MenuScreen;
+	public BaseScreen CategorySelectionScreen;
 	
 	/* La clase SpriteBatch nos permite dibujar las texturas de nuestro juego. Agrupa 
 	 * sprites(imagenes) para enviarlas al procesador grafico y asi dibujarlas a la vez.
@@ -31,13 +34,22 @@ public class MissingWords extends Game {
 	/* Gestor de recursos del juego */
 	public static AssetManager myManager;
 	
-	public enum Category {kalender, lander};
+	public enum Category {days_months};
+	
+	public enum Language {english, german};
+	
+	public Language selectedLanguage;
+	
+	public Category selectedCategory;
 	
 	@Override
 	public void create() {
 		myBatch = new SpriteBatch();
 		myManager = new AssetManager();
 		GameScreen = new GameScreen(this);
+		LanguageSelectionScreen = new LanguageSelectionScreen(this);
+		MenuScreen = new MenuScreen(this);
+		CategorySelectionScreen = new CategorySelectionScreen(this);
 	
 		myManager.load("barLoading.png", Texture.class);
 		myManager.load("barBackground.png", Texture.class);
@@ -79,10 +91,13 @@ public class MissingWords extends Game {
 		myManager.load("blue_button14.png", Texture.class);
 		myManager.load("green_button11.png", Texture.class);
 		myManager.load("green_button12.png", Texture.class);
+		myManager.load("Germany-flag.png", Texture.class);
+		myManager.load("United-kingdom-flag.png", Texture.class);
+		myManager.load("blue_button05.png", Texture.class);
 		
 		myManager.finishLoading();
 		
-		setScreen(GameScreen);
+		setScreen(LanguageSelectionScreen);
 	}
 	
 	@Override
