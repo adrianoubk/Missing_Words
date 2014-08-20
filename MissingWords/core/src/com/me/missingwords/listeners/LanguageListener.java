@@ -2,8 +2,18 @@ package com.me.missingwords.listeners;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.MissingWords.Language;
+
+/** 
+ * 
+ * Clase LanguageListener
+ * 
+ * Este listener se encarga de guardar el idioma escogido por el jugador en la pantalla
+ * de selección de idioma.
+ *
+ */
 
 public class LanguageListener extends ClickListener {
 	
@@ -22,6 +32,6 @@ public class LanguageListener extends ClickListener {
 		case "english": { missingwords.selectedLanguage = Language.english; break; }
 		}
 		
-		missingwords.setScreen(missingwords.MenuScreen);
+		missingwords.setScreen(missingwords.MenuScreen); // Siguiente pantalla -> Menú
 	}
 }

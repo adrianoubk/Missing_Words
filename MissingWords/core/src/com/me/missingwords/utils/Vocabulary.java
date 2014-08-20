@@ -11,12 +11,24 @@ import com.badlogic.gdx.files.FileHandle;
 import com.me.missingwords.MissingWords.Category;
 import com.me.missingwords.MissingWords.Language;
 
+/**
+ * 
+ * Clase Vocabulary
+ * 
+ * Clase que guarda las palabras del idioma seleccionado. Hace de diccionario para la aplicación.
+ * Está formado por un map de strings y categories.
+ *
+ */
+
 public class Vocabulary {
+	
 	private HashMap<String, Category> vocabulary;
 	
 	public Vocabulary(Language language, Category category) throws IOException {
 		vocabulary = new HashMap<String, Category>();	
 		FileHandle file = null;
+		
+		/* Cargamos el fichero de idioma */
 		
 		switch (language) {
 			case german: file = Gdx.files.internal("vocabulary-german.txt"); break;
@@ -26,17 +38,14 @@ public class Vocabulary {
 		BufferedReader br = new BufferedReader(file.reader());
 		String line;
 		String[] word;
-		br.readLine(); // Saltar primera linea por el cursor
-			while((line = br.readLine()) != null) {
+		
+		while((line = br.readLine()) != null) {	
+			word = line.split(",");
 				
-				word = line.split(",");
-				
-				if (word[1].equals(category.toString())) {
-					vocabulary.put(word[0], category);
-				}
-				/*else if (word[1].equals(Category.lander.toString())) 
-					vocabulary.put(word[0], Category.lander); */
+			if (word[1].equals(category.toString())) {
+				vocabulary.put(word[0], category);
 			}
+		}
 			
 		/*for (Entry<String, Category> e: vocabulary.entrySet()) {
 			System.out.println(e.getKey() + "," + e.getValue());
@@ -44,10 +53,8 @@ public class Vocabulary {
 		
 		br.close();
 	}
-
-	public Map<String, Category> getVocabulary() {
-		return vocabulary;
-	}
+	
+	/* El método randomKey() obtiene una palabra al azar del map */
 	
 	public String randomKey() {
 		Object[] keys;
@@ -57,5 +64,11 @@ public class Vocabulary {
 		randomKey = keys[new Random().nextInt(keys.length)];
 		
 		return (String) randomKey;
+	}
+	
+	/* -------------- Getters and Setters -------------- */
+	
+	public Map<String, Category> getVocabulary() {
+		return vocabulary;
 	}
 }

@@ -14,12 +14,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.MissingWords.Language;
 import com.me.missingwords.actors.*;
 import com.me.missingwords.listeners.*;
 import com.me.missingwords.utils.Scores;
 import com.me.missingwords.utils.Vocabulary;
+
+/** Clase GameScreen
+ * 
+ * Clase que muestra la pantalla de juego.
+ *
+ */
 
 public class GameScreen extends BaseScreen {
 	
@@ -36,7 +43,7 @@ public class GameScreen extends BaseScreen {
 	private TileBox tileBox;
 	private ImageButton button, button2;
 	private TextureRegionDrawable buttonUp, buttonDown, buttonUp2, buttonDown2;
-	
+
 	public GameScreen(MissingWords missingwords) {
 		super(missingwords);
 	}
@@ -47,7 +54,6 @@ public class GameScreen extends BaseScreen {
 		
 		submitBox.update();
 		slider.update(submitBox.getNumActors());
-		
 		stage.act();
 		stage.draw();
 	}
@@ -75,18 +81,11 @@ public class GameScreen extends BaseScreen {
 			e1.printStackTrace();
 		}
 		
-		createTiles();
-		
-		Collections.shuffle(tOriginal);
-
-		tCopy = new ArrayList<Tile>(); // Copia del arrayList
-		for (int i = 0; i < MAX_TILES; ++i) {
-			tCopy.add(new Tile(tOriginal.get(i)));;
-		}
-		
 		background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
 		stage.addActor(background);
 		
+		createTiles();
+		shuffleTiles();
 		addTiles();
 		
 		submitBox = new SubmitBox();
@@ -128,6 +127,7 @@ public class GameScreen extends BaseScreen {
 				tOriginal.clear();
 				tCopy.clear();
 				createTiles();
+				
 				Collections.shuffle(tOriginal);
 
 				tCopy = new ArrayList<Tile>(); // Copia del arrayList
@@ -135,9 +135,7 @@ public class GameScreen extends BaseScreen {
 					tCopy.add(new Tile(tOriginal.get(i)));;
 				}
 				addTiles();
-				addListeners();
-				
-				
+				addListeners();			
 			}
 		});
 		
@@ -198,6 +196,15 @@ public class GameScreen extends BaseScreen {
 		for (int i = adaptedWord.size(); i < MAX_TILES; ++i) {
 			randomLetter = scores.randomKey();
 			tOriginal.add(new Tile(randomLetter, scores.getScores().get(randomLetter)));
+		}
+	}
+	
+	public void shuffleTiles() {
+		Collections.shuffle(tOriginal);
+
+		tCopy = new ArrayList<Tile>(); // Copia del arrayList
+		for (int i = 0; i < MAX_TILES; ++i) {
+			tCopy.add(new Tile(tOriginal.get(i)));;
 		}
 	}
 	

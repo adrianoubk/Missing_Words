@@ -7,10 +7,19 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Background;
 import com.me.missingwords.actors.Font;
 import com.me.missingwords.listeners.OptionListener;
+
+/** 
+ * 
+ * Clase MenuScreen
+ * 
+ * Esta clase se encarga de mostrar el menú principal de la apliación.
+ *
+ */
 
 public class MenuScreen extends BaseScreen {
 	

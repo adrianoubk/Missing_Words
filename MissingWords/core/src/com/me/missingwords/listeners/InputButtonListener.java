@@ -11,11 +11,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.SnapshotArray;
+
 import com.me.missingwords.actors.SubmitBox;
 import com.me.missingwords.actors.Tile;
 import com.me.missingwords.utils.Vocabulary;
 
+/**
+ * 
+ * Clase InputButtonListener
+ * 
+ * Este listener se encarga de controlar el evento cuando se hace click en el botón de enviar
+ * palabra para comprobación.
+ *
+ */
+
 public class InputButtonListener extends ClickListener {
+	
 	private Vocabulary vocab;
 	private SubmitBox submitBox;
 	private Stage stage;
@@ -24,17 +35,23 @@ public class InputButtonListener extends ClickListener {
 		this.vocab = vocab;
 		this.submitBox = submitBox;
 		this.stage = stage;
-		
 	}
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
+		/* Obtenemos todas las fichas que estén en el submitBox para su comprobación */
 		SnapshotArray<Actor> array = submitBox.getChildren();
+		
+		/* Creamos un objeto de tipo StringBuilder que nos sirve para construir un String con
+		 * la palabra que forman las fichas.
+		 */
 		StringBuilder word = new StringBuilder();
+		
 		for(int i = 0; i < array.size; ++i) {
 			Tile t = (Tile) array.get(i);
 			word.append(t.getLetter());
 		}
+		
 		BitmapFont font = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
 		LabelStyle lStyle = new LabelStyle(font, Color.BLACK);
 		
@@ -42,8 +59,7 @@ public class InputButtonListener extends ClickListener {
 			Label l = new Label("Nice!", lStyle);
 			l.setPosition(0, 0);
 			l.addAction(Actions.fadeOut(1.5f));
-			stage.addActor(l);
-			
+			stage.addActor(l);	
 		}
 		else {
 			Label l2 = new Label("Not found!", lStyle);

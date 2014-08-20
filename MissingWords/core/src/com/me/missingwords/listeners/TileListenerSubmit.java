@@ -1,8 +1,18 @@
 package com.me.missingwords.listeners;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+
 import com.me.missingwords.actors.SubmitBox;
 import com.me.missingwords.actors.Tile;
+
+/**
+ * 
+ * Clase TileListenerSubmit
+ * 
+ * Este listener se encarga de devolver la ficha al tilebox cuando no es necesaria para formar
+ * la palabra.
+ *
+ */
 
 public class TileListenerSubmit extends AbstractTileListener {
 	
@@ -12,8 +22,8 @@ public class TileListenerSubmit extends AbstractTileListener {
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
-		original.setVisible(true);
-		submitBox.removeActor(copy);
-		submitBox.decreaseNumActors();
+		original.setVisible(true);  // Ponemos visible la ficha original
+		submitBox.removeActor(copy); // Eliminamos la ficha copia del submitBox
+		submitBox.decreaseNumActors(); // --NumActors;
 	}
 }

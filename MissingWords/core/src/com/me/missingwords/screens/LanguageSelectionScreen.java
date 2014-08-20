@@ -4,9 +4,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Background;
 import com.me.missingwords.listeners.LanguageListener;
+
+/** 
+ * 
+ * Clase LanguageSelectionScreen
+ * 
+ * Esta clase se encarga de mostrar la pantalla de selección de idioma del juego.
+ *
+ */
 
 public class LanguageSelectionScreen extends BaseScreen {
 	

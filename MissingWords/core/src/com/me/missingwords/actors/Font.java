@@ -5,7 +5,16 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/** 
+ * 
+ * Clase Font
+ * 
+ * La clase Font se usa para escribir texto en la pantalla.
+ *
+ */
+
 public class Font extends Actor {
+	
 	private BitmapFont font;
 	private String text;
 	

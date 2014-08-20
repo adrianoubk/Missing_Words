@@ -8,13 +8,24 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+
 import com.me.missingwords.MissingWords;
+
+/**
+ * 
+ * Clase Turn
+ * 
+ * La clase Turn indica el turno que se está jugando en ese momento.
+ *
+ */
 
 public class Turn extends Actor {
 	
-	private BitmapFont font;
-	private int numTurn;
-	private TextureRegion turnTexture;
+	private final int POSITION_Y = 425;
+	private final int TEXTURE_PADDING = 8;
+	private BitmapFont font; // Tipo de fuente para el turno
+	private int numTurn; // Número del turno
+	private TextureRegion turnTexture; // Textura del cuadro de turno
 	
 	public Turn(int numTurn) {
 		font = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
@@ -28,12 +39,14 @@ public class Turn extends Actor {
 		font.draw(batch, "Turn " + numTurn, calculatePosition().x , calculatePosition().y);
 	}
 
+	/* Método que calcula la posición de la fuente de turno */
+	
 	private Vector2 calculatePosition() {
 		Vector2 pos = new Vector2();
 		
-		pos.x = ((800 - turnTexture.getRegionWidth()) / 2) + 
+		pos.x = ((MissingWords.VIEWPORT_WIDTH - turnTexture.getRegionWidth()) / 2) + 
 				((turnTexture.getRegionWidth() - font.getBounds("Turn " + numTurn).width) / 2);
-		pos.y = 425 + ((8 + turnTexture.getRegionHeight() + 
+		pos.y = POSITION_Y + ((TEXTURE_PADDING + turnTexture.getRegionHeight() + 
 				font.getBounds("Turn " + numTurn).height) / 2);
 		
 		return pos;

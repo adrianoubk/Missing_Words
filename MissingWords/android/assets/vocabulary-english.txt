@@ -1,4 +1,3 @@
-
 monday,days_months
 tuesday,days_months
 wednesday,days_months

@@ -2,10 +2,12 @@ package com.me.missingwords.listeners;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.MissingWords.Category;
 
 public class OptionListener extends ClickListener {
+	
 	private String option;
 	private MissingWords missingwords;
 	
