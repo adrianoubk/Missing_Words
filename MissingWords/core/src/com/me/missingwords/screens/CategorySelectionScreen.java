@@ -30,12 +30,15 @@ public class CategorySelectionScreen extends BaseScreen {
 	private TextureRegionDrawable up, down;
 	private BitmapFont font;
 
-	public CategorySelectionScreen(MissingWords missingwords) {
-		super(missingwords);
+	public CategorySelectionScreen(MissingWords missingWords) {
+		super(missingWords);
 	}
 	
 	@Override
 	public void render(float delta) {
+		
+		super.render(delta);
+		
 		stage.act();
 		stage.draw();
 	}
@@ -57,9 +60,9 @@ public class CategorySelectionScreen extends BaseScreen {
 		
 		tStyle = new TextButtonStyle(up, down, null, font);
 		
-		categoryButton = new TextButton("Days-Months", tStyle);
+		categoryButton = new TextButton("Days", tStyle);
 		categoryButton.setPosition(245, 200);
-		categoryButton.addListener(new OptionListener("daysmonths", missingwords));
+		categoryButton.addListener(new OptionListener("days", missingWords));
 		stage.addActor(categoryButton);
 	}
 

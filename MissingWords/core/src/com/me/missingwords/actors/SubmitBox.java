@@ -33,12 +33,24 @@ public class SubmitBox extends HorizontalGroup {
 		setPosition((MissingWords.VIEWPORT_WIDTH - getMinWidth()) / 2, SUBMITBOX_HEIGHT);
 	}
 	
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		
+		update();
+	}
+	
 	public void increaseNumActors() {
 		++numActors;
 	}
 	
 	public void decreaseNumActors() {
 		--numActors;
+	}
+	
+	public void clean() {
+		clearChildren();
+		setNumActors(0);
 	}
 
 	/* -------------- Getters and Setters -------------- */

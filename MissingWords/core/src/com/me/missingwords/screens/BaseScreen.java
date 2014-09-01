@@ -2,11 +2,11 @@ package com.me.missingwords.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
-
 import com.me.missingwords.MissingWords;
 
 /**
@@ -20,7 +20,7 @@ import com.me.missingwords.MissingWords;
 
 public abstract class BaseScreen implements Screen {
 	
-	protected MissingWords missingwords;
+	protected MissingWords missingWords;
 	protected SpriteBatch myBatch;
 	
 	/* Escenario del juego. El escenario es donde se desarrollará todo. Tiene una estructura de
@@ -42,9 +42,9 @@ public abstract class BaseScreen implements Screen {
 	
 	/* Conectamos el juego con la pantalla base */
 	
-	public BaseScreen(MissingWords missingwords) {
-		this.missingwords = missingwords;
-		this.myBatch = missingwords.getSB();
+	public BaseScreen(MissingWords missingWords) {
+		this.missingWords = missingWords;
+		this.myBatch = missingWords.getSB();
 		
 		/* Con Scaling.stretch ajustamos la aplicación a la pantalla, estrechando
 		 * si es necesario.
@@ -55,14 +55,17 @@ public abstract class BaseScreen implements Screen {
 		stage = new Stage(viewport, myBatch);
 	}
 	
-
+	public Stage getStage() {
+		return stage;
+	}
+	
 	/* El método render() es el método encargado de dibujar los elementos en la pantalla.
 	 * Delta es el número de segundos desde que se ejectuó render() anteriormente.
 	 */
-	
+
 	@Override
 	public void render(float delta) {
-		
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 	
 	/* El método resize() es el método que se llama cuando hay que ajustar la pantalla al 

@@ -9,19 +9,19 @@ import com.me.missingwords.MissingWords.Category;
 public class OptionListener extends ClickListener {
 	
 	private String option;
-	private MissingWords missingwords;
+	private MissingWords missingWords;
 	
-	public OptionListener(String option, MissingWords missingwords) {
+	public OptionListener(String option, MissingWords missingWords) {
 		this.option = option;
-		this.missingwords = missingwords;
+		this.missingWords = missingWords;
 	}
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
 		switch (option) {
-		case "newgame": missingwords.setScreen(missingwords.CategorySelectionScreen); break;
-		case "daysmonths": missingwords.selectedCategory = Category.days_months; 
-						   missingwords.setScreen(missingwords.GameScreen); break;
+		case "newgame": missingWords.setScreen(missingWords.CategorySelectionScreen); break;
+		case "days": missingWords.selectedCategory = Category.days; 
+						   missingWords.setScreen(missingWords.GameScreen); break;
 		}
 	}
 }

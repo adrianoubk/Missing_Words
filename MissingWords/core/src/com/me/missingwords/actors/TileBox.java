@@ -39,6 +39,11 @@ public class TileBox extends Container<Table> {
 		setBackground(tDrawable);
 	}
 	
+	public void clean() {
+		if (tileTable.hasChildren()) 
+			tileTable.clearChildren();
+	}
+	
 	/* -------------- Getters and Setters -------------- */
 	
 	public Table getTileTable() {

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Background;
 import com.me.missingwords.actors.Font;
@@ -30,12 +29,15 @@ public class MenuScreen extends BaseScreen {
 	private TextureRegionDrawable up, down;
 	private BitmapFont font;
 
-	public MenuScreen(MissingWords missingwords) {
-		super(missingwords);
+	public MenuScreen(MissingWords missingWords) {
+		super(missingWords);
 	}
 
 	@Override
 	public void render(float delta) {
+		
+		super.render(delta);
+		
 		stage.act();
 		stage.draw();
 	}
@@ -59,7 +61,8 @@ public class MenuScreen extends BaseScreen {
 		
 		newGame = new TextButton("New Game", tStyle);
 		newGame.setPosition(265, 200);
-		newGame.addListener(new OptionListener("newgame", missingwords));
+		
+		newGame.addListener(new OptionListener("newgame", missingWords));
 		stage.addActor(newGame);
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+
 import com.me.missingwords.MissingWords.Category;
 import com.me.missingwords.MissingWords.Language;
 
@@ -41,7 +42,7 @@ public class Vocabulary {
 		
 		while((line = br.readLine()) != null) {	
 			word = line.split(",");
-				
+			
 			if (word[1].equals(category.toString())) {
 				vocabulary.put(word[0], category);
 			}

@@ -18,20 +18,20 @@ import com.me.missingwords.MissingWords.Language;
 public class LanguageListener extends ClickListener {
 	
 	private String language;
-	private MissingWords missingwords;
+	private MissingWords missingWords;
 	
-	public LanguageListener(String language, MissingWords missingwords) {
+	public LanguageListener(String language, MissingWords missingWords) {
 		this.language = language;
-		this.missingwords = missingwords;
+		this.missingWords = missingWords;
 	}
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
 		switch(language) {
-		case "german": { missingwords.selectedLanguage = Language.german; break; }
-		case "english": { missingwords.selectedLanguage = Language.english; break; }
+		case "german": { missingWords.selectedLanguage = Language.german; break; }
+		case "english": { missingWords.selectedLanguage = Language.english; break; }
 		}
 		
-		missingwords.setScreen(missingwords.MenuScreen); // Siguiente pantalla -> Menú
+		missingWords.setScreen(missingWords.MenuScreen); // Siguiente pantalla -> Menú
 	}
 }

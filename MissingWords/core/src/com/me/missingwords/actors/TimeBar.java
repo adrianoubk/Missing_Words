@@ -71,6 +71,13 @@ public class TimeBar extends Actor {
 			}	
 	}
 	
+	public void resetTime() {
+		secondsCounter = 1;
+		timeCounter = 1;
+		setProgress(1);
+		seconds = 60;
+	}
+	
 	/* -------------- Getters and Setters -------------- */
 	
 	public void setProgress(float progress) {

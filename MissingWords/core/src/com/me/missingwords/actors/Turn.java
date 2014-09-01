@@ -51,5 +51,15 @@ public class Turn extends Actor {
 		
 		return pos;
 	}
-
+	
+	public void nextTurn() {
+		numTurn += 1;
+	}
+	
+	public int getNumTurn() {
+		return numTurn;
+	}
+	public void setNumTurn(int numTurn) {
+		this.numTurn = numTurn;
+	}
 }

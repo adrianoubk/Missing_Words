@@ -5,16 +5,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.SnapshotArray;
-
-import com.me.missingwords.actors.SubmitBox;
+import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Tile;
-import com.me.missingwords.utils.Vocabulary;
+import com.me.missingwords.screens.GameScreen;
 
 /**
  * 
@@ -27,20 +25,16 @@ import com.me.missingwords.utils.Vocabulary;
 
 public class InputButtonListener extends ClickListener {
 	
-	private Vocabulary vocab;
-	private SubmitBox submitBox;
-	private Stage stage;
+	private GameScreen game;
 
-	public InputButtonListener(Vocabulary vocab, SubmitBox submitBox, Stage stage) {
-		this.vocab = vocab;
-		this.submitBox = submitBox;
-		this.stage = stage;
+	public InputButtonListener(MissingWords missingWords) {
+		game = (GameScreen) missingWords.getGameScreen();
 	}
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
 		/* Obtenemos todas las fichas que estén en el submitBox para su comprobación */
-		SnapshotArray<Actor> array = submitBox.getChildren();
+		SnapshotArray<Actor> array = game.getSubmitBox().getChildren();
 		
 		/* Creamos un objeto de tipo StringBuilder que nos sirve para construir un String con
 		 * la palabra que forman las fichas.
@@ -55,17 +49,19 @@ public class InputButtonListener extends ClickListener {
 		BitmapFont font = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
 		LabelStyle lStyle = new LabelStyle(font, Color.BLACK);
 		
-		if (vocab.getVocabulary().containsKey(word.toString())) {
+		if (game.getVocab().getVocabulary().containsKey(word.toString())) {
 			Label l = new Label("Nice!", lStyle);
 			l.setPosition(0, 0);
 			l.addAction(Actions.fadeOut(1.5f));
-			stage.addActor(l);	
+			game.getStage().addActor(l);
+		
+			game.getHuman().playTurn();
 		}
 		else {
 			Label l2 = new Label("Not found!", lStyle);
 			l2.setPosition(550, 0);
 			l2.addAction(Actions.fadeOut(1.5f));
-			stage.addActor(l2);
+			game.getStage().addActor(l2);
 		}
 	}
 }

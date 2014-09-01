@@ -46,7 +46,7 @@ public class MissingWords extends Game {
 	
 	/* Categorías del juego */
 	
-	public enum Category {days_months};
+	public enum Category {days, months};
 	
 	/* Idiomas que soporta el juego */
 	
@@ -144,6 +144,10 @@ public class MissingWords extends Game {
 	
 	public SpriteBatch getSB() {
 		return myBatch;
+	}
+
+	public BaseScreen getGameScreen() {
+		return GameScreen;
 	}
 }
 
