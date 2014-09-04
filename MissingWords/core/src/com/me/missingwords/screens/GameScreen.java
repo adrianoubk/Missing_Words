@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -41,6 +42,8 @@ public class GameScreen extends BaseScreen {
 	private ArrayList<Tile> adaptedWordNPC;
 	private NPCPlayer npc;
 	private HumanPlayer human;
+	private WhoPlays who;
+	private boolean end;
 
 	public GameScreen(MissingWords missingWords) {
 		super(missingWords);
@@ -51,15 +54,19 @@ public class GameScreen extends BaseScreen {
 		
 		super.render(delta);
 		
-		if (!human.isMyTurn()  && !npc.isMyTurn())
-			newTurn();
-			
-		if (turn.getNumTurn() == 3) {
+		if (end) {
 			System.out.println("FIN DEL JUEGO");
 			turn.setNumTurn(0);
+			tileBox.clean();
+			timeBar.reset();
+			//end = false;
 			missingWords.setScreen(missingWords.MenuScreen); 
 		}
-		
+		else 
+			if  (!human.isMyTurn()  && !npc.isMyTurn()) {
+				newTurn();
+			}
+			
 		stage.act();
 		stage.draw();
 	}
@@ -73,6 +80,10 @@ public class GameScreen extends BaseScreen {
 	public void show() {
 		
 		super.show();
+		
+		end = false;
+		
+		System.out.println("Juego nuevo");
 		
 		try {
 			vocab = new Vocabulary(missingWords.selectedLanguage, missingWords.selectedCategory);
@@ -108,6 +119,7 @@ public class GameScreen extends BaseScreen {
 		stage.addActor(turn);
 		
 		timeBar = new TimeBar();
+		timeBar.getGameData(missingWords);
 		stage.addActor(timeBar);
 		
 		buttonUp = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("blue_button13.png", Texture.class)));
@@ -122,6 +134,32 @@ public class GameScreen extends BaseScreen {
 		
 		tileBox = new TileBox(new Table());
 		stage.addActor(tileBox);
+		
+		who = new WhoPlays("none");
+		who.getGameData(missingWords);
+		stage.addActor(who);
+	}
+	
+	private void newTurn() {
+		
+		turn.nextTurn();
+		
+		if (turn.getNumTurn() == 3)
+			end = true;
+		else {
+			tileBox.clean();
+		
+			timeBar.reset();
+		
+			who.setName("Your Turn");
+			who.performAction();
+		
+			npc.setTurnFinished(true);
+
+			human.setMyTurn(true);
+			human.touchScreen(Touchable.enabled);
+			npc.setMyTurn(false);
+		}
 	}
 	
 	public void newTiles() {
@@ -131,21 +169,6 @@ public class GameScreen extends BaseScreen {
 		addListeners();
 	}
 	
-	private void addTiles() {
-		int i = 0;
-		
-		Iterator<Tile> iterator = originalTiles.iterator();
-		
-		while (iterator.hasNext()) {
-			if (i == 4 || i == 8 || i == 12) {
-				tileBox.getTileTable().row();
-			}
-					
-			tileBox.getTileTable().add(iterator.next());
-			++i;
-		}
-	}
-
 	private void createTiles() {
 		String randomWord;
 		String[] arrayWord;
@@ -186,15 +209,6 @@ public class GameScreen extends BaseScreen {
 		}
 	}
 	
-	private void shuffleTiles() {
-		Collections.shuffle(originalTiles);
-
-		copyTiles = new ArrayList<Tile>(); // Copia del arrayList
-		for (int i = 0; i < MAX_TILES; ++i) {
-			copyTiles.add(new Tile(originalTiles.get(i)));;
-		}
-	}
-	
 	private ArrayList<String> adaptWord(String[] arrayWord) {
 		int i = 0;
 		ArrayList<String> newArray = new ArrayList<String>();
@@ -219,25 +233,35 @@ public class GameScreen extends BaseScreen {
 		return newArray;
 	}
 	
+	private void shuffleTiles() {
+		Collections.shuffle(originalTiles);
+
+		copyTiles = new ArrayList<Tile>(); // Copia del arrayList
+		for (int i = 0; i < MAX_TILES; ++i) {
+			copyTiles.add(new Tile(originalTiles.get(i)));;
+		}
+	}
+	
+	private void addTiles() {
+		int i = 0;
+		
+		Iterator<Tile> iterator = originalTiles.iterator();
+		
+		while (iterator.hasNext()) {
+			if (i == 4 || i == 8 || i == 12) {
+				tileBox.getTileTable().row();
+			}
+					
+			tileBox.getTileTable().add(iterator.next());
+			++i;
+		}
+	}
+
 	private void addListeners() {	
 		for (int i = 0; i < MAX_TILES; ++i) {
 			originalTiles.get(i).addListener(new TileListenerTable(submitBox, originalTiles.get(i), copyTiles.get(i)));
 			copyTiles.get(i).addListener(new TileListenerSubmit(submitBox, originalTiles.get(i), copyTiles.get(i)));
 		}
-	}
-	
-	private void newTurn() {
-		timeBar.resetTime();
-		
-		npc.setTurnFinished(true);
-		
-		tileBox.clean();
-		
-		newTiles();
-		turn.nextTurn();
-
-		human.setMyTurn(true);
-		npc.setMyTurn(false);
 	}
 
 	public HumanPlayer getHuman() {
@@ -276,9 +300,16 @@ public class GameScreen extends BaseScreen {
 		return tileBox;
 	}
 
+	public ImageButton getButton() {
+		return button;
+	}
+
+	public WhoPlays getWho() {
+		return who;
+	}
+
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -294,6 +325,7 @@ public class GameScreen extends BaseScreen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
+		System.out.println("BORRANDO...");
 		stage.dispose();
 	}
 }

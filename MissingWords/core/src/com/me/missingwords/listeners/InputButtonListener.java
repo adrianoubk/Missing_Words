@@ -54,14 +54,18 @@ public class InputButtonListener extends ClickListener {
 			l.setPosition(0, 0);
 			l.addAction(Actions.fadeOut(1.5f));
 			game.getStage().addActor(l);
-		
+			
+			game.getTimeBar().start();
 			game.getHuman().playTurn();
+			
 		}
 		else {
 			Label l2 = new Label("Not found!", lStyle);
 			l2.setPosition(550, 0);
 			l2.addAction(Actions.fadeOut(1.5f));
 			game.getStage().addActor(l2);
+			
+			game.getTimeBar().stop();
 		}
 	}
 }

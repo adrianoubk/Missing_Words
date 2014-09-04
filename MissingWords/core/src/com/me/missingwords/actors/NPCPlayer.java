@@ -30,8 +30,7 @@ public class NPCPlayer extends Player {
 			if (isMyTurn()) {
 				System.out.println("Entrando al turno NPC....");
 				isTurnFinished = false;
-				game.getTimeBar().resetTime();	
-				game.newTiles();
+				game.getTimeBar().reset();	
 				
 				playTurn(game.getSubmitBox(), game.getOriginalTiles(), game.getCopyTiles(),
 						game.getAdaptedWordNPC());
@@ -41,10 +40,11 @@ public class NPCPlayer extends Player {
 	
 	void playTurn(SubmitBox submitBox, ArrayList<Tile> original, ArrayList<Tile> copy,
 			ArrayList<Tile> word) {
-		createWord(submitBox, original, copy, word);
+		game.getWho().setName("NPC's Turn");
+		game.getWho().performAction();
 	}
 	
-	private void createWord(final SubmitBox submitBox, final ArrayList<Tile> original,
+	public void createWord(final SubmitBox submitBox, final ArrayList<Tile> original,
 			final ArrayList<Tile> copy, final ArrayList<Tile> word) {
 		
 		int repeatCount = word.size();
@@ -94,7 +94,7 @@ public class NPCPlayer extends Player {
 				submitBox.clean();
 				setMyTurn(false);
 			}
-		}, 2);
+		}, 1);
 		
 		System.out.println("Fin turno NPC");
 	}

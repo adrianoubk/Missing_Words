@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-
+import com.me.missingwords.GameData;
 import com.me.missingwords.MissingWords;
+import com.me.missingwords.screens.GameScreen;
 
 /**
  * 
@@ -20,7 +21,7 @@ import com.me.missingwords.MissingWords;
  *
  */
 
-public class TimeBar extends Actor {
+public class TimeBar extends Actor implements GameData {
 	
 	private final int BACKGROUND_X = 255;
 	private final int BACKGROUND_Y = 402;
@@ -41,12 +42,18 @@ public class TimeBar extends Actor {
 	private float timeCounter = 1; // Contador de FPS
 	private float secondsCounter = 1; // Contador de segundos
 	
+	private boolean activated;
+	
+	private GameScreen game;
+	
 	public TimeBar() {
 		textureBackground = new TextureRegion(MissingWords.myManager.get("barBackground.png", Texture.class));
 		backgroundBar = new NinePatch(textureBackground, 6, 6, 5, 5);
 		
 		textureLoading = new TextureRegion(MissingWords.myManager.get("barLoading.png", Texture.class));
 		loadingBar = new NinePatch(textureLoading, 5, 5, 4, 4);
+		
+		activated = false;
 	}
 
 	@Override
@@ -62,20 +69,46 @@ public class TimeBar extends Actor {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		timeCounter += delta; // Acumulamos el tiempo sumando los fps
-		if(timeCounter >= 1 && seconds >= 0){ // Si suman 1 segundo y son mayores que 0
-			setProgress(secondsCounter); // modificamos el progreso de la barra
-			secondsCounter -= (float) 1 / 60; // restamos el valor del frame (pasos en la barra)
-			timeCounter = 0; // establecemos el contador a 0
-			--seconds; // quitamos 1 segundo
-			}	
+		if (activated) {
+			timeCounter += delta; // Acumulamos el tiempo sumando los fps
+			if(timeCounter >= 1 && seconds >= 0){ // Si suman 1 segundo y son mayores que 0
+				setProgress(secondsCounter); // modificamos el progreso de la barra
+				secondsCounter -= (float) 1 / 60; // restamos el valor del frame (pasos en la barra)
+				timeCounter = 0; // establecemos el contador a 0
+				--seconds; // quitamos 1 segundo
+				}
+		
+			if (seconds == 0) {
+				System.out.println("Time out!");
+			
+				game.getHuman().setMyTurn(false);
+				game.getSubmitBox().clean();
+				game.getTileBox().clean();
+				game.getNpc().setMyTurn(true);
+			}
+		}
 	}
 	
-	public void resetTime() {
+	public void reset() {
 		secondsCounter = 1;
 		timeCounter = 1;
 		setProgress(1);
 		seconds = 60;
+		
+		stop();
+	}
+	
+	public void start() {
+		activated = true;
+	}
+	
+	public void stop() {
+		activated = false;
+	}
+	
+	@Override
+	public void getGameData(MissingWords missingWords) {
+		game = (GameScreen) missingWords.getGameScreen();
 	}
 	
 	/* -------------- Getters and Setters -------------- */
