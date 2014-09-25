@@ -9,11 +9,17 @@ import com.badlogic.gdx.utils.Timer.Task;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.screens.GameScreen;
 
+/**
+ *
+ * Clase que representa al jugador controlado por la máquina (IA).
+ * 
+ */
+
 public class NPCPlayer extends Player {
 	
-	private int wordCounter;
-	private Timer h;
-	private boolean isTurnFinished;
+	private int wordCounter; // Contador que recorre la palabra
+	private Timer h; // Temporizador
+	private boolean isTurnFinished; // Variable que indica si el turno ha terminado o no
 
 	public NPCPlayer(String name) {
 		super(name);
@@ -26,53 +32,63 @@ public class NPCPlayer extends Player {
 	public void act(float delta) {
 		super.act(delta);
 		
-		if (isTurnFinished()) {
-			if (isMyTurn()) {
+		if (isTurnFinished()) { // ¿Ha terminad su turno?
+			if (isMyTurn()) { // Si no ha terminado y es su turno
 				System.out.println("Entrando al turno NPC....");
-				isTurnFinished = false;
-				game.getTimeBar().reset();	
+				isTurnFinished = false; // Restringimos que haga más de un turno seguido
 				
+				/* Juega la máquina */
 				playTurn(game.getSubmitBox(), game.getOriginalTiles(), game.getCopyTiles(),
 						game.getAdaptedWordNPC());
 			}
 		}
 	}
 	
+	/*
+	 * playTurn(): Método con el que la máquina juega su turno y confirma la palabra 
+	 */
+	
 	void playTurn(SubmitBox submitBox, ArrayList<Tile> original, ArrayList<Tile> copy,
 			ArrayList<Tile> word) {
-		game.getWho().setName("NPC's Turn");
-		game.getWho().performAction();
+		game.getTurnControl().prepareTurn(); // Prepara el turno
+		game.getTurnControl().initialiseTurn(); // Inicializa el turno
 	}
+	
+	/*
+	 * createWord(): Método con el que la máquina crea una palabra
+	 */
 	
 	public void createWord(final SubmitBox submitBox, final ArrayList<Tile> original,
 			final ArrayList<Tile> copy, final ArrayList<Tile> word) {
 		
-		int repeatCount = word.size();
+		int repeatCount = word.size(); // Contador de letras
 		
-		System.out.println("NPC Turn");
-		
-		h.scheduleTask(new Task() {
+		h.scheduleTask(new Task() { // Nueva tarea
 			
 			@Override
 			public void run() {
-				int index = original.indexOf(word.get(wordCounter));  
+				int index = original.indexOf(word.get(wordCounter)); // Primera letra  
 				
 				original.get(index).setVisible(false); // Oculta la ficha original
 				copy.get(index).setSmallSize(); // Cambia el tamaño de la ficha copia al enviarla al submitBox
 				submitBox.addActor(copy.get(index)); // Añade la ficha al submitBox
-				submitBox.increaseNumActors();
+				submitBox.increaseNumActors(); 
 				
-				if (wordCounter < word.size()) {
+				if (wordCounter < word.size()) { // Si quedan letras por procesar
 					++wordCounter;
 				}
 				
-				if (wordCounter == word.size()) {
-					wordCounter = 0;
-					submitWord(submitBox);
+				if (wordCounter == word.size()) { // No quedan mas letras que procesar
+					wordCounter = 0; // Restablecemos el contador
+					submitWord(submitBox); // Enviamos palabra
 				}
 			}
 		}, 2, 1, repeatCount - 1);
 	}
+	
+	/* 
+	 * submitWord(): Método con el que la máquina confirma una palabra
+	 */
 	
 	private void submitWord(final SubmitBox submitBox) {
 		h.scheduleTask(new Task() {
@@ -91,7 +107,6 @@ public class NPCPlayer extends Player {
 				
 				System.out.println("Word Score: " + score);
 				
-				submitBox.clean();
 				setMyTurn(false);
 			}
 		}, 1);

@@ -79,11 +79,9 @@ public class TimeBar extends Actor implements GameData {
 				}
 		
 			if (seconds == 0) {
-				System.out.println("Time out!");
-			
+				System.out.println("Time out!");		
 				game.getHuman().setMyTurn(false);
-				game.getSubmitBox().clean();
-				game.getTileBox().clean();
+				game.getNpc().setTurnFinished(true); 
 				game.getNpc().setMyTurn(true);
 			}
 		}

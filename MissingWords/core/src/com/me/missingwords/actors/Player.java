@@ -4,7 +4,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.me.missingwords.GameData;
 import com.me.missingwords.screens.GameScreen;
 
+/**
+ * 
+ * Clase abstracta que representa un jugador.
+ *
+ */
+
 public abstract class Player extends Actor implements GameData {
+	
 	protected String name;
 	protected boolean isMyTurn;
 	protected GameScreen game;

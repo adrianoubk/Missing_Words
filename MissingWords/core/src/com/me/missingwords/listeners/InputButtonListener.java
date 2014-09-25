@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Tile;
+import com.me.missingwords.screens.BaseScreen;
 import com.me.missingwords.screens.GameScreen;
 
 /**
@@ -26,9 +26,10 @@ import com.me.missingwords.screens.GameScreen;
 public class InputButtonListener extends ClickListener {
 	
 	private GameScreen game;
-
-	public InputButtonListener(MissingWords missingWords) {
-		game = (GameScreen) missingWords.getGameScreen();
+	
+	public InputButtonListener(BaseScreen game) {
+		
+		this.game = (GameScreen) game;
 	}
 	
 	@Override
@@ -55,8 +56,7 @@ public class InputButtonListener extends ClickListener {
 			l.addAction(Actions.fadeOut(1.5f));
 			game.getStage().addActor(l);
 			
-			game.getTimeBar().start();
-			game.getHuman().playTurn();
+			game.getHuman().playTurn(); // El jugador forma una palabra y termina su turno
 			
 		}
 		else {
@@ -64,8 +64,6 @@ public class InputButtonListener extends ClickListener {
 			l2.setPosition(550, 0);
 			l2.addAction(Actions.fadeOut(1.5f));
 			game.getStage().addActor(l2);
-			
-			game.getTimeBar().stop();
 		}
 	}
 }

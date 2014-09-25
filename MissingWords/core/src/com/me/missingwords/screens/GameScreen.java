@@ -7,16 +7,16 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.MissingWords.Language;
 import com.me.missingwords.actors.*;
+import com.me.missingwords.buttons.ClueButton;
+import com.me.missingwords.buttons.SubmitButton;
 import com.me.missingwords.listeners.*;
-import com.me.missingwords.utils.Scores;
-import com.me.missingwords.utils.Vocabulary;
+import com.me.missingwords.utils.*;
+
 
 /** Clase GameScreen
  * 
@@ -37,13 +37,15 @@ public class GameScreen extends BaseScreen {
 	private Slider slider;
 	private SubmitBox submitBox;
 	private TileBox tileBox;
-	private ImageButton button;
-	private TextureRegionDrawable buttonUp, buttonDown;
 	private ArrayList<Tile> adaptedWordNPC;
 	private NPCPlayer npc;
 	private HumanPlayer human;
-	private WhoPlays who;
+	private TurnControl turnControl;
 	private boolean end;
+	private ClueButton letterClue, translationClue, lengthClue;
+	private SubmitButton submit;
+	private LengthClueBox lengthBox;
+	private Dictionary dic;
 
 	public GameScreen(MissingWords missingWords) {
 		super(missingWords);
@@ -54,16 +56,16 @@ public class GameScreen extends BaseScreen {
 		
 		super.render(delta);
 		
-		if (end) {
+		if (end) { // Comprueba el final del juego
 			System.out.println("FIN DEL JUEGO");
-			turn.setNumTurn(0);
+			turn.setNumTurn(0); 
 			tileBox.clean();
 			timeBar.reset();
-			//end = false;
 			missingWords.setScreen(missingWords.MenuScreen); 
 		}
 		else 
-			if  (!human.isMyTurn()  && !npc.isMyTurn()) {
+			if  (!human.isMyTurn()  && !npc.isMyTurn()) { // Si han terminado sus turnos
+				human.setMyTurn(true);
 				newTurn();
 			}
 			
@@ -97,8 +99,17 @@ public class GameScreen extends BaseScreen {
 			e1.printStackTrace();
 		}
 		
+		try {
+			dic = new Dictionary(missingWords.selectedLanguage);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
 		stage.addActor(background);
+		
+		lengthBox = new LengthClueBox();
+		stage.addActor(lengthBox);
 		
 		submitBox = new SubmitBox();
 		stage.addActor(submitBox);
@@ -122,43 +133,67 @@ public class GameScreen extends BaseScreen {
 		timeBar.getGameData(missingWords);
 		stage.addActor(timeBar);
 		
-		buttonUp = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("blue_button13.png", Texture.class)));
-		buttonDown = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("blue_button14.png", Texture.class)));
-		
-		button = new ImageButton(buttonUp, buttonDown);
-		button.setPosition((MissingWords.VIEWPORT_WIDTH - button.getMinWidth()) / 2, 5);
-		
-		button.addListener(new InputButtonListener(missingWords));
-		
-		stage.addActor(button);
+		createButtons();
 		
 		tileBox = new TileBox(new Table());
 		stage.addActor(tileBox);
 		
-		who = new WhoPlays("none");
-		who.getGameData(missingWords);
-		stage.addActor(who);
+		turnControl = new TurnControl("none", this);
+		stage.addActor(turnControl);
 	}
 	
+	private void createButtons() {
+		
+		translationClue = new ClueButton(
+				new TextureRegionDrawable(new TextureRegion(
+						MissingWords.myManager.get("translationButtonUp.png", Texture.class))), 
+				new TextureRegionDrawable(new TextureRegion(
+						MissingWords.myManager.get("translationButtonDown.png", Texture.class))), 
+				new TextureRegionDrawable(new TextureRegion(
+						MissingWords.myManager.get("translationButton_Used.png", Texture.class))));
+						
+		translationClue.setPosition(272, 5);
+		translationClue.addListener(new TranslationClueListener(this, translationClue));
+		stage.addActor(translationClue);
+		
+		letterClue = new ClueButton(
+				new TextureRegionDrawable(new TextureRegion(
+						MissingWords.myManager.get("letterButtonUp.png", Texture.class))), 
+				new TextureRegionDrawable(new TextureRegion(
+						MissingWords.myManager.get("letterButtonDown.png", Texture.class))),
+				new TextureRegionDrawable(new TextureRegion(
+						MissingWords.myManager.get("letterButton_Used.png", Texture.class))));
+		
+		letterClue.setPosition(341, 5);
+		letterClue.addListener(new LetterClueListener(this, letterClue));
+		stage.addActor(letterClue);
+		
+		lengthClue = new ClueButton(
+				new TextureRegionDrawable(new TextureRegion(
+						MissingWords.myManager.get("lengthButtonUp.png", Texture.class))), 
+				new TextureRegionDrawable(new TextureRegion(
+						MissingWords.myManager.get("lengthButtonDown.png", Texture.class))), 
+				new TextureRegionDrawable(new TextureRegion(
+						MissingWords.myManager.get("lengthButton_Used.png", Texture.class))));
+		
+		lengthClue.setPosition(410, 5);
+		lengthClue.addListener(new LengthClueListener(this, lengthClue));
+		stage.addActor(lengthClue);
+		
+		submit = new SubmitButton();
+		submit.addListener(new InputButtonListener(this));
+		stage.addActor(submit);
+	}
+
 	private void newTurn() {
 		
-		turn.nextTurn();
+		turn.nextTurn(); // Turno nuevo
 		
-		if (turn.getNumTurn() == 3)
+		if (turn.getNumTurn() == 3) // Si es el turno 3, acaba el juego
 			end = true;
-		else {
-			tileBox.clean();
-		
-			timeBar.reset();
-		
-			who.setName("Your Turn");
-			who.performAction();
-		
-			npc.setTurnFinished(true);
-
-			human.setMyTurn(true);
-			human.touchScreen(Touchable.enabled);
-			npc.setMyTurn(false);
+		else { // Si no, comienza un nuevo turno
+			turnControl.prepareTurn(); // Prepara turno para el jugador
+			turnControl.initialiseTurn(); // Inicia el turno
 		}
 	}
 	
@@ -300,12 +335,32 @@ public class GameScreen extends BaseScreen {
 		return tileBox;
 	}
 
-	public ImageButton getButton() {
-		return button;
+	public TurnControl getTurnControl() {
+		return turnControl;
 	}
 
-	public WhoPlays getWho() {
-		return who;
+	public ClueButton getLetterClue() {
+		return letterClue;
+	}
+
+	public ClueButton getTranslationClue() {
+		return translationClue;
+	}
+
+	public ClueButton getLengthClue() {
+		return lengthClue;
+	}
+
+	public SubmitButton getSubmit() {
+		return submit;
+	}
+
+	public LengthClueBox getLengthBox() {
+		return lengthBox;
+	}
+
+	public Dictionary getDic() {
+		return dic;
 	}
 
 	@Override

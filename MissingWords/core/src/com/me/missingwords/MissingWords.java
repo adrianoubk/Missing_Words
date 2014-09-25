@@ -117,13 +117,21 @@ public class MissingWords extends Game {
 		myManager.load("bg_grasslands.png", Texture.class);
 		myManager.load("blue_button04.png", Texture.class);
 		myManager.load("grey_sliderHorizontal.png", Texture.class);
-		myManager.load("blue_button13.png", Texture.class);
-		myManager.load("blue_button14.png", Texture.class);
-		myManager.load("green_button11.png", Texture.class);
-		myManager.load("green_button12.png", Texture.class);
+		myManager.load("submitButtonUp.png", Texture.class);
+		myManager.load("submitButtonDown.png", Texture.class);
+		myManager.load("letterButtonUp.png", Texture.class);
+		myManager.load("letterButtonDown.png", Texture.class);
 		myManager.load("Germany-flag.png", Texture.class);
 		myManager.load("United-kingdom-flag.png", Texture.class);
 		myManager.load("blue_button05.png", Texture.class);
+		myManager.load("translationButtonDown.png", Texture.class);
+		myManager.load("translationButtonUp.png", Texture.class);
+		myManager.load("lengthButtonDown.png", Texture.class);
+		myManager.load("lengthButtonUp.png", Texture.class);
+		myManager.load("letterButton_Used.png", Texture.class);
+		myManager.load("lengthButton_Used.png", Texture.class);
+		myManager.load("translationButton_Used.png", Texture.class);
+		myManager.load("none.png", Texture.class);
 		
 		myManager.finishLoading(); // Cargamos los recursos para usarlos
 		

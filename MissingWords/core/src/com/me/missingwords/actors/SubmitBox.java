@@ -25,7 +25,8 @@ public class SubmitBox extends HorizontalGroup {
 		numActors = 0;
 	}
 	
-	/* El método update() modifica la posición del objeto a medida que se introducen nuevas
+	/* 
+	 * El método update() modifica la posición del objeto a medida que se introducen nuevas
 	 * letras para centrarlo.
 	 */
 	

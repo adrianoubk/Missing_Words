@@ -7,8 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /** 
  * 
- * Clase Font
- * 
  * La clase Font se usa para escribir texto en la pantalla.
  *
  */

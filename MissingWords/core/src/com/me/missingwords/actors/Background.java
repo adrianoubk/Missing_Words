@@ -7,10 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import com.me.missingwords.MissingWords;
 
-/** Clase Background
+/** 
  * 
  * La clase Background representa el fondo de pantalla que estemos usando para cada
- * determinada pantalla. 
+ * pantalla. 
  *
  */
 

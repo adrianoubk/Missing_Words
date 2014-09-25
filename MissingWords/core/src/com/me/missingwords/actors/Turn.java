@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-
 import com.me.missingwords.MissingWords;
 
 /**
@@ -25,13 +24,14 @@ public class Turn extends Actor {
 	private final int TEXTURE_PADDING = 8;
 	private BitmapFont font; // Tipo de fuente para el turno
 	private int numTurn; // Número del turno
-	private TextureRegion turnTexture; // Textura del cuadro de turno
+	private TextureRegion turnTexture;// Textura del cuadro de turno
 	
 	public Turn(int numTurn) {
 		font = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
 		turnTexture = new TextureRegion(MissingWords.myManager.get("blue_button04.png", Texture.class));
 		this.numTurn = numTurn;
 	}
+	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		batch.draw(turnTexture, (800 - turnTexture.getRegionWidth()) / 2, 425);

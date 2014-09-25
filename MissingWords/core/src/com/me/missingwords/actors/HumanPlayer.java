@@ -4,26 +4,41 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.screens.GameScreen;
 
+/**
+ * 
+ * Clase que representa al jugador humano.
+ *
+ */
+
 public class HumanPlayer extends Player {
 
 	public HumanPlayer(String name) {
 		super(name);
 	}
 	
+	/* 
+	 * Método con el que el jugador juega su turno y confirma la palabra 
+	 */
+	
 	public void playTurn() {
 		
-		setMyTurn(false);
+		setMyTurn(false); // Acaba su turno
 		
-		game.getSubmitBox().clean();
-		game.getTileBox().clean();
-		touchScreen(Touchable.disabled);
-		game.getNpc().setMyTurn(true);
+		/* Activamos el turno de la máquina */
+		
+		game.getNpc().setTurnFinished(true); 
+		game.getNpc().setMyTurn(true); 
 	}
+	
+	/* Método que controla si el jugador puede interactuar con la pantalla */
 	
 	public void touchScreen(Touchable touchable) {
 		game.getTileBox().setTouchable(touchable);
 		game.getSubmitBox().setTouchable(touchable);
-		game.getButton().setTouchable(touchable);
+		game.getLetterClue().setTouchable(touchable);
+		game.getLengthClue().setTouchable(touchable);
+		game.getTranslationClue().setTouchable(touchable);
+		game.getSubmit().setTouchable(touchable);
 	}
 
 	@Override

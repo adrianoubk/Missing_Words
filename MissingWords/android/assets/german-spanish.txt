@@ -1,0 +1,20 @@
+montag,lunes
+dienstag,martes
+mittwoch,miercoles
+donnerstag,jueves
+freitag,viernes
+samstag,sabado
+sonntag,domingo
+wochenende,fin de semana
+januar,enero
+februar,febrero
+maerz,marzo
+april,abril
+mai,mayo
+juni,junio
+juli,julio
+august,agosto
+september,septiembre
+oktober,octubre
+november,noviembre
+dezember,diciembre
