@@ -41,7 +41,6 @@ public class GameScreen extends BaseScreen {
 	private NPCPlayer npc;
 	private HumanPlayer human;
 	private TurnControl turnControl;
-	private boolean end;
 	private ClueButton letterClue, translationClue, lengthClue;
 	private SubmitButton submit;
 	private LengthClueBox lengthBox;
@@ -56,18 +55,21 @@ public class GameScreen extends BaseScreen {
 		
 		super.render(delta);
 		
-		if (end) { // Comprueba el final del juego
+		/*if (end) { // Comprueba el final del juego
 			System.out.println("FIN DEL JUEGO");
+			missingWords.setGameRunning(false);
+			end = false;
 			turn.setNumTurn(0); 
 			tileBox.clean();
 			timeBar.reset();
 			missingWords.setScreen(missingWords.MenuScreen); 
 		}
-		else 
-			if  (!human.isMyTurn()  && !npc.isMyTurn()) { // Si han terminado sus turnos
-				human.setMyTurn(true);
-				newTurn();
-			}
+		else */
+		
+		if  (!human.isMyTurn()  && !npc.isMyTurn()) { // Si han terminado sus turnos
+			human.setMyTurn(true);
+			newTurn();
+		}
 			
 		stage.act();
 		stage.draw();
@@ -83,63 +85,62 @@ public class GameScreen extends BaseScreen {
 		
 		super.show();
 		
-		end = false;
+		if (!missingWords.isGameRunning()) {
 		
-		System.out.println("Juego nuevo");
+			System.out.println("Juego nuevo");
 		
-		try {
-			vocab = new Vocabulary(missingWords.selectedLanguage, missingWords.selectedCategory);
-		} catch (IOException e1) {
+			try {
+				vocab = new Vocabulary(missingWords.selectedLanguage, missingWords.selectedCategory);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			try {
+				scores = new Scores(missingWords.selectedLanguage);
+			} catch (IOException e1) {
 			e1.printStackTrace();
+			}
+			
+			try {
+				dic = new Dictionary(missingWords.selectedLanguage);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
+			stage.addActor(background);
+			
+			lengthBox = new LengthClueBox();
+			stage.addActor(lengthBox);
+			
+			submitBox = new SubmitBox();
+			stage.addActor(submitBox);
+			
+			human = new HumanPlayer("Adri", missingWords);
+			stage.addActor(human);
+			
+			npc = new NPCPlayer("NPC", missingWords);
+			stage.addActor(npc);
+			
+			slider = new Slider(MissingWords.myManager.get("grey_sliderHorizontal.png", Texture.class));
+			slider.getGameData(missingWords);
+			stage.addActor(slider);
+			
+			turn = new Turn(0);
+			stage.addActor(turn);
+			
+			timeBar = new TimeBar();
+			timeBar.getGameData(missingWords);
+			stage.addActor(timeBar);
+			
+			createButtons();
+			
+			tileBox = new TileBox(new Table());
+			stage.addActor(tileBox);
+			
+			turnControl = new TurnControl("none", this);
+			stage.addActor(turnControl);
 		}
-		
-		try {
-			scores = new Scores(missingWords.selectedLanguage);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
-		try {
-			dic = new Dictionary(missingWords.selectedLanguage);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
-		background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
-		stage.addActor(background);
-		
-		lengthBox = new LengthClueBox();
-		stage.addActor(lengthBox);
-		
-		submitBox = new SubmitBox();
-		stage.addActor(submitBox);
-		
-		human = new HumanPlayer("Adri");
-		human.getGameData(missingWords);
-		stage.addActor(human);
-		
-		npc = new NPCPlayer("NPC");
-		npc.getGameData(missingWords);
-		stage.addActor(npc);
-		
-		slider = new Slider(MissingWords.myManager.get("grey_sliderHorizontal.png", Texture.class));
-		slider.getGameData(missingWords);
-		stage.addActor(slider);
-		
-		turn = new Turn(0);
-		stage.addActor(turn);
-		
-		timeBar = new TimeBar();
-		timeBar.getGameData(missingWords);
-		stage.addActor(timeBar);
-		
-		createButtons();
-		
-		tileBox = new TileBox(new Table());
-		stage.addActor(tileBox);
-		
-		turnControl = new TurnControl("none", this);
-		stage.addActor(turnControl);
 	}
 	
 	private void createButtons() {
@@ -184,17 +185,18 @@ public class GameScreen extends BaseScreen {
 		submit.addListener(new InputButtonListener(this));
 		stage.addActor(submit);
 	}
+	
 
 	private void newTurn() {
 		
 		turn.nextTurn(); // Turno nuevo
 		
-		if (turn.getNumTurn() == 3) // Si es el turno 3, acaba el juego
-			end = true;
-		else { // Si no, comienza un nuevo turno
+		//if (turn.getNumTurn() == 2) // Si es el turno 3, acaba el juego
+			//end = true;
+		//else { // Si no, comienza un nuevo turno
 			turnControl.prepareTurn(); // Prepara turno para el jugador
 			turnControl.initialiseTurn(); // Inicia el turno
-		}
+		//}
 	}
 	
 	public void newTiles() {
@@ -365,6 +367,7 @@ public class GameScreen extends BaseScreen {
 
 	@Override
 	public void hide() {
+		System.out.println("Ocultando");
 	}
 
 	@Override
@@ -374,7 +377,7 @@ public class GameScreen extends BaseScreen {
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
+		System.out.println("Resumiendo");
 	}
 
 	@Override

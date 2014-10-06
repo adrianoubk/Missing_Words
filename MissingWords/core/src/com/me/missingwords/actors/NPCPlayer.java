@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.me.missingwords.MissingWords;
-import com.me.missingwords.screens.GameScreen;
 
 /**
  *
@@ -21,8 +20,9 @@ public class NPCPlayer extends Player {
 	private Timer h; // Temporizador
 	private boolean isTurnFinished; // Variable que indica si el turno ha terminado o no
 
-	public NPCPlayer(String name) {
-		super(name);
+	public NPCPlayer(String name, MissingWords missingWords) {
+		super(name, missingWords);
+		this.missingWords = missingWords;
 		wordCounter = 0;
 		h = new Timer();
 		isTurnFinished = false;
@@ -38,8 +38,10 @@ public class NPCPlayer extends Player {
 				isTurnFinished = false; // Restringimos que haga más de un turno seguido
 				
 				/* Juega la máquina */
-				playTurn(game.getSubmitBox(), game.getOriginalTiles(), game.getCopyTiles(),
-						game.getAdaptedWordNPC());
+				playTurn(missingWords.getGameScreen().getSubmitBox(), 
+						missingWords.getGameScreen().getOriginalTiles(), 
+						missingWords.getGameScreen().getCopyTiles(),
+						missingWords.getGameScreen().getAdaptedWordNPC());
 			}
 		}
 	}
@@ -50,8 +52,8 @@ public class NPCPlayer extends Player {
 	
 	void playTurn(SubmitBox submitBox, ArrayList<Tile> original, ArrayList<Tile> copy,
 			ArrayList<Tile> word) {
-		game.getTurnControl().prepareTurn(); // Prepara el turno
-		game.getTurnControl().initialiseTurn(); // Inicializa el turno
+		missingWords.getGameScreen().getTurnControl().prepareTurn(); // Prepara el turno
+		missingWords.getGameScreen().getTurnControl().initialiseTurn(); // Inicializa el turno
 	}
 	
 	/*
@@ -107,6 +109,8 @@ public class NPCPlayer extends Player {
 				
 				System.out.println("Word Score: " + score);
 				
+				playMinigame();
+				
 				setMyTurn(false);
 			}
 		}, 1);
@@ -120,10 +124,5 @@ public class NPCPlayer extends Player {
 
 	public void setTurnFinished(boolean isTurnFinished) {
 		this.isTurnFinished = isTurnFinished;
-	}
-
-	@Override
-	public void getGameData(MissingWords missingWords) {
-		game = (GameScreen) missingWords.getGameScreen();	
 	}
 }

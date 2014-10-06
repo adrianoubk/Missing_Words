@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="13" height="8" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="Background" tilewidth="64" tileheight="64">
+  <image source="RPGpack_sheet.png" width="1280" height="832"/>
+ </tileset>
+ <tileset firstgid="261" name="Road" tilewidth="64" tileheight="64">
+  <image source="spritesheet.png" width="576" height="576"/>
+  <tile id="0">
+   <properties>
+    <property name="path" value="road"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="start" value="road"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="path" value="road"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="path" value="road"/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="start" value="road"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="path" value="road"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="path" value="road"/>
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="path" value="road"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="342" name="TokensRed" tilewidth="64" tileheight="64">
+  <image source="piecesRed.png" width="1216" height="192"/>
+ </tileset>
+ <tileset firstgid="399" name="TokensBlue" tilewidth="64" tileheight="64">
+  <image source="piecesBlue.png" width="1216" height="192"/>
+ </tileset>
+ <tileset firstgid="456" name="Line" tilewidth="64" tileheight="64">
+  <image source="piecesWhite.png" width="1216" height="192"/>
+ </tileset>
+ <tileset firstgid="513" name="TransparentTile" tilewidth="64" tileheight="64">
+  <image source="transparentTile.png" width="64" height="64"/>
+ </tileset>
+ <layer name="Background" width="13" height="8">
+  <data encoding="base64" compression="zlib">
+   eJwTY2BgEBvFZGNpAphSPQBoaQlB
+  </data>
+ </layer>
+ <layer name="Path" width="13" height="8">
+  <data encoding="base64" compression="zlib">
+   eJz7wcDAcIEEvBOI+xgZGLiAWIUAlgRibGAnDhoEuIF6zkLFQDQrEfbwAPFDqP6HUDNgoJYBOxvdLSJE2CMExMeRzD4NxJewexEMLkHVINtzH496GEBWAwD61R2N
+  </data>
+ </layer>
+ <layer name="Line" width="13" height="8" opacity="0.26">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAPXGYkDpNjLqX2kGsvLfxDKQAApegagQ==
+  </data>
+ </layer>
+ <layer name="Tokens" width="13" height="8">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAPMDIRh8kxl1J7yLWXFv6hFAAAWqAAYQ==
+  </data>
+ </layer>
+</map>

@@ -1,8 +1,7 @@
 package com.me.missingwords.actors;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.me.missingwords.GameData;
-import com.me.missingwords.screens.GameScreen;
+import com.me.missingwords.MissingWords;
 
 /**
  * 
@@ -10,14 +9,16 @@ import com.me.missingwords.screens.GameScreen;
  *
  */
 
-public abstract class Player extends Actor implements GameData {
+public abstract class Player extends Actor {
 	
 	protected String name;
 	protected boolean isMyTurn;
-	protected GameScreen game;
+	protected MissingWords missingWords;
 	
-	public Player(String name) {
+	public Player(String name, MissingWords missingWords) {
+		
 		this.name = name;
+		this.missingWords = missingWords;
 		isMyTurn = false;
 	}
 
@@ -27,5 +28,9 @@ public abstract class Player extends Actor implements GameData {
 
 	public void setMyTurn(boolean isMyTurn) {
 		this.isMyTurn = isMyTurn;
+	}
+	
+	public void playMinigame() {
+		missingWords.setScreen(missingWords.MiniGameScreen);
 	}
 }

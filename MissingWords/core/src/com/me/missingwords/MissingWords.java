@@ -28,10 +28,11 @@ public class MissingWords extends Game {
 	
 	/* Pantallas del juego */
 	
-	public BaseScreen GameScreen;
+	public GameScreen GameScreen;
 	public BaseScreen LanguageSelectionScreen;
 	public BaseScreen MenuScreen;
 	public BaseScreen CategorySelectionScreen;
+	public MiniGameScreen MiniGameScreen;
 	
 	/* La clase SpriteBatch nos permite dibujar las texturas de nuestro juego. Agrupa 
 	 * sprites(imagenes) para enviarlas al procesador grafico y asi dibujarlas a la vez.
@@ -60,6 +61,10 @@ public class MissingWords extends Game {
 	
 	public Category selectedCategory;
 	
+	private boolean gameRunning;
+	
+	private boolean victory;
+	
 	/** En el método create() creamos los objetos necesarios para construir la aplicación */
 	
 	@Override
@@ -76,6 +81,7 @@ public class MissingWords extends Game {
 		LanguageSelectionScreen = new LanguageSelectionScreen(this);
 		MenuScreen = new MenuScreen(this);
 		CategorySelectionScreen = new CategorySelectionScreen(this);
+		MiniGameScreen = new MiniGameScreen(this);
 		
 		/* Con la función load() añadimos los recursos a la cola de carga, pero aún no
 		 * se cargan hasta que no se llame a finishLoading(). 
@@ -132,8 +138,24 @@ public class MissingWords extends Game {
 		myManager.load("lengthButton_Used.png", Texture.class);
 		myManager.load("translationButton_Used.png", Texture.class);
 		myManager.load("none.png", Texture.class);
+		myManager.load("holeGrass.png", Texture.class);
+		myManager.load("rollButtonDown.png", Texture.class);
+		myManager.load("rollButtonUp.png", Texture.class);
+		myManager.load("1.png", Texture.class);
+		myManager.load("2.png", Texture.class);
+		myManager.load("3.png", Texture.class);
+		myManager.load("4.png", Texture.class);
+		myManager.load("5.png", Texture.class);
+		myManager.load("6.png", Texture.class);
+		myManager.load("player.png", Texture.class);
+		myManager.load("transparentTile.png", Texture.class);
+		myManager.load("npc.png", Texture.class);
 		
 		myManager.finishLoading(); // Cargamos los recursos para usarlos
+		
+		gameRunning = false;
+		
+		victory = false;
 		
 		setScreen(LanguageSelectionScreen); // Establecemos la pantalla al inicio de la app
 	}
@@ -154,8 +176,28 @@ public class MissingWords extends Game {
 		return myBatch;
 	}
 
-	public BaseScreen getGameScreen() {
+	public GameScreen getGameScreen() {
 		return GameScreen;
+	}
+
+	public MiniGameScreen getMiniGameScreen() {
+		return MiniGameScreen;
+	}
+
+	public boolean isGameRunning() {
+		return gameRunning;
+	}
+
+	public void setGameRunning(boolean gameRunning) {
+		this.gameRunning = gameRunning;
+	}
+
+	public boolean victory() {
+		return victory;
+	}
+
+	public void setVictory(boolean victory) {
+		this.victory = victory;
 	}
 }
 

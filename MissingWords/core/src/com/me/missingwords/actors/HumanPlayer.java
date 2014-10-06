@@ -2,7 +2,6 @@ package com.me.missingwords.actors;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.me.missingwords.MissingWords;
-import com.me.missingwords.screens.GameScreen;
 
 /**
  * 
@@ -12,8 +11,8 @@ import com.me.missingwords.screens.GameScreen;
 
 public class HumanPlayer extends Player {
 
-	public HumanPlayer(String name) {
-		super(name);
+	public HumanPlayer(String name, MissingWords missingWords) {
+		super(name, missingWords);
 	}
 	
 	/* 
@@ -22,27 +21,24 @@ public class HumanPlayer extends Player {
 	
 	public void playTurn() {
 		
+		playMinigame();
+		
 		setMyTurn(false); // Acaba su turno
 		
 		/* Activamos el turno de la máquina */
 		
-		game.getNpc().setTurnFinished(true); 
-		game.getNpc().setMyTurn(true); 
+		missingWords.getGameScreen().getNpc().setTurnFinished(true); 
+		missingWords.getGameScreen().getNpc().setMyTurn(true); 
 	}
 	
 	/* Método que controla si el jugador puede interactuar con la pantalla */
 	
 	public void touchScreen(Touchable touchable) {
-		game.getTileBox().setTouchable(touchable);
-		game.getSubmitBox().setTouchable(touchable);
-		game.getLetterClue().setTouchable(touchable);
-		game.getLengthClue().setTouchable(touchable);
-		game.getTranslationClue().setTouchable(touchable);
-		game.getSubmit().setTouchable(touchable);
-	}
-
-	@Override
-	public void getGameData(MissingWords missingWords) {
-		game = (GameScreen) missingWords.getGameScreen();
+		missingWords.getGameScreen().getTileBox().setTouchable(touchable);
+		missingWords.getGameScreen().getSubmitBox().setTouchable(touchable);
+		missingWords.getGameScreen().getLetterClue().setTouchable(touchable);
+		missingWords.getGameScreen().getLengthClue().setTouchable(touchable);
+		missingWords.getGameScreen().getTranslationClue().setTouchable(touchable);
+		missingWords.getGameScreen().getSubmit().setTouchable(touchable);
 	}
 }
