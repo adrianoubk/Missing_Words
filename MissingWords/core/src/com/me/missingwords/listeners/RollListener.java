@@ -8,7 +8,6 @@ import com.me.missingwords.MissingWords;
 public class RollListener extends ClickListener {
 	
 	private MissingWords missingWords;
-	private int turnCount = 0;
 	
 	public RollListener(MissingWords missingWords)  {
 		this.missingWords = missingWords;
@@ -16,17 +15,13 @@ public class RollListener extends ClickListener {
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
-		int play = missingWords.getMiniGameScreen().getDice().roll();
 		
-		if (turnCount % 2 == 0) {
-			missingWords.getMiniGameScreen().getWorld().movePlayer(play, true);
-		}
-		else {
-			System.out.println("holaa");
-			missingWords.getMiniGameScreen().getWorld().movePlayer(play, false);
-		}
+		int play = missingWords.getMiniGameScreen().getDice().roll();
+	
+		missingWords.getMiniGameScreen().getWorld().movePlayer(play, true);
 		
 		missingWords.getMiniGameScreen().getRollButton().setTouchable(Touchable.disabled);
-		++turnCount;	
+		
+		missingWords.getMiniGameScreen().increasePlayCount();	
 	}
 }

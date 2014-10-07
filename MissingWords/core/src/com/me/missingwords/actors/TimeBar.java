@@ -5,9 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.me.missingwords.GameData;
 import com.me.missingwords.MissingWords;
-import com.me.missingwords.screens.GameScreen;
 
 /**
  * 
@@ -21,7 +19,7 @@ import com.me.missingwords.screens.GameScreen;
  *
  */
 
-public class TimeBar extends Actor implements GameData {
+public class TimeBar extends Actor {
 	
 	private final int BACKGROUND_X = 255;
 	private final int BACKGROUND_Y = 402;
@@ -44,9 +42,12 @@ public class TimeBar extends Actor implements GameData {
 	
 	private boolean activated;
 	
-	private GameScreen game;
+	private MissingWords missingWords;
 	
-	public TimeBar() {
+	public TimeBar(MissingWords missingWords) {
+		
+		this.missingWords = missingWords;
+		
 		textureBackground = new TextureRegion(MissingWords.myManager.get("barBackground.png", Texture.class));
 		backgroundBar = new NinePatch(textureBackground, 6, 6, 5, 5);
 		
@@ -77,12 +78,16 @@ public class TimeBar extends Actor implements GameData {
 				timeCounter = 0; // establecemos el contador a 0
 				--seconds; // quitamos 1 segundo
 				}
-		
+			
 			if (seconds == 0) {
-				System.out.println("Time out!");		
-				game.getHuman().setMyTurn(false);
-				game.getNpc().setTurnFinished(true); 
-				game.getNpc().setMyTurn(true);
+				System.out.println("Time out!");
+				
+				missingWords.getGameScreen().getHuman().setMyTurn(false);
+				
+				if (!missingWords.isSinglePlayer()) {
+					missingWords.getGameScreen().getNpc().setTurnFinished(true); 
+					missingWords.getGameScreen().getNpc().setMyTurn(true);
+				}
 			}
 		}
 	}
@@ -102,11 +107,6 @@ public class TimeBar extends Actor implements GameData {
 	
 	public void stop() {
 		activated = false;
-	}
-	
-	@Override
-	public void getGameData(MissingWords missingWords) {
-		game = (GameScreen) missingWords.getGameScreen();
 	}
 	
 	/* -------------- Getters and Setters -------------- */

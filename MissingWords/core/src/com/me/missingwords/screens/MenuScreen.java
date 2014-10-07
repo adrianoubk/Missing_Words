@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Background;
 import com.me.missingwords.actors.Font;
-import com.me.missingwords.listeners.OptionListener;
+import com.me.missingwords.listeners.GameModeSelectionListener;
 
 /** 
  * 
@@ -24,7 +24,7 @@ public class MenuScreen extends BaseScreen {
 	
 	private Background background;
 	private Font titleFont;
-	private TextButton newGame;
+	private TextButton playerVsCpu, singlePlayer;
 	private TextButtonStyle tStyle;
 	private TextureRegionDrawable up, down;
 	private BitmapFont font;
@@ -59,10 +59,14 @@ public class MenuScreen extends BaseScreen {
 		
 		tStyle = new TextButtonStyle(up, down, null, font);
 		
-		newGame = new TextButton("New Game", tStyle);
-		newGame.setPosition(265, 200);
+		playerVsCpu = new TextButton("Player VS CPU", tStyle);
+		playerVsCpu.setPosition(265, 200);
+		playerVsCpu.addListener(new GameModeSelectionListener("playervscpu", missingWords));
+		stage.addActor(playerVsCpu);
 		
-		newGame.addListener(new OptionListener("newgame", missingWords));
-		stage.addActor(newGame);
+		singlePlayer = new TextButton("SinglePlayer", tStyle);
+		singlePlayer.setPosition(265, 100);
+		singlePlayer.addListener(new GameModeSelectionListener("singleplayer", missingWords));
+		stage.addActor(singlePlayer);
 	}
 }

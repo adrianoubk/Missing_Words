@@ -1,6 +1,8 @@
 package com.me.missingwords.screens;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Dice;
 import com.me.missingwords.actors.World;
@@ -12,6 +14,8 @@ public class MiniGameScreen extends BaseScreen {
 	private World world;
 	private RollDiceButton rollButton;
 	private Dice dice;
+	private int playCount;
+	private Timer t;
 
 	public MiniGameScreen(MissingWords missingWords) {
 		super(missingWords);
@@ -36,22 +40,44 @@ public class MiniGameScreen extends BaseScreen {
 		
 		super.show();
 		
-		if (rollButton != null)
-			rollButton.setTouchable(Touchable.enabled);
-		
 		if (!missingWords.isGameRunning()) {
-			
 			missingWords.setGameRunning(true);
-		
-		world = new World(missingWords);
-		
-		dice = new Dice();
-		stage.addActor(dice);
-		
-		rollButton = new RollDiceButton();
-		rollButton.addListener(new RollListener(missingWords));
-		stage.addActor(rollButton);
+			
+			playCount = 0;
+			
+			t = new Timer();
+			
+			world = new World(missingWords);
+			
+			dice = new Dice();
+			stage.addActor(dice);
+			
+			rollButton = new RollDiceButton();
+			rollButton.addListener(new RollListener(missingWords));
+			stage.addActor(rollButton);
 		}
+		
+		System.out.println(playCount);
+		
+		if (missingWords.isSinglePlayer()) // SINGLEPLAYER
+			rollButton.setTouchable(Touchable.enabled); // Activo dado siempre
+		else { // PLAYER VS CPU
+			if ((playCount % 2) == 0) // Jugada par -> turno jugador
+				rollButton.setTouchable(Touchable.enabled);
+			else { // Jugada impar -> turno npc
+				rollButton.setTouchable(Touchable.disabled);
+		
+					t.scheduleTask(new Task() {
+						@Override
+						public void run() {
+								increasePlayCount();
+								int play = dice.roll();
+								world.movePlayer(play, false);
+						}
+					}, 2);
+			}
+		}
+		
 	}
 
 	public RollDiceButton getRollButton() {
@@ -65,8 +91,10 @@ public class MiniGameScreen extends BaseScreen {
 	public Dice getDice() {
 		return dice;
 	}
-	
-	
+
+	public void increasePlayCount() {
+		++this.playCount;
+	}
 
 	@Override
 	public void hide() {

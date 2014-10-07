@@ -7,11 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Background;
 import com.me.missingwords.actors.Font;
-import com.me.missingwords.listeners.OptionListener;
+import com.me.missingwords.listeners.CategorySelectionListener;
 
 /**
  *  
@@ -62,7 +61,7 @@ public class CategorySelectionScreen extends BaseScreen {
 		
 		categoryButton = new TextButton("Days", tStyle);
 		categoryButton.setPosition(245, 200);
-		categoryButton.addListener(new OptionListener("days", missingWords));
+		categoryButton.addListener(new CategorySelectionListener("days", missingWords));
 		stage.addActor(categoryButton);
 	}
 

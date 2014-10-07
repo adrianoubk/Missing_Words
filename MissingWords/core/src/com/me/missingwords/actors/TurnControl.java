@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Pool;
 import com.me.missingwords.MissingWords;
-import com.me.missingwords.screens.GameScreen;
 
 /**
  * 
@@ -28,12 +27,12 @@ public class TurnControl extends Label {
 	 */
 	private Pool<SequenceAction> pool; 
 	
-	private GameScreen game;
+	private MissingWords missingWords;
 	
-	public TurnControl(String name, GameScreen gameScreen) {
+	public TurnControl(String name, MissingWords missingWordsGame) {
 		super(name, new LabelStyle(font, Color.BLACK));
 		this.player = name;
-		this.game = gameScreen;
+		this.missingWords = missingWordsGame;
 		
 		setTouchable(Touchable.disabled); // No se puede tocar
 		setColor(1, 1, 1, 0); // Establecemos el color de la fuente
@@ -54,19 +53,22 @@ public class TurnControl extends Label {
 							@Override
 							public void run() {
 								
-								game.getTileBox().getTileTable().setVisible(true);
+								missingWords.getGameScreen().getTileBox().getTileTable().setVisible(true);
 								
-								if (game.getHuman().isMyTurn())
-									game.getHuman().touchScreen(Touchable.enabled);
+								if (missingWords.getGameScreen().getHuman().isMyTurn())
+									missingWords.getGameScreen().getHuman().touchScreen(Touchable.enabled);
 								
-								if (game.getNpc().isMyTurn()) { // Si es el turno de la máquina
-									game.getNpc().createWord( // Crea una palabra
-											game.getSubmitBox(), game.getOriginalTiles(), 
-											game.getCopyTiles(), game.getAdaptedWordNPC());
+								if (!missingWords.isSinglePlayer())
+									if (missingWords.getGameScreen().getNpc().isMyTurn()) { // Si es el turno de la máquina
+										missingWords.getGameScreen().getNpc().createWord( // Crea una palabra
+											missingWords.getGameScreen().getSubmitBox(), 
+											missingWords.getGameScreen().getOriginalTiles(), 
+											missingWords.getGameScreen().getCopyTiles(), 
+											missingWords.getGameScreen().getAdaptedWordNPC());
 									
 								}
 					
-								game.getTimeBar().start(); // Activamos el tiempo
+								missingWords.getGameScreen().getTimeBar().start(); // Activamos el tiempo
 								System.out.println("Action completed");
 								removeAction(action); // Enviamos la accion al "pool"
 							}
@@ -78,8 +80,8 @@ public class TurnControl extends Label {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		setPosition(((MissingWords.VIEWPORT_WIDTH - game.getTileBox().getTileTable().getWidth()) / 2) + 
-				((game.getTileBox().getTileTable().getWidth() - font.getBounds(player).width) / 2), 250);
+		setPosition(((MissingWords.VIEWPORT_WIDTH - missingWords.getGameScreen().getTileBox().getTileTable().getWidth()) / 2) + 
+				((missingWords.getGameScreen().getTileBox().getTileTable().getWidth() - font.getBounds(player).width) / 2), 250);
 		
 	}
 	
@@ -90,36 +92,37 @@ public class TurnControl extends Label {
 	public void prepareTurn() {
 		
 		/* Limpiamos las fichas */		
-		game.getSubmitBox().clean(); 
-		game.getTileBox().clean();
+		missingWords.getGameScreen().getSubmitBox().clean(); 
+		missingWords.getGameScreen().getTileBox().clean();
 		
 		/* Restablecemos las pistas */
-		game.getLetterClue().enableStyle();
-		
-		game.getLengthClue().enableStyle();
-		game.getLengthBox().clearChildren();
-		game.getLengthBox().remove();
-		game.getTranslationClue().enableStyle();
-		
+		missingWords.getGameScreen().getLetterClue().enableStyle();	
+		missingWords.getGameScreen().getLengthClue().enableStyle();
+		missingWords.getGameScreen().getLengthBox().clearChildren();
+		missingWords.getGameScreen().getLengthBox().remove();
+		missingWords.getGameScreen().getTranslationClue().enableStyle();
 		
 		/* Restablecemos el tiempo */
-		game.getTimeBar().reset();
+		missingWords.getGameScreen().getTimeBar().reset();
 		
-		/* Establecemos el jugador que va a jugar */
-		if (game.getHuman().isMyTurn()) {
+		/* 
+		 * Establecemos el jugador que va a jugar. Si solo juega un jugador, no entrará
+		 * en la parte correspondiente de la cpu 
+		 */
+		if (missingWords.getGameScreen().getHuman().isMyTurn()) {
 			setPlayer("Your Turn"); 
 		}
 		else {
-			game.getNpc().setMyTurn(true);
+			missingWords.getGameScreen().getNpc().setMyTurn(true);
 			setPlayer("Npc's Turn");
 		}
 		
 		/* Prohibimos al jugador que toque la pantalla */
-		game.getHuman().touchScreen(Touchable.disabled); 
+		missingWords.getGameScreen().getHuman().touchScreen(Touchable.disabled); 
 		
 		/* Creamos las fichas y las ocultamos hasta que empiece el turno */
-		game.newTiles(); 
-		game.getTileBox().getTileTable().setVisible(false);
+		missingWords.getGameScreen().newTiles(); 
+		missingWords.getGameScreen().getTileBox().getTileTable().setVisible(false);
 	}
 	
 	/*

@@ -65,6 +65,8 @@ public class MissingWords extends Game {
 	
 	private boolean victory;
 	
+	private boolean singlePlayer;
+	
 	/** En el método create() creamos los objetos necesarios para construir la aplicación */
 	
 	@Override
@@ -198,6 +200,14 @@ public class MissingWords extends Game {
 
 	public void setVictory(boolean victory) {
 		this.victory = victory;
+	}
+
+	public boolean isSinglePlayer() {
+		return singlePlayer;
+	}
+
+	public void setSinglePlayer(boolean singlePlayer) {
+		this.singlePlayer = singlePlayer;
 	}
 }
 

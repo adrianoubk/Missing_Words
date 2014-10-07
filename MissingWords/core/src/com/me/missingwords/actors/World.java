@@ -103,9 +103,10 @@ public class World {
 		
 		cell.setTile(playerTile);
 		
-		cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
-		
-		cell.setTile(npcTile);
+		if (!missingWords.isSinglePlayer()) {  // Si es singleplayer, no colocamos al npc		
+			cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
+			cell.setTile(npcTile);
+		}
 	}
 	
 	public void movePlayer(int steps, boolean player) {
@@ -199,6 +200,9 @@ public class World {
 				if (missingWords.victory()) {
 					missingWords.setGameRunning(false);
 					missingWords.setVictory(false);
+					/* Desactivamos el SINGLEPLAYER, si es aplicable */
+					if (missingWords.isSinglePlayer())
+						missingWords.setSinglePlayer(false);
 					missingWords.getGameScreen().dispose();
 					missingWords.getMiniGameScreen().dispose();
 					missingWords.setScreen(missingWords.MenuScreen);

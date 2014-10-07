@@ -25,10 +25,12 @@ public class HumanPlayer extends Player {
 		
 		setMyTurn(false); // Acaba su turno
 		
-		/* Activamos el turno de la máquina */
+		/* Activamos el turno de la máquina. Solo para el modo PLAYER VS CPU */
 		
-		missingWords.getGameScreen().getNpc().setTurnFinished(true); 
-		missingWords.getGameScreen().getNpc().setMyTurn(true); 
+		if (!missingWords.isSinglePlayer()) {
+			missingWords.getGameScreen().getNpc().setTurnFinished(true); 
+			missingWords.getGameScreen().getNpc().setMyTurn(true);
+		}
 	}
 	
 	/* Método que controla si el jugador puede interactuar con la pantalla */

@@ -66,9 +66,17 @@ public class GameScreen extends BaseScreen {
 		}
 		else */
 		
-		if  (!human.isMyTurn()  && !npc.isMyTurn()) { // Si han terminado sus turnos
-			human.setMyTurn(true);
-			newTurn();
+		if (missingWords.isSinglePlayer()) { // Modo SINGLEPLAYER
+			if (!human.isMyTurn()) { // Si ha terminado el turno del jugador
+				human.setMyTurn(true);
+				newTurn();
+			}
+		}
+		else { // Modo PLAYER VS CPU
+			if  (!human.isMyTurn()  && !npc.isMyTurn()) { // Si han terminado sus turnos
+				human.setMyTurn(true);
+				newTurn();
+			}
 		}
 			
 		stage.act();
@@ -119,8 +127,10 @@ public class GameScreen extends BaseScreen {
 			human = new HumanPlayer("Adri", missingWords);
 			stage.addActor(human);
 			
-			npc = new NPCPlayer("NPC", missingWords);
-			stage.addActor(npc);
+			if (!missingWords.isSinglePlayer()) { // Si no es singleplayer, la cpu juega
+				npc = new NPCPlayer("NPC", missingWords);
+				stage.addActor(npc);
+			}
 			
 			slider = new Slider(MissingWords.myManager.get("grey_sliderHorizontal.png", Texture.class));
 			slider.getGameData(missingWords);
@@ -129,8 +139,7 @@ public class GameScreen extends BaseScreen {
 			turn = new Turn(0);
 			stage.addActor(turn);
 			
-			timeBar = new TimeBar();
-			timeBar.getGameData(missingWords);
+			timeBar = new TimeBar(missingWords);
 			stage.addActor(timeBar);
 			
 			createButtons();
@@ -138,7 +147,7 @@ public class GameScreen extends BaseScreen {
 			tileBox = new TileBox(new Table());
 			stage.addActor(tileBox);
 			
-			turnControl = new TurnControl("none", this);
+			turnControl = new TurnControl("none", missingWords);
 			stage.addActor(turnControl);
 		}
 	}
@@ -194,7 +203,7 @@ public class GameScreen extends BaseScreen {
 		//if (turn.getNumTurn() == 2) // Si es el turno 3, acaba el juego
 			//end = true;
 		//else { // Si no, comienza un nuevo turno
-			turnControl.prepareTurn(); // Prepara turno para el jugador
+			turnControl.prepareTurn(); // Prepara el turno para el jugador
 			turnControl.initialiseTurn(); // Inicia el turno
 		//}
 	}
