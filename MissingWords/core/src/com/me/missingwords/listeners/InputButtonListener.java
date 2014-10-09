@@ -51,10 +51,15 @@ public class InputButtonListener extends ClickListener {
 		LabelStyle lStyle = new LabelStyle(font, Color.BLACK);
 		
 		if (game.getVocab().getVocabulary().containsKey(word.toString())) {
+			
+			game.addPlayedWord(word.toString());
+			
 			Label l = new Label("Nice!", lStyle);
 			l.setPosition(0, 0);
 			l.addAction(Actions.fadeOut(1.5f));
 			game.getStage().addActor(l);
+			
+			game.increaseTotalWords();
 			
 			game.getHuman().playTurn(); // El jugador forma una palabra y termina su turno
 			

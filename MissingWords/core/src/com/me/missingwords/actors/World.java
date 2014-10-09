@@ -188,11 +188,15 @@ public class World {
 	}
 	
 	public void checkVictory() {
-		if (playerPosition == 31)
+		if (playerPosition == 31) {
+			missingWords.getGameScreen().setWinner("Player");
 			missingWords.setVictory(true);
+		}
 		
-		if (npcPosition == 0)
+		if (npcPosition == 0) {
+			missingWords.getGameScreen().setWinner("NPC");
 			missingWords.setVictory(true);
+		}
 		
 		t.scheduleTask(new Task() {
 			@Override
@@ -205,7 +209,7 @@ public class World {
 						missingWords.setSinglePlayer(false);
 					missingWords.getGameScreen().dispose();
 					missingWords.getMiniGameScreen().dispose();
-					missingWords.setScreen(missingWords.MenuScreen);
+					missingWords.setScreen(missingWords.VictoryScreen);
 				}	
 				else
 					missingWords.setScreen(missingWords.GameScreen);

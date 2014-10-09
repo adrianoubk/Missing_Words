@@ -45,6 +45,9 @@ public class GameScreen extends BaseScreen {
 	private SubmitButton submit;
 	private LengthClueBox lengthBox;
 	private Dictionary dic;
+	private ArrayList<String> playedWords;
+	private int totalWords;
+	private String winner;
 
 	public GameScreen(MissingWords missingWords) {
 		super(missingWords);
@@ -96,7 +99,11 @@ public class GameScreen extends BaseScreen {
 		if (!missingWords.isGameRunning()) {
 		
 			System.out.println("Juego nuevo");
-		
+			
+			totalWords = 0;
+			
+			playedWords = new ArrayList<>();
+			
 			try {
 				vocab = new Vocabulary(missingWords.selectedLanguage, missingWords.selectedCategory);
 			} catch (IOException e1) {
@@ -309,6 +316,15 @@ public class GameScreen extends BaseScreen {
 			copyTiles.get(i).addListener(new TileListenerSubmit(submitBox, originalTiles.get(i), copyTiles.get(i)));
 		}
 	}
+	
+	public void addPlayedWord(String word) {
+		if (!playedWords.contains(word))
+			playedWords.add(word);
+	}
+	
+	public void increaseTotalWords() {
+		++totalWords;
+	}
 
 	public HumanPlayer getHuman() {
 		return human;
@@ -374,6 +390,30 @@ public class GameScreen extends BaseScreen {
 		return dic;
 	}
 
+	public int getTotalWords() {
+		return totalWords;
+	}
+
+	public void setTotalWords(int totalWords) {
+		this.totalWords = totalWords;
+	}
+
+	public String getWinner() {
+		return winner;
+	}
+
+	public void setWinner(String winner) {
+		this.winner = winner;
+	}
+
+	public Turn getTurn() {
+		return turn;
+	}
+
+	public ArrayList<String> getPlayedWords() {
+		return playedWords;
+	}
+
 	@Override
 	public void hide() {
 		System.out.println("Ocultando");
@@ -391,8 +431,7 @@ public class GameScreen extends BaseScreen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		System.out.println("BORRANDO...");
+		playedWords.clear();
 		stage.dispose();
 	}
 }

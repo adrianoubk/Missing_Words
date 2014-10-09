@@ -57,8 +57,6 @@ public class MiniGameScreen extends BaseScreen {
 			stage.addActor(rollButton);
 		}
 		
-		System.out.println(playCount);
-		
 		if (missingWords.isSinglePlayer()) // SINGLEPLAYER
 			rollButton.setTouchable(Touchable.enabled); // Activo dado siempre
 		else { // PLAYER VS CPU
@@ -93,7 +91,7 @@ public class MiniGameScreen extends BaseScreen {
 	}
 
 	public void increasePlayCount() {
-		++this.playCount;
+		++playCount;
 	}
 
 	@Override

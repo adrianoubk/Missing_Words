@@ -97,17 +97,28 @@ public class NPCPlayer extends Player {
 			
 			@Override
 			public void run() {
-				SnapshotArray<Actor> word = new SnapshotArray<>();
+				SnapshotArray<Actor> array = new SnapshotArray<>();
 				int score = 0;
 				
-				word = submitBox.getChildren();
+				array = submitBox.getChildren();
 				
-				for (int i = 0; i < word.size; ++i) {
-					Tile t = (Tile) word.get(i);
+				for (int i = 0; i < array.size; ++i) {
+					Tile t = (Tile) array.get(i);
 					score += t.getPoints();
 				}
 				
+				StringBuilder word = new StringBuilder();
+				
+				for(int i = 0; i < array.size; ++i) {
+					Tile t = (Tile) array.get(i);
+					word.append(t.getLetter());
+				}
+				
+				missingWords.getGameScreen().addPlayedWord(word.toString());
+				
 				System.out.println("Word Score: " + score);
+				
+				missingWords.getGameScreen().increaseTotalWords();
 				
 				playMinigame();
 				

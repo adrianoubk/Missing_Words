@@ -33,6 +33,7 @@ public class MissingWords extends Game {
 	public BaseScreen MenuScreen;
 	public BaseScreen CategorySelectionScreen;
 	public MiniGameScreen MiniGameScreen;
+	public VictoryScreen VictoryScreen;
 	
 	/* La clase SpriteBatch nos permite dibujar las texturas de nuestro juego. Agrupa 
 	 * sprites(imagenes) para enviarlas al procesador grafico y asi dibujarlas a la vez.
@@ -84,6 +85,7 @@ public class MissingWords extends Game {
 		MenuScreen = new MenuScreen(this);
 		CategorySelectionScreen = new CategorySelectionScreen(this);
 		MiniGameScreen = new MiniGameScreen(this);
+		VictoryScreen = new VictoryScreen(this);
 		
 		/* Con la función load() añadimos los recursos a la cola de carga, pero aún no
 		 * se cargan hasta que no se llame a finishLoading(). 
@@ -152,6 +154,11 @@ public class MissingWords extends Game {
 		myManager.load("player.png", Texture.class);
 		myManager.load("transparentTile.png", Texture.class);
 		myManager.load("npc.png", Texture.class);
+		myManager.load("split.png", Texture.class);
+		myManager.load("squareBlue.png", Texture.class);
+		myManager.load("verticalScroll.png", Texture.class);
+		myManager.load("selection.png", Texture.class);
+		myManager.load("upButton.png", Texture.class);
 		
 		myManager.finishLoading(); // Cargamos los recursos para usarlos
 		
