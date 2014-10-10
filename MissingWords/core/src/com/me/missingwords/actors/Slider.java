@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.me.missingwords.GameData;
 import com.me.missingwords.MissingWords;
-import com.me.missingwords.screens.GameScreen;
 
 /** 
  * 
@@ -17,16 +15,18 @@ import com.me.missingwords.screens.GameScreen;
  *
  */
 
-public class Slider extends Actor implements GameData {
+public class Slider extends Actor {
 	
 	private final int TILE_WIDTH = 50; // Ancho de la ficha
 	private final int SLIDER_HEIGHT = 35; // Altura a la que se dibuja el slider
 	private TextureRegion sliderTexture; // Textura del slider
 	
-	private GameScreen game;
+	private MissingWords missingWords;
 	
-	public Slider (Texture texture) {
+	public Slider (Texture texture, MissingWords missingWords) {
 		sliderTexture = new TextureRegion(texture);
+		
+		this.missingWords = missingWords;
 	}
 
 	@Override
@@ -39,12 +39,9 @@ public class Slider extends Actor implements GameData {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		sliderTexture.setRegionWidth(game.getSubmitBox().getNumActors() * TILE_WIDTH);
+		if (missingWords.getGameScreen() == null)
+			System.out.println("game es null");
+		
+		sliderTexture.setRegionWidth(missingWords.getGameScreen().getSubmitBox().getNumActors() * TILE_WIDTH);
 	}
-
-	@Override
-	public void getGameData(MissingWords missingWords) {
-		game = (GameScreen) missingWords.getGameScreen();
-	}
-	
 }

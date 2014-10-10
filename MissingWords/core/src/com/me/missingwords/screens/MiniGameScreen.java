@@ -19,6 +19,19 @@ public class MiniGameScreen extends BaseScreen {
 
 	public MiniGameScreen(MissingWords missingWords) {
 		super(missingWords);
+		
+		playCount = 0;
+		
+		t = new Timer();
+		
+		world = new World(missingWords);
+		
+		dice = new Dice();
+		stage.addActor(dice);
+		
+		rollButton = new RollDiceButton();
+		rollButton.addListener(new RollListener(missingWords));
+		stage.addActor(rollButton);
 	}
 
 	@Override
@@ -39,23 +52,6 @@ public class MiniGameScreen extends BaseScreen {
 	public void show() {
 		
 		super.show();
-		
-		if (!missingWords.isGameRunning()) {
-			missingWords.setGameRunning(true);
-			
-			playCount = 0;
-			
-			t = new Timer();
-			
-			world = new World(missingWords);
-			
-			dice = new Dice();
-			stage.addActor(dice);
-			
-			rollButton = new RollDiceButton();
-			rollButton.addListener(new RollListener(missingWords));
-			stage.addActor(rollButton);
-		}
 		
 		if (missingWords.isSinglePlayer()) // SINGLEPLAYER
 			rollButton.setTouchable(Touchable.enabled); // Activo dado siempre

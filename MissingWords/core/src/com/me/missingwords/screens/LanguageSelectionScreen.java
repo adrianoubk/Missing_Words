@@ -25,21 +25,6 @@ public class LanguageSelectionScreen extends BaseScreen {
 	
 	public LanguageSelectionScreen(MissingWords missingWords) {
 		super(missingWords);
-	}
-	
-	@Override
-	public void render(float delta) {
-		
-		super.render(delta);
-		
-		stage.act();
-		stage.draw();
-	}
-	
-	@Override
-	public void show() {
-		
-		super.show();
 		
 		background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
 		stage.addActor(background);
@@ -64,5 +49,45 @@ public class LanguageSelectionScreen extends BaseScreen {
 				(MissingWords.VIEWPORT_HEIGHT - languageBox.getMaxHeight()) / 2);
 		
 		stage.addActor(languageBox);
+	}
+	
+	@Override
+	public void render(float delta) {
+		
+		super.render(delta);
+		
+		stage.act();
+		stage.draw();
+	}
+	
+	@Override
+	public void show() {
+		
+		super.show();
+		/*
+		background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
+		stage.addActor(background);
+		
+		buttonGerman = new ImageButton(new TextureRegionDrawable(
+				new TextureRegion(MissingWords.myManager.get("Germany-flag.png", Texture.class))));
+		
+		buttonGerman.addListener(new LanguageListener("german", missingWords));
+		
+		buttonEnglish = new ImageButton(new TextureRegionDrawable(
+				new TextureRegion(MissingWords.myManager.get("United-kingdom-flag.png", Texture.class))));
+		
+		buttonEnglish.addListener(new LanguageListener("english", missingWords));
+		
+		languageBox = new HorizontalGroup();
+		languageBox.space(100);
+		
+		languageBox.addActor(buttonGerman);
+		languageBox.addActor(buttonEnglish);
+		
+		languageBox.setPosition((MissingWords.VIEWPORT_WIDTH - languageBox.getMinWidth()) / 2, 
+				(MissingWords.VIEWPORT_HEIGHT - languageBox.getMaxHeight()) / 2);
+		
+		stage.addActor(languageBox);
+		*/
 	}
 }

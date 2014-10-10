@@ -10,9 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Tile;
-import com.me.missingwords.screens.BaseScreen;
-import com.me.missingwords.screens.GameScreen;
 
 /**
  * 
@@ -25,17 +24,17 @@ import com.me.missingwords.screens.GameScreen;
 
 public class InputButtonListener extends ClickListener {
 	
-	private GameScreen game;
+	private MissingWords missingWords;
 	
-	public InputButtonListener(BaseScreen game) {
+	public InputButtonListener(MissingWords missingWords) {
 		
-		this.game = (GameScreen) game;
+		this.missingWords = missingWords;
 	}
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
 		/* Obtenemos todas las fichas que estén en el submitBox para su comprobación */
-		SnapshotArray<Actor> array = game.getSubmitBox().getChildren();
+		SnapshotArray<Actor> array = missingWords.getGameScreen().getSubmitBox().getChildren();
 		
 		/* Creamos un objeto de tipo StringBuilder que nos sirve para construir un String con
 		 * la palabra que forman las fichas.
@@ -50,25 +49,25 @@ public class InputButtonListener extends ClickListener {
 		BitmapFont font = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
 		LabelStyle lStyle = new LabelStyle(font, Color.BLACK);
 		
-		if (game.getVocab().getVocabulary().containsKey(word.toString())) {
+		if (missingWords.getVocabulary().getVocabulary().containsKey(word.toString())) {
 			
-			game.addPlayedWord(word.toString());
+			missingWords.getGameScreen().addPlayedWord(word.toString());
 			
 			Label l = new Label("Nice!", lStyle);
 			l.setPosition(0, 0);
 			l.addAction(Actions.fadeOut(1.5f));
-			game.getStage().addActor(l);
+			missingWords.getGameScreen().getStage().addActor(l);
 			
-			game.increaseTotalWords();
+			missingWords.getGameScreen().increaseTotalWords();
 			
-			game.getHuman().playTurn(); // El jugador forma una palabra y termina su turno
+			missingWords.getGameScreen().getHuman().playTurn(); // El jugador forma una palabra y termina su turno
 			
 		}
 		else {
 			Label l2 = new Label("Not found!", lStyle);
 			l2.setPosition(550, 0);
 			l2.addAction(Actions.fadeOut(1.5f));
-			game.getStage().addActor(l2);
+			missingWords.getGameScreen().getStage().addActor(l2);
 		}
 	}
 }

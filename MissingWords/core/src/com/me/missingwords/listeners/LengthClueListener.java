@@ -3,36 +3,35 @@ package com.me.missingwords.listeners;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.me.missingwords.MissingWords;
 import com.me.missingwords.buttons.ClueButton;
-import com.me.missingwords.screens.BaseScreen;
-import com.me.missingwords.screens.GameScreen;
 
 public class LengthClueListener extends ClickListener {
 
-	private GameScreen game;
+	private MissingWords missingWords;
 	private ClueButton button;
 	
-	public LengthClueListener(BaseScreen game, ClueButton button) {
-		this.game = (GameScreen) game;
+	public LengthClueListener(MissingWords missingWords, ClueButton button) {
+		this.missingWords = missingWords;
 		this.button = button;
 	}
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
 		
-		if (game.getSubmitBox().hasChildren()) {
-			game.getSubmitBox().clearChildren();
-			game.getSubmitBox().setNumActors(0);
+		if (missingWords.getGameScreen().getSubmitBox().hasChildren()) {
+			missingWords.getGameScreen().getSubmitBox().clearChildren();
+			missingWords.getGameScreen().getSubmitBox().setNumActors(0);
 			
-			for (int i = 0; i < game.getOriginalTiles().size(); ++i) {
-				game.getOriginalTiles().get(i).setVisible(true);
+			for (int i = 0; i < missingWords.getGameScreen().getOriginalTiles().size(); ++i) {
+				missingWords.getGameScreen().getOriginalTiles().get(i).setVisible(true);
 			}
 		}
 		
-		game.getLengthBox().createLength(game.getAdaptedWordNPC().size());
+		missingWords.getGameScreen().getLengthBox().createLength(missingWords.getGameScreen().getAdaptedWordNPC().size());
 		button.disableStyle();
 		button.setTouchable(Touchable.disabled);
-		game.getStage().addActor(game.getLengthBox());
-		game.getStage().addActor(game.getSubmitBox());
+		missingWords.getGameScreen().getStage().addActor(missingWords.getGameScreen().getLengthBox());
+		missingWords.getGameScreen().getStage().addActor(missingWords.getGameScreen().getSubmitBox());
 	}
 }

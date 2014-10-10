@@ -1,11 +1,15 @@
 package com.me.missingwords;
 
+import java.io.IOException;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import com.me.missingwords.screens.*;
+import com.me.missingwords.utils.Dictionary;
+import com.me.missingwords.utils.Scores;
+import com.me.missingwords.utils.Vocabulary;
 
 /**
  * 
@@ -62,11 +66,15 @@ public class MissingWords extends Game {
 	
 	public Category selectedCategory;
 	
-	private boolean gameRunning;
-	
 	private boolean victory;
 	
 	private boolean singlePlayer;
+	
+	private Vocabulary vocabulary;
+	
+	private Dictionary dictionary;
+	
+	private Scores scores;
 	
 	/** En el método create() creamos los objetos necesarios para construir la aplicación */
 	
@@ -77,15 +85,6 @@ public class MissingWords extends Game {
 		
 		myBatch = new SpriteBatch();
 		myManager = new AssetManager();
-		
-		/* Creamos las pantallas del juego */
-		
-		GameScreen = new GameScreen(this);
-		LanguageSelectionScreen = new LanguageSelectionScreen(this);
-		MenuScreen = new MenuScreen(this);
-		CategorySelectionScreen = new CategorySelectionScreen(this);
-		MiniGameScreen = new MiniGameScreen(this);
-		VictoryScreen = new VictoryScreen(this);
 		
 		/* Con la función load() añadimos los recursos a la cola de carga, pero aún no
 		 * se cargan hasta que no se llame a finishLoading(). 
@@ -162,7 +161,9 @@ public class MissingWords extends Game {
 		
 		myManager.finishLoading(); // Cargamos los recursos para usarlos
 		
-		gameRunning = false;
+		/* Creamos las pantallas del juego */
+		
+		LanguageSelectionScreen = new LanguageSelectionScreen(this);
 		
 		victory = false;
 		
@@ -176,6 +177,38 @@ public class MissingWords extends Game {
 		super.dispose();
 		myBatch.dispose();
 		myManager.dispose();
+	}
+	
+	public void createScreens() {
+		CategorySelectionScreen = new CategorySelectionScreen(this);
+		MenuScreen = new MenuScreen(this);
+	
+	}
+	
+	public void createScreens2() {
+		GameScreen = new GameScreen(this);
+		MiniGameScreen = new MiniGameScreen(this);
+		VictoryScreen = new VictoryScreen(this);
+	}
+	
+	public void createUtils() {
+		try {
+			vocabulary = new Vocabulary(selectedLanguage, selectedCategory);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+			scores = new Scores(selectedLanguage);
+		} catch (IOException e1) {
+		e1.printStackTrace();
+		}
+		
+		try {
+			dictionary = new Dictionary(selectedLanguage);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	
@@ -193,12 +226,16 @@ public class MissingWords extends Game {
 		return MiniGameScreen;
 	}
 
-	public boolean isGameRunning() {
-		return gameRunning;
+	public Vocabulary getVocabulary() {
+		return vocabulary;
 	}
 
-	public void setGameRunning(boolean gameRunning) {
-		this.gameRunning = gameRunning;
+	public Dictionary getDictionary() {
+		return dictionary;
+	}
+
+	public Scores getScores() {
+		return scores;
 	}
 
 	public boolean victory() {

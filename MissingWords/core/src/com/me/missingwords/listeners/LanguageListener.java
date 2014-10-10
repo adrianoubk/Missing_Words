@@ -32,6 +32,7 @@ public class LanguageListener extends ClickListener {
 		case "english": { missingWords.selectedLanguage = Language.english; break; }
 		}
 		
+		missingWords.createScreens();
 		missingWords.setScreen(missingWords.MenuScreen); // Siguiente pantalla -> Menú
 	}
 }

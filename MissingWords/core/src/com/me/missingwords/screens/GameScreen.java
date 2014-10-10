@@ -1,6 +1,5 @@
 package com.me.missingwords.screens;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -15,7 +14,6 @@ import com.me.missingwords.actors.*;
 import com.me.missingwords.buttons.ClueButton;
 import com.me.missingwords.buttons.SubmitButton;
 import com.me.missingwords.listeners.*;
-import com.me.missingwords.utils.*;
 
 
 /** Clase GameScreen
@@ -32,8 +30,6 @@ public class GameScreen extends BaseScreen {
 	private Turn turn;
 	private TimeBar timeBar;
 	private Background background;
-	private Vocabulary vocab;
-	private Scores scores;
 	private Slider slider;
 	private SubmitBox submitBox;
 	private TileBox tileBox;
@@ -44,30 +40,57 @@ public class GameScreen extends BaseScreen {
 	private ClueButton letterClue, translationClue, lengthClue;
 	private SubmitButton submit;
 	private LengthClueBox lengthBox;
-	private Dictionary dic;
 	private ArrayList<String> playedWords;
 	private int totalWords;
 	private String winner;
 
 	public GameScreen(MissingWords missingWords) {
 		super(missingWords);
+		
+		System.out.println("Juego nuevo");
+		
+		totalWords = 0;
+		
+		playedWords = new ArrayList<>();
+		
+		background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
+		stage.addActor(background);
+		
+		lengthBox = new LengthClueBox();
+		stage.addActor(lengthBox);
+		
+		submitBox = new SubmitBox();
+		stage.addActor(submitBox);
+		
+		human = new HumanPlayer("Adri", missingWords);
+		stage.addActor(human);
+		
+		if (!missingWords.isSinglePlayer()) { // Si no es singleplayer, la cpu juega
+			npc = new NPCPlayer("NPC", missingWords);
+			stage.addActor(npc);
+		}
+		
+		slider = new Slider(MissingWords.myManager.get("grey_sliderHorizontal.png", Texture.class), missingWords);
+		stage.addActor(slider);
+		
+		turn = new Turn(0);
+		stage.addActor(turn);
+		
+		timeBar = new TimeBar(missingWords);
+		stage.addActor(timeBar);
+		
+		createButtons();
+		
+		tileBox = new TileBox(new Table());
+		stage.addActor(tileBox);
+		
+		turnControl = new TurnControl("none", missingWords);
+		stage.addActor(turnControl);
 	}
 
 	@Override
-	public void render(float delta) {
-		
+	public void render(float delta) {	
 		super.render(delta);
-		
-		/*if (end) { // Comprueba el final del juego
-			System.out.println("FIN DEL JUEGO");
-			missingWords.setGameRunning(false);
-			end = false;
-			turn.setNumTurn(0); 
-			tileBox.clean();
-			timeBar.reset();
-			missingWords.setScreen(missingWords.MenuScreen); 
-		}
-		else */
 		
 		if (missingWords.isSinglePlayer()) { // Modo SINGLEPLAYER
 			if (!human.isMyTurn()) { // Si ha terminado el turno del jugador
@@ -92,75 +115,11 @@ public class GameScreen extends BaseScreen {
 	}
 
 	@Override
-	public void show() {
-		
+	public void show() {	
 		super.show();
-		
-		if (!missingWords.isGameRunning()) {
-		
-			System.out.println("Juego nuevo");
-			
-			totalWords = 0;
-			
-			playedWords = new ArrayList<>();
-			
-			try {
-				vocab = new Vocabulary(missingWords.selectedLanguage, missingWords.selectedCategory);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			try {
-				scores = new Scores(missingWords.selectedLanguage);
-			} catch (IOException e1) {
-			e1.printStackTrace();
-			}
-			
-			try {
-				dic = new Dictionary(missingWords.selectedLanguage);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
-			stage.addActor(background);
-			
-			lengthBox = new LengthClueBox();
-			stage.addActor(lengthBox);
-			
-			submitBox = new SubmitBox();
-			stage.addActor(submitBox);
-			
-			human = new HumanPlayer("Adri", missingWords);
-			stage.addActor(human);
-			
-			if (!missingWords.isSinglePlayer()) { // Si no es singleplayer, la cpu juega
-				npc = new NPCPlayer("NPC", missingWords);
-				stage.addActor(npc);
-			}
-			
-			slider = new Slider(MissingWords.myManager.get("grey_sliderHorizontal.png", Texture.class));
-			slider.getGameData(missingWords);
-			stage.addActor(slider);
-			
-			turn = new Turn(0);
-			stage.addActor(turn);
-			
-			timeBar = new TimeBar(missingWords);
-			stage.addActor(timeBar);
-			
-			createButtons();
-			
-			tileBox = new TileBox(new Table());
-			stage.addActor(tileBox);
-			
-			turnControl = new TurnControl("none", missingWords);
-			stage.addActor(turnControl);
-		}
 	}
 	
-	private void createButtons() {
-		
+	private void createButtons() {	
 		translationClue = new ClueButton(
 				new TextureRegionDrawable(new TextureRegion(
 						MissingWords.myManager.get("translationButtonUp.png", Texture.class))), 
@@ -170,7 +129,7 @@ public class GameScreen extends BaseScreen {
 						MissingWords.myManager.get("translationButton_Used.png", Texture.class))));
 						
 		translationClue.setPosition(272, 5);
-		translationClue.addListener(new TranslationClueListener(this, translationClue));
+		translationClue.addListener(new TranslationClueListener(missingWords, translationClue));
 		stage.addActor(translationClue);
 		
 		letterClue = new ClueButton(
@@ -182,7 +141,7 @@ public class GameScreen extends BaseScreen {
 						MissingWords.myManager.get("letterButton_Used.png", Texture.class))));
 		
 		letterClue.setPosition(341, 5);
-		letterClue.addListener(new LetterClueListener(this, letterClue));
+		letterClue.addListener(new LetterClueListener(missingWords, letterClue));
 		stage.addActor(letterClue);
 		
 		lengthClue = new ClueButton(
@@ -194,11 +153,11 @@ public class GameScreen extends BaseScreen {
 						MissingWords.myManager.get("lengthButton_Used.png", Texture.class))));
 		
 		lengthClue.setPosition(410, 5);
-		lengthClue.addListener(new LengthClueListener(this, lengthClue));
+		lengthClue.addListener(new LengthClueListener(missingWords, lengthClue));
 		stage.addActor(lengthClue);
 		
 		submit = new SubmitButton();
-		submit.addListener(new InputButtonListener(this));
+		submit.addListener(new InputButtonListener(missingWords));
 		stage.addActor(submit);
 	}
 	
@@ -207,12 +166,9 @@ public class GameScreen extends BaseScreen {
 		
 		turn.nextTurn(); // Turno nuevo
 		
-		//if (turn.getNumTurn() == 2) // Si es el turno 3, acaba el juego
-			//end = true;
-		//else { // Si no, comienza un nuevo turno
-			turnControl.prepareTurn(); // Prepara el turno para el jugador
-			turnControl.initialiseTurn(); // Inicia el turno
-		//}
+		turnControl.prepareTurn(); // Prepara el turno para el jugador
+		turnControl.initialiseTurn(); // Inicia el turno
+
 	}
 	
 	public void newTiles() {
@@ -230,7 +186,7 @@ public class GameScreen extends BaseScreen {
 		
 		originalTiles = new ArrayList<Tile>(MAX_TILES);
 		
-		randomWord = vocab.randomKey();
+		randomWord = missingWords.getVocabulary().randomKey();
 		arrayWord = randomWord.split("(?!^)");
 		
 		for (int i = 0; i < arrayWord.length; ++i) {
@@ -251,14 +207,14 @@ public class GameScreen extends BaseScreen {
 		
 		for (int i = 0; i < adaptedWord.size(); ++i) {
 			System.out.println(adaptedWord.get(i));
-			originalTiles.add(new Tile(adaptedWord.get(i), scores.getScores().get(adaptedWord.get(i))));
+			originalTiles.add(new Tile(adaptedWord.get(i), missingWords.getScores().getScores().get(adaptedWord.get(i))));
 		}
 		
 		adaptedWordNPC = new ArrayList<Tile>(originalTiles);
 		
 		for (int i = adaptedWord.size(); i < MAX_TILES; ++i) {
-			randomLetter = scores.randomKey();
-			originalTiles.add(new Tile(randomLetter, scores.getScores().get(randomLetter)));
+			randomLetter = missingWords.getScores().randomKey();
+			originalTiles.add(new Tile(randomLetter, missingWords.getScores().getScores().get(randomLetter)));
 		}
 	}
 	
@@ -346,10 +302,6 @@ public class GameScreen extends BaseScreen {
 		return adaptedWordNPC;
 	}
 
-	public Vocabulary getVocab() {
-		return vocab;
-	}
-
 	public NPCPlayer getNpc() {
 		return npc;
 	}
@@ -384,10 +336,6 @@ public class GameScreen extends BaseScreen {
 
 	public LengthClueBox getLengthBox() {
 		return lengthBox;
-	}
-
-	public Dictionary getDic() {
-		return dic;
 	}
 
 	public int getTotalWords() {
@@ -431,7 +379,7 @@ public class GameScreen extends BaseScreen {
 
 	@Override
 	public void dispose() {
-		playedWords.clear();
+		//playedWords.clear();
 		stage.dispose();
 	}
 }

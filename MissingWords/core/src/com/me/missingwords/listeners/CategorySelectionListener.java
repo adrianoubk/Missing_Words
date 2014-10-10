@@ -13,7 +13,9 @@ public class CategorySelectionListener extends AbstractSelectionListener {
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
 		switch (option) {
-		case "days": missingWords.selectedCategory = Category.days; 
+		case "days": missingWords.selectedCategory = Category.days;
+					 missingWords.createUtils();
+					 missingWords.createScreens2();
 					 missingWords.setScreen(missingWords.GameScreen);
 					 break;
 		}

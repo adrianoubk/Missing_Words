@@ -25,8 +25,8 @@ public class World {
 	private StaticTiledMapTile playerTile, npcTile;
 	private StaticTiledMapTile transparentTile;
 	private StaticTiledMapTile holeTile;
-	private int playerPosition = 0;
-	private int npcPosition = 31;
+	private int playerPosition = 29;
+	private int npcPosition = 28;
 	private MissingWords missingWords;
 	private Timer t;
 	
@@ -202,7 +202,7 @@ public class World {
 			@Override
 			public void run() {		
 				if (missingWords.victory()) {
-					missingWords.setGameRunning(false);
+					//missingWords.setGameRunning(false);
 					missingWords.setVictory(false);
 					/* Desactivamos el SINGLEPLAYER, si es aplicable */
 					if (missingWords.isSinglePlayer())

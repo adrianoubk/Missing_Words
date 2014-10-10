@@ -1,5 +1,7 @@
 package com.me.missingwords.screens;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -55,18 +57,17 @@ public class VictoryScreen extends BaseScreen {
 		
 		fontButton = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
 		
-		String[] prueba = new String[] {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+		ArrayList<String> prueba2 = new ArrayList<String>();
+		prueba2.add("hola");
+		prueba2.add("amigos");
 		
-		String[] stringArray =  missingWords.getGameScreen().getPlayedWords().toArray(
-				new String[missingWords.getGameScreen().getPlayedWords().size()]);
+		String[] stringArray =  missingWords.getGameScreen().getPlayedWords().toArray(new String[missingWords.getGameScreen().getPlayedWords().size()]);
 		
 		Background background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
 		stage.addActor(background);
 	
 		table = new Table();
 		table.setFillParent(true);
-		
-		//List<String> listPrueba = new List<String>(skin);
 		
 		List<String> listPrueba = new List<String>(new ListStyle(
 				fontList, 
@@ -77,8 +78,6 @@ public class VictoryScreen extends BaseScreen {
 			
 		
 		listPrueba.setItems(stringArray);
-		
-		//ScrollPane scroll = new ScrollPane(listPrueba, skin);
 		
 		ScrollPane scroll = new ScrollPane(listPrueba, new ScrollPaneStyle(new TextureRegionDrawable(
 				new TextureRegion(MissingWords.myManager.get("bg_grasslands.png", Texture.class))), 
@@ -97,7 +96,6 @@ public class VictoryScreen extends BaseScreen {
 		
 		table2.add(l1).expand();
 		table2.add(scroll).fill().expand();
-		//table2.debugCell();
 		
 		statistics = new Table();
 		
@@ -142,8 +140,6 @@ public class VictoryScreen extends BaseScreen {
 		SplitPane split = new SplitPane(winner1, table2, true, new SplitPaneStyle(
 				new TextureRegionDrawable(
 						new TextureRegion(MissingWords.myManager.get("split.png", Texture.class)))));
-		
-		//table.debugTable();
 		
 		table.add(split).fill().expand();
 		
