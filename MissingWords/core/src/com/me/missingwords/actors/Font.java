@@ -17,7 +17,7 @@ public class Font extends Actor {
 	private String text;
 	
 	public Font(String text) {
-		font = new BitmapFont(Gdx.files.internal("title.fnt"), Gdx.files.internal("title.png"), false);
+		font = new BitmapFont(Gdx.files.internal("fonts/title.fnt"), Gdx.files.internal("fonts/title.png"), false);
 		this.text = text;
 	}
 	

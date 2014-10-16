@@ -46,16 +46,16 @@ public class CategorySelectionScreen extends BaseScreen {
 	public void show() {
 		super.show();
 		
-		background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
+		background = new Background(MissingWords.myManager.get("background.png", Texture.class));
 		stage.addActor(background);
 		
 		titleFont = new Font("Categories");
 		stage.addActor(titleFont);
 		
-		up = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("blue_button04.png", Texture.class)));
-		down = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("blue_button05.png", Texture.class)));
+		up = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("upButtonLarge.png", Texture.class)));
+		down = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("downButton.png", Texture.class)));
 		
-		font = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
+		font = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
 		
 		tStyle = new TextButtonStyle(up, down, null, font);
 		

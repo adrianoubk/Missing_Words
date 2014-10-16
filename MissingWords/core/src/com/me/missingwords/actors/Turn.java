@@ -27,8 +27,8 @@ public class Turn extends Actor {
 	private TextureRegion turnTexture;// Textura del cuadro de turno
 	
 	public Turn(int numTurn) {
-		font = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
-		turnTexture = new TextureRegion(MissingWords.myManager.get("blue_button04.png", Texture.class));
+		font = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
+		turnTexture = new TextureRegion(MissingWords.myManager.get("upButtonLarge.png", Texture.class));
 		this.numTurn = numTurn;
 	}
 	

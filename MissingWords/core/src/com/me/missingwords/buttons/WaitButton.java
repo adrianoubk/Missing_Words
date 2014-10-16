@@ -9,10 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 
-public class RollDiceButton extends TextButton {
-
-	public RollDiceButton() {
-		super("Roll", 
+public class WaitButton extends TextButton {
+	
+	public WaitButton() {
+		super("Wait", 
 				new TextButtonStyle(new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("rollButtonUp.png", Texture.class))), 
 				new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("rollButtonDown.png", Texture.class))), 
 				null, 

@@ -12,24 +12,25 @@ public class Dice extends Actor {
 	
 	private TextureRegion diceTexture;
 	private Random r;
-	private boolean roll;
+	public boolean drawDice;
+	private int result;
 	
 	public Dice() {
 		r = new Random();
 		diceTexture = new TextureRegion();
-		roll = false;
+		drawDice = false;
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		if (roll)
-			batch.draw(diceTexture, 500, 50);
+		if (drawDice)
+			batch.draw(diceTexture, 490, 55);
 	}
 	
-	public int roll() {
-		int num = r.nextInt(6 - 1 + 1) + 1;
+	public void roll() {
+		result = r.nextInt(6 - 1 + 1) + 1;
 		
-		switch (num) {
+		switch (result) {
 			case 1: diceTexture.setRegion(MissingWords.myManager.get("1.png", Texture.class)); break;
 			case 2: diceTexture.setRegion(MissingWords.myManager.get("2.png", Texture.class)); break; 
 			case 3: diceTexture.setRegion(MissingWords.myManager.get("3.png", Texture.class)); break;
@@ -38,8 +39,10 @@ public class Dice extends Actor {
 			case 6: diceTexture.setRegion(MissingWords.myManager.get("6.png", Texture.class)); break;
 		}
 		
-		roll = true;
-		
-		return num;
+		drawDice = true;
+	}
+
+	public int getResult() {
+		return result;
 	}
 }

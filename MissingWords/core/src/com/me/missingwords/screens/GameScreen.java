@@ -43,6 +43,7 @@ public class GameScreen extends BaseScreen {
 	private ArrayList<String> playedWords;
 	private int totalWords;
 	private String winner;
+	private InfoRoll info;
 
 	public GameScreen(MissingWords missingWords) {
 		super(missingWords);
@@ -53,7 +54,7 @@ public class GameScreen extends BaseScreen {
 		
 		playedWords = new ArrayList<>();
 		
-		background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
+		background = new Background(MissingWords.myManager.get("background.png", Texture.class));
 		stage.addActor(background);
 		
 		lengthBox = new LengthClueBox();
@@ -86,6 +87,9 @@ public class GameScreen extends BaseScreen {
 		
 		turnControl = new TurnControl("none", missingWords);
 		stage.addActor(turnControl);
+		
+		info = new InfoRoll(missingWords);
+		stage.addActor(info);
 	}
 
 	@Override

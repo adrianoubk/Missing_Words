@@ -33,7 +33,7 @@ public class TileBox extends Container<Table> {
 		tileTable.top().left(); // Posicionar a tabla arriba y a la izquierda
 		tileTable.padTop(2); // Relleno de la tabla por encima
 		
-		tDrawable = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("cuadroFichaNuevo.png", Texture.class)));
+		tDrawable = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("tileBox.png", Texture.class)));
 		setBounds(POSITION_X, POSITION_Y, WIDTH_HEIGHT, WIDTH_HEIGHT); 
 		bottom(); // ajustar tilebox a la base
 		setBackground(tDrawable);

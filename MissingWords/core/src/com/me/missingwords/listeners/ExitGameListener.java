@@ -14,7 +14,14 @@ public class ExitGameListener extends ClickListener {
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
+		missingWords.GameScreen.dispose();
+		missingWords.MiniGameScreen.dispose();
 		missingWords.VictoryScreen.dispose();
+		
+		/* Desactivamos el SINGLEPLAYER, si es aplicable */
+		if (missingWords.isSinglePlayer())
+			missingWords.setSinglePlayer(false);
+		
 		missingWords.setScreen(missingWords.MenuScreen);
 	}
 }

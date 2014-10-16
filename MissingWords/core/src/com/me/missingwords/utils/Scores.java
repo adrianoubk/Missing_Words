@@ -8,7 +8,6 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-
 import com.me.missingwords.MissingWords.Language;
 
 /**
@@ -26,13 +25,14 @@ public class Scores {
 	
 	public Scores(Language language) throws IOException {
 		scores = new HashMap<String, Integer>();
+		
 		FileHandle file = null;
 		
 		/* Cargamos el fichero de idioma */
 		
 		switch (language) {
-		case german: file = Gdx.files.internal("scores-german.txt"); break;
-		case english: file = Gdx.files.internal("scores-english.txt"); break;
+		case german: file = Gdx.files.internal("utils/scores-german.txt"); break;
+		case english: file = Gdx.files.internal("utils/scores-english.txt"); break;
 		}
 		
 		/* Buffer donde volcamos el contenido del fichero para leerlo */
@@ -46,6 +46,7 @@ public class Scores {
 			/* Introducimos la puntuación en el map. Con parseInt tranformamos el número(String)
 			 * a entero(Integer).
 			 */
+			
 			scores.put(score[0], Integer.parseInt(score[1]));
 		}
 		

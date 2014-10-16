@@ -102,23 +102,19 @@ public class NPCPlayer extends Player {
 				
 				array = submitBox.getChildren();
 				
-				for (int i = 0; i < array.size; ++i) {
-					Tile t = (Tile) array.get(i);
-					score += t.getPoints();
-				}
-				
 				StringBuilder word = new StringBuilder();
 				
 				for(int i = 0; i < array.size; ++i) {
 					Tile t = (Tile) array.get(i);
 					word.append(t.getLetter());
+					score += t.getPoints();
 				}
 				
 				missingWords.getGameScreen().addPlayedWord(word.toString());
 				
-				System.out.println("Word Score: " + score);
-				
 				missingWords.getGameScreen().increaseTotalWords();
+				
+				calculateRolls(score);
 				
 				playMinigame();
 				

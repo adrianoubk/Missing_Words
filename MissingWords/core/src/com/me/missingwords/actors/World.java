@@ -13,8 +13,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.me.missingwords.MissingWords;
 
 public class World {
@@ -25,15 +24,13 @@ public class World {
 	private StaticTiledMapTile playerTile, npcTile;
 	private StaticTiledMapTile transparentTile;
 	private StaticTiledMapTile holeTile;
-	private int playerPosition = 29;
-	private int npcPosition = 28;
+	private StaticTiledMapTile bothPlayers;
+	private int playerPosition = 0;
+	private int npcPosition = 31;
 	private MissingWords missingWords;
-	private Timer t;
 	
 	public World(MissingWords missingWords) {
 		this.missingWords = missingWords;
-		
-		t = new Timer();
 		
 		tileMap = new TmxMapLoader().load("prueba2.tmx");
 		renderer = new OrthogonalTiledMapRenderer(tileMap, missingWords.getSB());
@@ -41,9 +38,9 @@ public class World {
 		
 		playerTile = new StaticTiledMapTile(new TextureRegion((MissingWords.myManager.get("player.png", Texture.class))));
 		npcTile = new StaticTiledMapTile(new TextureRegion((MissingWords.myManager.get("npc.png", Texture.class))));
-		transparentTile = new StaticTiledMapTile(new TextureRegion((MissingWords.myManager.get("transparentTile.png", Texture.class))));
-		
+		transparentTile = new StaticTiledMapTile(new TextureRegion((MissingWords.myManager.get("transparentTile.png", Texture.class))));		
 		holeTile = new StaticTiledMapTile(new TextureRegion((MissingWords.myManager.get("holeGrass.png", Texture.class))));
+		bothPlayers = new StaticTiledMapTile(new TextureRegion((MissingWords.myManager.get("bothPlayers.png", Texture.class))));
 		
 		TiledMapTileLayer pathLayer = (TiledMapTileLayer) tileMap.getLayers().get("Path");
 		
@@ -115,44 +112,65 @@ public class World {
 		
 		Cell cell = new Cell();
 		
-		if (player) {		
+		if (player) {
 			cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);
-			cell.setTile(transparentTile);
+			
+			if (cell.getTile().equals(bothPlayers))
+				cell.setTile(npcTile);
+			else
+				cell.setTile(transparentTile);
 		
 			playerPosition += steps;
 			
 			if (playerPosition > 31)
 				playerPosition = 31;
-		
-			cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);		
-			cell.setTile(playerTile);
 			
-			TiledMapTileLayer pathLayer = (TiledMapTileLayer) tileMap.getLayers().get("Path");
+			if (playerPosition == npcPosition) {
+				cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);		
+				cell.setTile(bothPlayers);
+			}
+			else {
+				cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);		
+				cell.setTile(playerTile);
 			
-			cell = pathLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);
 			
-			if (cell.getTile().equals(holeTile)) 
-				respawnPlayer(playerPosition, true);	
+				TiledMapTileLayer pathLayer = (TiledMapTileLayer) tileMap.getLayers().get("Path");
+			
+				cell = pathLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);
+			
+				if (cell.getTile().equals(holeTile)) 
+					respawnPlayer(playerPosition, true);
+			}
 		}
 		
 		else {
 			cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
-			cell.setTile(transparentTile);
+			
+			if (cell.getTile().equals(bothPlayers))
+				cell.setTile(playerTile);
+			else
+				cell.setTile(transparentTile);
 			
 			npcPosition -= steps;
 			
 			if (npcPosition < 0)
 				npcPosition = 0;
 			
-			cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);			
-			cell.setTile(npcTile);
+			if (playerPosition == npcPosition) {
+				cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);		
+				cell.setTile(bothPlayers);
+			}
+			else {
+				cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);			
+				cell.setTile(npcTile);
 			
-			TiledMapTileLayer pathLayer = (TiledMapTileLayer) tileMap.getLayers().get("Path");
+				TiledMapTileLayer pathLayer = (TiledMapTileLayer) tileMap.getLayers().get("Path");
 			
-			cell = pathLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
+				cell = pathLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
 			
-			if (cell.getTile().equals(holeTile)) 
-				respawnPlayer(npcPosition, false);
+				if (cell.getTile().equals(holeTile)) 
+					respawnPlayer(npcPosition, false);
+			}
 		}
 		
 		checkVictory();
@@ -198,23 +216,16 @@ public class World {
 			missingWords.setVictory(true);
 		}
 		
-		t.scheduleTask(new Task() {
-			@Override
-			public void run() {		
-				if (missingWords.victory()) {
-					//missingWords.setGameRunning(false);
-					missingWords.setVictory(false);
-					/* Desactivamos el SINGLEPLAYER, si es aplicable */
-					if (missingWords.isSinglePlayer())
-						missingWords.setSinglePlayer(false);
-					missingWords.getGameScreen().dispose();
-					missingWords.getMiniGameScreen().dispose();
-					missingWords.setScreen(missingWords.VictoryScreen);
-				}	
-				else
-					missingWords.setScreen(missingWords.GameScreen);
-			}
-		}, 3);	
+		if (missingWords.victory()) {
+			missingWords.setVictory(false);			
+			missingWords.setScreen(missingWords.VictoryScreen);
+		}	
+		else if (!missingWords.victory() && missingWords.getMiniGameScreen().getRollsLeft().getRolls() == -1) {
+				missingWords.getMiniGameScreen().getWaitButton().hide();
+				missingWords.getMiniGameScreen().getMoveButton().hide();
+				missingWords.getMiniGameScreen().getContinueButton().setVisible(true);
+				missingWords.getMiniGameScreen().getContinueButton().setTouchable(Touchable.enabled);
+		}
 	}
 
 	public OrthogonalTiledMapRenderer getRenderer() {

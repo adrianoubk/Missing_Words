@@ -1,9 +1,12 @@
 package com.me.missingwords;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.missingwords.screens.*;
@@ -38,6 +41,7 @@ public class MissingWords extends Game {
 	public BaseScreen CategorySelectionScreen;
 	public MiniGameScreen MiniGameScreen;
 	public VictoryScreen VictoryScreen;
+	public LoadingScreen LoadingScreen;
 	
 	/* La clase SpriteBatch nos permite dibujar las texturas de nuestro juego. Agrupa 
 	 * sprites(imagenes) para enviarlas al procesador grafico y asi dibujarlas a la vez.
@@ -76,6 +80,8 @@ public class MissingWords extends Game {
 	
 	private Scores scores;
 	
+	private int max, min;
+	
 	/** En el método create() creamos los objetos necesarios para construir la aplicación */
 	
 	@Override
@@ -90,9 +96,10 @@ public class MissingWords extends Game {
 		 * se cargan hasta que no se llame a finishLoading(). 
 		 */
 		
+		myManager.load("background.png", Texture.class);
 		myManager.load("barLoading.png", Texture.class);
 		myManager.load("barBackground.png", Texture.class);
-		myManager.load("cuadroFichaNuevo.png", Texture.class);
+		myManager.load("tileBox.png", Texture.class);
 		myManager.load("a.png", Texture.class);
 		myManager.load("b.png", Texture.class);
 		myManager.load("c.png", Texture.class);
@@ -122,9 +129,7 @@ public class MissingWords extends Game {
 		myManager.load("ae.png", Texture.class);
 		myManager.load("oe.png", Texture.class);
 		myManager.load("ue.png", Texture.class);
-		myManager.load("TurnBar.png", Texture.class);
-		myManager.load("bg_grasslands.png", Texture.class);
-		myManager.load("blue_button04.png", Texture.class);
+		myManager.load("upButtonLarge.png", Texture.class);
 		myManager.load("grey_sliderHorizontal.png", Texture.class);
 		myManager.load("submitButtonUp.png", Texture.class);
 		myManager.load("submitButtonDown.png", Texture.class);
@@ -132,7 +137,7 @@ public class MissingWords extends Game {
 		myManager.load("letterButtonDown.png", Texture.class);
 		myManager.load("Germany-flag.png", Texture.class);
 		myManager.load("United-kingdom-flag.png", Texture.class);
-		myManager.load("blue_button05.png", Texture.class);
+		myManager.load("downButton.png", Texture.class);
 		myManager.load("translationButtonDown.png", Texture.class);
 		myManager.load("translationButtonUp.png", Texture.class);
 		myManager.load("lengthButtonDown.png", Texture.class);
@@ -158,16 +163,21 @@ public class MissingWords extends Game {
 		myManager.load("verticalScroll.png", Texture.class);
 		myManager.load("selection.png", Texture.class);
 		myManager.load("upButton.png", Texture.class);
+		myManager.load("continueButtonUp.png", Texture.class);
+		myManager.load("continueButtonDown.png", Texture.class);
+		myManager.load("bothPlayers.png", Texture.class);
 		
-		myManager.finishLoading(); // Cargamos los recursos para usarlos
+		//myManager.finishLoading(); // Cargamos los recursos para usarlos
 		
 		/* Creamos las pantallas del juego */
 		
-		LanguageSelectionScreen = new LanguageSelectionScreen(this);
+		//LanguageSelectionScreen = new LanguageSelectionScreen(this);
 		
 		victory = false;
 		
-		setScreen(LanguageSelectionScreen); // Establecemos la pantalla al inicio de la app
+		LoadingScreen = new LoadingScreen(this);
+		
+		setScreen(LoadingScreen); // Establecemos la pantalla al inicio de la app
 	}
 	
 	/** En el método dispose() liberamos la memoria de los recursos que hemos usado */
@@ -179,13 +189,13 @@ public class MissingWords extends Game {
 		myManager.dispose();
 	}
 	
-	public void createScreens() {
+	public void createMenuScreens() {
 		CategorySelectionScreen = new CategorySelectionScreen(this);
 		MenuScreen = new MenuScreen(this);
 	
 	}
 	
-	public void createScreens2() {
+	public void createGameScreens() {
 		GameScreen = new GameScreen(this);
 		MiniGameScreen = new MiniGameScreen(this);
 		VictoryScreen = new VictoryScreen(this);
@@ -209,10 +219,44 @@ public class MissingWords extends Game {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
+		try {
+			setLimits(selectedLanguage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(max);
+		System.out.println(min);
+	}
+	
+	private void setLimits(Language language) throws IOException {
+		
+		FileHandle file = null;
+		
+		switch(language) {
+		case german: file = Gdx.files.internal("utils/score-limits-german.txt"); break;
+		case english: file = Gdx.files.internal("utils/score-limits-english.txt"); break;
+		}
+		
+		BufferedReader br = new BufferedReader(file.reader());
+		String line;
+		String[] limits;
+		while ((line = br.readLine()) != null) { // leemos linea hasta que sea null
+			limits = line.split(" ");
+			
+			if (limits[0].equals("max"))
+				max = Integer.parseInt(limits[1]);
+			
+			if (limits[0].equals("min"))
+				min = Integer.parseInt(limits[1]);
+		}
+		
+		br.close();
 	}
 	
 	
-	/* -------------- Getters -------------- */
+	/* -------------- Getters and Setters -------------- */
 	
 	public SpriteBatch getSB() {
 		return myBatch;
@@ -244,6 +288,22 @@ public class MissingWords extends Game {
 
 	public void setVictory(boolean victory) {
 		this.victory = victory;
+	}
+
+	public int getMax() {
+		return max;
+	}
+
+	public void setMax(int max) {
+		this.max = max;
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public void setMin(int min) {
+		this.min = min;
 	}
 
 	public boolean isSinglePlayer() {

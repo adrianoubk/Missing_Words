@@ -9,16 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 
-public class RollDiceButton extends TextButton {
-
-	public RollDiceButton() {
-		super("Roll", 
-				new TextButtonStyle(new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("rollButtonUp.png", Texture.class))), 
-				new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("rollButtonDown.png", Texture.class))), 
+public class ContinueButton extends TextButton {
+	
+	public ContinueButton() {
+		super("Continue", 
+				new TextButtonStyle(new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("continueButtonUp.png", Texture.class))), 
+				new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("continueButtonDown.png", Texture.class))), 
 				null, 
 				new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false)));
 		
-		setPosition(180, 2);
+		setPosition(300, 2);
 	}
 	
 	public void show() {

@@ -18,7 +18,7 @@ import com.me.missingwords.MissingWords;
 
 public class TurnControl extends Label {
 	
-	private static BitmapFont font = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
+	private static BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
 	private SequenceAction action; 
 	private String player;
 	

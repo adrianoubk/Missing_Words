@@ -42,7 +42,7 @@ public class TranslationClueListener extends ClickListener {
 			word.append(t.getLetter());
 		}
 		
-		BitmapFont font = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
+		BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
 		LabelStyle lStyle = new LabelStyle(font, Color.BLACK);
 		
 		Label l = new Label(missingWords.getDictionary().getDictionary().get(word.toString()), lStyle);

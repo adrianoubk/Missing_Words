@@ -15,7 +15,7 @@ public class CategorySelectionListener extends AbstractSelectionListener {
 		switch (option) {
 		case "days": missingWords.selectedCategory = Category.days;
 					 missingWords.createUtils();
-					 missingWords.createScreens2();
+					 missingWords.createGameScreens();
 					 missingWords.setScreen(missingWords.GameScreen);
 					 break;
 		}

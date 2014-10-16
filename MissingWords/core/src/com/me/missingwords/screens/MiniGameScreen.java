@@ -5,17 +5,28 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Dice;
+import com.me.missingwords.actors.RollsLeft;
 import com.me.missingwords.actors.World;
+import com.me.missingwords.buttons.ContinueButton;
+import com.me.missingwords.buttons.MoveButton;
 import com.me.missingwords.buttons.RollDiceButton;
+import com.me.missingwords.buttons.WaitButton;
+import com.me.missingwords.listeners.ContinueMiniListener;
+import com.me.missingwords.listeners.MoveListener;
 import com.me.missingwords.listeners.RollListener;
+import com.me.missingwords.listeners.WaitListener;
 
 public class MiniGameScreen extends BaseScreen {
 	
 	private World world;
 	private RollDiceButton rollButton;
+	private MoveButton moveButton;
+	private WaitButton waitButton;
+	private ContinueButton continueButton;
 	private Dice dice;
 	private int playCount;
 	private Timer t;
+	private RollsLeft rollsLeft;
 
 	public MiniGameScreen(MissingWords missingWords) {
 		super(missingWords);
@@ -32,6 +43,23 @@ public class MiniGameScreen extends BaseScreen {
 		rollButton = new RollDiceButton();
 		rollButton.addListener(new RollListener(missingWords));
 		stage.addActor(rollButton);
+		
+		moveButton = new MoveButton();
+		moveButton.addListener(new MoveListener(missingWords));
+		stage.addActor(moveButton);
+		
+		waitButton = new WaitButton();
+		waitButton.addListener(new WaitListener(missingWords));
+		waitButton.setVisible(false);
+		stage.addActor(waitButton);
+		
+		continueButton = new ContinueButton();
+		continueButton.addListener(new ContinueMiniListener(missingWords));
+		continueButton.setVisible(false);
+		stage.addActor(continueButton);
+		
+		rollsLeft = new RollsLeft();
+		stage.addActor(rollsLeft);
 	}
 
 	@Override
@@ -53,22 +81,43 @@ public class MiniGameScreen extends BaseScreen {
 		
 		super.show();
 		
-		if (missingWords.isSinglePlayer()) // SINGLEPLAYER
-			rollButton.setTouchable(Touchable.enabled); // Activo dado siempre
+		dice.drawDice = false;
+		moveButton.setMoved(false);
+		
+		waitButton.hide();
+		continueButton.hide();
+		
+		if (missingWords.isSinglePlayer()) { // SINGLEPLAYER
+			rollButton.show();
+			moveButton.setVisible(true);
+			moveButton.setTouchable(Touchable.disabled);
+			rollsLeft.setRolls(missingWords.getGameScreen().getHuman().getRolls());
+			
+		}
 		else { // PLAYER VS CPU
-			if ((playCount % 2) == 0) // Jugada par -> turno jugador
-				rollButton.setTouchable(Touchable.enabled);
+			if ((playCount % 2) == 0) { // Jugada par -> turno jugador
+				rollButton.show();
+				moveButton.setVisible(true);
+				moveButton.setTouchable(Touchable.disabled);
+				rollsLeft.setRolls(missingWords.getGameScreen().getHuman().getRolls());
+			}
 			else { // Jugada impar -> turno npc
 				rollButton.setTouchable(Touchable.disabled);
-		
+				moveButton.setTouchable(Touchable.disabled);
+				rollsLeft.setRolls(missingWords.getGameScreen().getNpc().getRolls());
+				
 					t.scheduleTask(new Task() {
 						@Override
 						public void run() {
-								increasePlayCount();
-								int play = dice.roll();
-								world.movePlayer(play, false);
+							dice.roll();
+							rollsLeft.decreaseRolls();
+							
+							if (rollsLeft.getRolls() == 0)
+								rollsLeft.setRolls(-1);
+							
+							world.movePlayer(dice.getResult(), false);
 						}
-					}, 2);
+					}, 1, 2, rollsLeft.getRolls() - 1);
 			}
 		}
 		
@@ -78,12 +127,28 @@ public class MiniGameScreen extends BaseScreen {
 		return rollButton;
 	}
 
+	public MoveButton getMoveButton() {
+		return moveButton;
+	}
+
+	public WaitButton getWaitButton() {
+		return waitButton;
+	}
+
+	public ContinueButton getContinueButton() {
+		return continueButton;
+	}
+
 	public World getWorld() {
 		return world;
 	}
 
 	public Dice getDice() {
 		return dice;
+	}
+
+	public RollsLeft getRollsLeft() {
+		return rollsLeft;
 	}
 
 	public void increasePlayCount() {

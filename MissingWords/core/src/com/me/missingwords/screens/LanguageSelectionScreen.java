@@ -26,7 +26,7 @@ public class LanguageSelectionScreen extends BaseScreen {
 	public LanguageSelectionScreen(MissingWords missingWords) {
 		super(missingWords);
 		
-		background = new Background(MissingWords.myManager.get("bg_grasslands.png", Texture.class));
+		background = new Background(MissingWords.myManager.get("background.png", Texture.class));
 		stage.addActor(background);
 		
 		buttonGerman = new ImageButton(new TextureRegionDrawable(

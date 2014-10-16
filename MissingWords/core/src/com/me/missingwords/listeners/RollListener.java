@@ -16,12 +16,15 @@ public class RollListener extends ClickListener {
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
 		
-		int play = missingWords.getMiniGameScreen().getDice().roll();
-	
-		missingWords.getMiniGameScreen().getWorld().movePlayer(play, true);
+		missingWords.getMiniGameScreen().getDice().roll();
 		
-		missingWords.getMiniGameScreen().getRollButton().setTouchable(Touchable.disabled);
+		missingWords.getMiniGameScreen().getRollsLeft().decreaseRolls();
 		
-		missingWords.getMiniGameScreen().increasePlayCount();	
+		if (missingWords.getMiniGameScreen().getRollsLeft().getRolls() == 0) { // Sin tiradas
+			missingWords.getMiniGameScreen().getRollButton().hide();
+			missingWords.getMiniGameScreen().getWaitButton().show();
+		}
+		
+		missingWords.getMiniGameScreen().getMoveButton().setTouchable(Touchable.enabled);
 	}
 }

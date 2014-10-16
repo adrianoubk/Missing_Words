@@ -9,16 +9,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 
-public class RollDiceButton extends TextButton {
+public class MoveButton extends TextButton {
+	
+	private boolean hasMoved;
 
-	public RollDiceButton() {
-		super("Roll", 
+	public MoveButton() {
+		super("Move", 
 				new TextButtonStyle(new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("rollButtonUp.png", Texture.class))), 
 				new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("rollButtonDown.png", Texture.class))), 
 				null, 
 				new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false)));
 		
-		setPosition(180, 2);
+		setPosition(400, 2);
+		
+		hasMoved = false;
 	}
 	
 	public void show() {
@@ -29,5 +33,13 @@ public class RollDiceButton extends TextButton {
 	public void hide() {
 		setVisible(false);
 		setTouchable(Touchable.disabled);
+	}
+	
+	public boolean hasMoved() {
+		return hasMoved;
+	}
+	
+	public void setMoved(boolean moved) {
+		hasMoved = moved;
 	}
 }

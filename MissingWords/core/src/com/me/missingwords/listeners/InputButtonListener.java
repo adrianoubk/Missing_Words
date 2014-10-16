@@ -33,6 +33,9 @@ public class InputButtonListener extends ClickListener {
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
+		BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
+		LabelStyle lStyle = new LabelStyle(font, Color.BLACK);
+		
 		/* Obtenemos todas las fichas que estén en el submitBox para su comprobación */
 		SnapshotArray<Actor> array = missingWords.getGameScreen().getSubmitBox().getChildren();
 		
@@ -41,13 +44,15 @@ public class InputButtonListener extends ClickListener {
 		 */
 		StringBuilder word = new StringBuilder();
 		
+		int score = 0;
+		
 		for(int i = 0; i < array.size; ++i) {
 			Tile t = (Tile) array.get(i);
 			word.append(t.getLetter());
+			score += t.getPoints();
 		}
 		
-		BitmapFont font = new BitmapFont(Gdx.files.internal("myfont.fnt"), Gdx.files.internal("myfont.png"), false);
-		LabelStyle lStyle = new LabelStyle(font, Color.BLACK);
+		missingWords.getGameScreen().getHuman().calculateRolls(score);
 		
 		if (missingWords.getVocabulary().getVocabulary().containsKey(word.toString())) {
 			
