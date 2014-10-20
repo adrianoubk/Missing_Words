@@ -14,14 +14,11 @@ import com.me.missingwords.listeners.CategorySelectionListener;
 
 /**
  *  
- * Clase CategorySelectionScreen
- * 
- * Esta clase se encarga de mostrar la pantalla de selección de categoría de juego.
+ * Se encarga de mostrar la pantalla de selección de categoría de juego.
  *
  */
 
 public class CategorySelectionScreen extends BaseScreen {
-	
 	private Background background;
 	private Font titleFont;
 	private TextButton categoryButton;
@@ -31,20 +28,6 @@ public class CategorySelectionScreen extends BaseScreen {
 
 	public CategorySelectionScreen(MissingWords missingWords) {
 		super(missingWords);
-	}
-	
-	@Override
-	public void render(float delta) {
-		
-		super.render(delta);
-		
-		stage.act();
-		stage.draw();
-	}
-	
-	@Override
-	public void show() {
-		super.show();
 		
 		background = new Background(MissingWords.myManager.get("background.png", Texture.class));
 		stage.addActor(background);
@@ -64,5 +47,17 @@ public class CategorySelectionScreen extends BaseScreen {
 		categoryButton.addListener(new CategorySelectionListener("days", missingWords));
 		stage.addActor(categoryButton);
 	}
-
+	
+	@Override
+	public void render(float delta) {
+		super.render(delta);
+		
+		stage.act();
+		stage.draw();
+	}
+	
+	@Override
+	public void show() {
+		super.show();
+	}
 }

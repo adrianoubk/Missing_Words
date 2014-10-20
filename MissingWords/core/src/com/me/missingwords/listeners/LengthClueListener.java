@@ -6,8 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.buttons.ClueButton;
 
-public class LengthClueListener extends ClickListener {
+/**
+ * 
+ * Listener que procesa el evento al pulsar el botón "pista longitud".
+ *
+ */
 
+public class LengthClueListener extends ClickListener {
 	private MissingWords missingWords;
 	private ClueButton button;
 	
@@ -18,7 +23,7 @@ public class LengthClueListener extends ClickListener {
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
-		
+		/* Limpiamos el submitBox antes de generar las fichas de longitud */
 		if (missingWords.getGameScreen().getSubmitBox().hasChildren()) {
 			missingWords.getGameScreen().getSubmitBox().clearChildren();
 			missingWords.getGameScreen().getSubmitBox().setNumActors(0);
@@ -28,9 +33,14 @@ public class LengthClueListener extends ClickListener {
 			}
 		}
 		
+		/* Creamos las fichas de longitud */
 		missingWords.getGameScreen().getLengthBox().createLength(missingWords.getGameScreen().getAdaptedWordNPC().size());
+		
+		/* Desactivamos el botón de "pista longitud" */
 		button.disableStyle();
 		button.setTouchable(Touchable.disabled);
+		
+		/* Añadimos las fichas al stage */
 		missingWords.getGameScreen().getStage().addActor(missingWords.getGameScreen().getLengthBox());
 		missingWords.getGameScreen().getStage().addActor(missingWords.getGameScreen().getSubmitBox());
 	}

@@ -6,6 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 
+/**
+ * 
+ * Botón que permite confirmar una palabra.
+ *
+ */
+
 public class SubmitButton extends ImageButton {
 
 	private final int POSITION_X = 479;

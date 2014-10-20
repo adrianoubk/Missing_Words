@@ -10,8 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.me.missingwords.MissingWords;
 
+/**
+ * 
+ * Listener que permite al jugador esperar al siguiente turno al pulsar el botón wait.
+ *
+ */
+
 public class WaitListener extends ClickListener {
-	
 	private MissingWords missingWords;
 	
 	public WaitListener(MissingWords missingWords) {
@@ -20,13 +25,14 @@ public class WaitListener extends ClickListener {
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
+		/* Si ha movido al menos una vez */
 		if (missingWords.getMiniGameScreen().getMoveButton().hasMoved()) {
 			missingWords.getMiniGameScreen().getWaitButton().hide();
 			missingWords.getMiniGameScreen().getMoveButton().hide();
 			
-			missingWords.getMiniGameScreen().getContinueButton().show();
+			missingWords.getMiniGameScreen().getContinueButton().show(); // Muestra el botón
 		}
-		else {
+		else { // Si no, se le indica con una etiqueta
 			Label warning = new Label("You must move at least once",  
 					new LabelStyle(
 							new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false),

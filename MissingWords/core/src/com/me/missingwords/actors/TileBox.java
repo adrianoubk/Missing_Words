@@ -10,19 +10,16 @@ import com.me.missingwords.MissingWords;
 
 /**
  * 
- * Clase TileBox
- * 
- * La clase TileBox representa el panel donde se colocan las posibles fichas para formar
- * palabras. Su estructura es un contenedor que almacena una tabla para poder gestionar la fichas
- * fácilmente.
+ * Representa el panel donde se colocan las posibles fichas para formar palabras. Su estructura 
+ * es un contenedor que almacena una tabla para poder gestionar la fichas fácilmente.
  *
  */
 
 public class TileBox extends Container<Table> {
-	
 	private final int POSITION_X = 254;
 	private final int POSITION_Y = 110;
 	private final int WIDTH_HEIGHT = 288;
+	
 	private Table tileTable; // Tabla donde se colocan las fichas
 	private TextureRegionDrawable tDrawable; // Fondo del panel
 	
@@ -33,12 +30,14 @@ public class TileBox extends Container<Table> {
 		tileTable.top().left(); // Posicionar a tabla arriba y a la izquierda
 		tileTable.padTop(2); // Relleno de la tabla por encima
 		
-		tDrawable = new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("tileBox.png", Texture.class)));
+		tDrawable = new TextureRegionDrawable(
+				new TextureRegion(MissingWords.myManager.get("tileBox.png", Texture.class)));
 		setBounds(POSITION_X, POSITION_Y, WIDTH_HEIGHT, WIDTH_HEIGHT); 
 		bottom(); // ajustar tilebox a la base
 		setBackground(tDrawable);
 	}
 	
+	/* clean(): elimina los actores del grupo */
 	public void clean() {
 		if (tileTable.hasChildren()) 
 			tileTable.clearChildren();

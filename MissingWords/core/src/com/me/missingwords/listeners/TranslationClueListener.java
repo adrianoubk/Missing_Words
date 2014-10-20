@@ -13,8 +13,13 @@ import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Tile;
 import com.me.missingwords.buttons.ClueButton;
 
+/**
+ * 
+ * Listener que procesa el evento al pulsar el botón "pista traducción".
+ *
+ */
+
 public class TranslationClueListener extends ClickListener {
-	
 	private MissingWords missingWords;
 	private ClueButton button;
 	
@@ -25,7 +30,7 @@ public class TranslationClueListener extends ClickListener {
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
-		
+		/* Limpiamos el submitBox antes de dar la traducción */
 		if (missingWords.getGameScreen().getSubmitBox().hasChildren()) {
 			missingWords.getGameScreen().getSubmitBox().clearChildren();
 			missingWords.getGameScreen().getSubmitBox().setNumActors(0);
@@ -35,12 +40,15 @@ public class TranslationClueListener extends ClickListener {
 			}
 		}
 		
+		/* Creamos un array de strings */
 		StringBuilder word = new StringBuilder();
 		
 		for(int i = 0; i < missingWords.getGameScreen().getAdaptedWordNPC().size(); ++i) {
 			Tile t = (Tile) missingWords.getGameScreen().getAdaptedWordNPC().get(i);
 			word.append(t.getLetter());
 		}
+		
+		/* Creamos una etiqueta que indica la traducción */
 		
 		BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
 		LabelStyle lStyle = new LabelStyle(font, Color.BLACK);
@@ -51,6 +59,7 @@ public class TranslationClueListener extends ClickListener {
 		l.addAction(Actions.fadeOut(5));
 		missingWords.getGameScreen().getStage().addActor(l);
 		
+		/* Desactivamos el botón de "pista traducción" */
 		button.disableStyle();
 		button.setTouchable(Touchable.disabled);
 	}

@@ -12,15 +12,12 @@ import com.me.missingwords.MissingWords.Language;
 
 /**
  * 
- * Clase Scores 
- * 
- * Clase que guarda las letras del idioma seleccionado junto con sus puntuaciones. Está formada 
+ * Guarda las letras del idioma seleccionado junto con sus puntuaciones. Está formada 
  * por un map de strings y enteros.
  *
  */
 
 public class Scores {
-	
 	private HashMap<String, Integer> scores;
 	
 	public Scores(Language language) throws IOException {
@@ -57,8 +54,7 @@ public class Scores {
 		br.close();
 	}
 	
-	/* El método randomKey() obtiene una letra al azar del map */
-	
+	/* randomKey(): obtiene una letra al azar del map */
 	public String randomKey() {
 		Object[] keys;
 		Object randomKey;

@@ -17,33 +17,54 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.me.missingwords.MissingWords;
 
 public class World {
+	private final int SQUARES = 32; // Casillas del mapa
 	
-	private TiledMap tileMap;
-	private OrthogonalTiledMapRenderer renderer;
-	private ArrayList<Vector2> arraySquares;
-	private StaticTiledMapTile playerTile, npcTile;
-	private StaticTiledMapTile transparentTile;
-	private StaticTiledMapTile holeTile;
-	private StaticTiledMapTile bothPlayers;
+	private TiledMap tileMap; // Mapa de losetas
+	private OrthogonalTiledMapRenderer renderer; // Renderer del mapa de losetas
+	private ArrayList<Vector2> arraySquares; // array con las casillas del juego
+	
+	/* Losetas para el mapa */
+	private StaticTiledMapTile playerTile, npcTile, transparentTile, holeTile, bothPlayers;
+	
+	/* Posiciones iniciales de los jugadores */
 	private int playerPosition = 0;
 	private int npcPosition = 31;
+	
+	/* Capas del mapa */
+	private TiledMapTileLayer pathLayer, tokenLayer;
+	
 	private MissingWords missingWords;
 	
 	public World(MissingWords missingWords) {
 		this.missingWords = missingWords;
 		
-		tileMap = new TmxMapLoader().load("prueba2.tmx");
+		/* Cargamos el mapa */
+		tileMap = new TmxMapLoader().load("minigame.tmx");
+		
+		/* Creamos el MapRenderer y lo asociamos a nuestra camara del stage */
 		renderer = new OrthogonalTiledMapRenderer(tileMap, missingWords.getSB());
 		renderer.setView((OrthographicCamera) missingWords.getGameScreen().getStage().getViewport().getCamera());
 		
+		/* Creamos las losetas */
 		playerTile = new StaticTiledMapTile(new TextureRegion((MissingWords.myManager.get("player.png", Texture.class))));
 		npcTile = new StaticTiledMapTile(new TextureRegion((MissingWords.myManager.get("npc.png", Texture.class))));
 		transparentTile = new StaticTiledMapTile(new TextureRegion((MissingWords.myManager.get("transparentTile.png", Texture.class))));		
 		holeTile = new StaticTiledMapTile(new TextureRegion((MissingWords.myManager.get("holeGrass.png", Texture.class))));
 		bothPlayers = new StaticTiledMapTile(new TextureRegion((MissingWords.myManager.get("bothPlayers.png", Texture.class))));
 		
-		TiledMapTileLayer pathLayer = (TiledMapTileLayer) tileMap.getLayers().get("Path");
+		/* Obtenemos las capas del mapa */
+		pathLayer = (TiledMapTileLayer) tileMap.getLayers().get("Path");
+		tokenLayer = (TiledMapTileLayer) tileMap.getLayers().get("Tokens");
 		
+		generateHoles();
+		
+		createSquares();
+		
+		placePlayers();
+	}
+	
+	/* generateHoles(): genera los agujeros aleatoriamente en el mapa */
+	private void generateHoles() {
 		Random r = new Random();
 		
 		for (int x = 0; x < pathLayer.getWidth(); ++x)
@@ -57,8 +78,11 @@ public class World {
 						cell.setTile(holeTile);
 				}
 			}
-		
-		arraySquares = new ArrayList<>(32);
+	}
+	
+	/* createSquares(): crea las casillas del mapa */
+	private void createSquares() {
+		arraySquares = new ArrayList<Vector2>(SQUARES);
 		
 		arraySquares.add(0, new Vector2(1, 6));
 		arraySquares.add(1, new Vector2(2, 6));
@@ -92,58 +116,59 @@ public class World {
 		arraySquares.add(29, new Vector2(8, 2));
 		arraySquares.add(30, new Vector2(9, 2));
 		arraySquares.add(31, new Vector2(10, 2));
-		
-		TiledMapTileLayer tokenLayer = (TiledMapTileLayer) tileMap.getLayers().get("Tokens");
+	}
+	
+	/* placePlayers(): posiciona a los jugadores al principio del juego */
+	private void placePlayers() {
 		Cell cell = new Cell();
 		
 		cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);
 		
 		cell.setTile(playerTile);
 		
-		if (!missingWords.isSinglePlayer()) {  // Si es singleplayer, no colocamos al npc		
+		if (!missingWords.isSinglePlayer()) {  // Si no es modo SINGLEPLAYER, no colocamos al npc		
 			cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
 			cell.setTile(npcTile);
 		}
 	}
 	
+	/* movePlayer(): mueve el jugador por el tablero */
 	public void movePlayer(int steps, boolean player) {
-		
-		TiledMapTileLayer tokenLayer = (TiledMapTileLayer) tileMap.getLayers().get("Tokens");
-		
 		Cell cell = new Cell();
 		
-		if (player) {
+		if (player) { // mueve el jugador
+			/* Obtenemos la casilla del jugador de la capa Tokens */
 			cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);
 			
+			/* Antes de mover, comprobamos si estabamos en la misma casilla que el adversario */
 			if (cell.getTile().equals(bothPlayers))
-				cell.setTile(npcTile);
+				cell.setTile(npcTile); // Al movernos dejamos solo la loseta del adversario
 			else
-				cell.setTile(transparentTile);
+				cell.setTile(transparentTile); // Si no, dejamos la loseta transparente
 		
-			playerPosition += steps;
+			playerPosition += steps; // movemos al jugador
 			
-			if (playerPosition > 31)
+			if (playerPosition > 31) // Si nos pasamos de nuestra meta, lo colocamos en la meta
 				playerPosition = 31;
 			
+			/* Comprobamos si a la casilla que hemos llegado es la misma que el adversario */
 			if (playerPosition == npcPosition) {
 				cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);		
-				cell.setTile(bothPlayers);
+				cell.setTile(bothPlayers); // Si es, colocamos la loseta de los 2 jugadores
 			}
-			else {
+			else { // Si no, colocamos a nuestro jugador en la casilla correspondiente
 				cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);		
 				cell.setTile(playerTile);
 			
-			
-				TiledMapTileLayer pathLayer = (TiledMapTileLayer) tileMap.getLayers().get("Path");
-			
 				cell = pathLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);
-			
+				
+				/* Comprobamos si hemos caído en un agujero */
 				if (cell.getTile().equals(holeTile)) 
-					respawnPlayer(playerPosition, true);
+					respawnPlayer(playerPosition, true); // Volvemos al jugador al inicio
 			}
 		}
 		
-		else {
+		else { // Idem pero para el NPC
 			cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
 			
 			if (cell.getTile().equals(bothPlayers))
@@ -164,8 +189,6 @@ public class World {
 				cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);			
 				cell.setTile(npcTile);
 			
-				TiledMapTileLayer pathLayer = (TiledMapTileLayer) tileMap.getLayers().get("Path");
-			
 				cell = pathLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
 			
 				if (cell.getTile().equals(holeTile)) 
@@ -173,15 +196,14 @@ public class World {
 			}
 		}
 		
-		checkVictory();
+		checkVictory(); // Comprobamos tras habernos movido, si hemos llegado a nuestro objetivo
 	}
 	
+	/* respawnPlayer(): lleva al jugador a la casilla de inicio al caer en un agujero */
 	public void respawnPlayer(int oldPosition, boolean player) {
-		
-		TiledMapTileLayer tokenLayer = (TiledMapTileLayer) tileMap.getLayers().get("Tokens");
 		Cell cell = new Cell();
 		
-		if (player) {		
+		if (player) { // Si es el jugador		
 			cell = tokenLayer.getCell((int) arraySquares.get(oldPosition).x, (int) arraySquares.get(oldPosition).y);
 			cell.setTile(transparentTile);
 		
@@ -192,7 +214,7 @@ public class World {
 		
 		}
 		
-		else {
+		else { // Si es el NPC
 			cell = tokenLayer.getCell((int) arraySquares.get(oldPosition).x, (int) arraySquares.get(oldPosition).y);
 			
 			cell.setTile(transparentTile);
@@ -205,21 +227,22 @@ public class World {
 		}
 	}
 	
+	/* checkVictory(): Comprueba si alguno de los jugadores ha alcanzado su objetivo */
 	public void checkVictory() {
-		if (playerPosition == 31) {
+		if (playerPosition == 31) { // Si gana el jugador
 			missingWords.getGameScreen().setWinner("Player");
 			missingWords.setVictory(true);
 		}
 		
-		if (npcPosition == 0) {
+		if (npcPosition == 0) { // Si gana el NPC
 			missingWords.getGameScreen().setWinner("NPC");
 			missingWords.setVictory(true);
 		}
 		
-		if (missingWords.victory()) {
+		if (missingWords.victory()) { // Nos muestra la pantalla de victoria
 			missingWords.setVictory(false);			
 			missingWords.setScreen(missingWords.VictoryScreen);
-		}	
+		} /* Si no se ha llegado a la victoria y no le quedan tiradas */	
 		else if (!missingWords.victory() && missingWords.getMiniGameScreen().getRollsLeft().getRolls() == -1) {
 				missingWords.getMiniGameScreen().getWaitButton().hide();
 				missingWords.getMiniGameScreen().getMoveButton().hide();
@@ -227,13 +250,16 @@ public class World {
 				missingWords.getMiniGameScreen().getContinueButton().setTouchable(Touchable.enabled);
 		}
 	}
-
-	public OrthogonalTiledMapRenderer getRenderer() {
-		return renderer;
-	}
 	
+	/* dispose(): libera los recursos utilizados */
 	public void dispose() {
 		renderer.dispose();
 		tileMap.dispose();
+	}
+	
+	/* -------------- Getters and Setters -------------- */
+	
+	public OrthogonalTiledMapRenderer getRenderer() {
+		return renderer;
 	}
 }

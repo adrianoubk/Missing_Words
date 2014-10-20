@@ -5,7 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+/**
+ * 
+ * Muestra las tiradas que tiene el jugador.
+ *
+ */
+
 public class RollsLeft extends Label {
+	private final int POSITION_X = 180;
+	private final int POSITION_Y = 85;
 	
 	private int rolls;
 
@@ -17,18 +25,21 @@ public class RollsLeft extends Label {
 		
 		setText("Rolls Left: " + rolls);
 		
-		setPosition(180, 85);
+		setPosition(POSITION_X, POSITION_Y);
+	}
+	
+	/* update(): actualiza la etiqueta con las tiradas restantes */
+	private void update() {
+		setText("Rolls Left: " + rolls);
 	}
 	
 	public void decreaseRolls() {
 		--rolls;
 		update();
 	}
-	
-	private void update() {
-		setText("Rolls Left: " + rolls);
-	}
 
+	/* -------------- Getters and Setters -------------- */
+	
 	public int getRolls() {
 		return rolls;
 	}
@@ -36,7 +47,7 @@ public class RollsLeft extends Label {
 	public void setRolls(int rolls) {
 		this.rolls = rolls;
 		
-		if (rolls != -1)
+		if (rolls != -1) // Si es -1, no se actualiza, es la condición de parada
 			update();
 	}
 }

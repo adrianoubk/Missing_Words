@@ -8,15 +8,11 @@ import com.me.missingwords.MissingWords.Language;
 
 /** 
  * 
- * Clase LanguageListener
- * 
- * Este listener se encarga de guardar el idioma escogido por el jugador en la pantalla
- * de selección de idioma.
+ * Listener de selección de idioma que se va a jugar.
  *
  */
 
 public class LanguageListener extends ClickListener {
-	
 	private String language;
 	private MissingWords missingWords;
 	
@@ -32,7 +28,7 @@ public class LanguageListener extends ClickListener {
 		case "english": { missingWords.selectedLanguage = Language.english; break; }
 		}
 		
-		missingWords.createMenuScreens();
+		missingWords.createMenuScreens(); // Creamos las pantallas de menús.
 		missingWords.setScreen(missingWords.MenuScreen); // Siguiente pantalla -> Menú
 	}
 }

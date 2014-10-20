@@ -12,32 +12,33 @@ import com.me.missingwords.MissingWords;
 
 /**
  * 
- * Clase que se encarga de iniciar el turno para el jugador que juegue.
+ * Se encarga de iniciar y controlar el turno para el jugador.
  *
  */
 
 public class TurnControl extends Label {
-	
-	private static BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
+	private BitmapFont font;
 	private SequenceAction action; 
 	private String player;
-	
 	/* El objeto pool nos permite reutilizar una acción sin tener que volver a crearla
 	 * cuando es eliminada 
 	 */
-	private Pool<SequenceAction> pool; 
-	
+	private Pool<SequenceAction> pool; 	
 	private MissingWords missingWords;
 	
 	public TurnControl(String name, MissingWords missingWordsGame) {
-		super(name, new LabelStyle(font, Color.BLACK));
+		super(name, new LabelStyle(new BitmapFont(
+			Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false), Color.BLACK));
 		this.player = name;
 		this.missingWords = missingWordsGame;
+		font = new BitmapFont(
+				Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
 		
 		setTouchable(Touchable.disabled); // No se puede tocar
-		setColor(1, 1, 1, 0); // Establecemos el color de la fuente
+		setColor(1, 1, 1, 0); // Establecemos el alpha a 0 para la acción
 		
-		/* Creamos la acción secuencial 
+		/* 
+		 * Creamos la acción secuencial 
 		 * 
 		 * 1: Retraso de 0.5 sg
 		 * 2: Aparecer con una duración de 2 sg
@@ -69,7 +70,6 @@ public class TurnControl extends Label {
 								}
 					
 								missingWords.getGameScreen().getTimeBar().start(); // Activamos el tiempo
-								System.out.println("Action completed");
 								removeAction(action); // Enviamos la accion al "pool"
 							}
 						}));
@@ -85,10 +85,7 @@ public class TurnControl extends Label {
 		
 	}
 	
-	/*
-	 * prepareTurn(): Prepara el turno para el jugador que va a jugar
-	 */
-	
+	/* prepareTurn(): prepara el turno para el jugador que va a jugar */
 	public void prepareTurn() {
 		
 		/* Limpiamos las fichas */		
@@ -125,15 +122,14 @@ public class TurnControl extends Label {
 		missingWords.getGameScreen().getTileBox().getTileTable().setVisible(false);
 	}
 	
-	/*
-	 * initialiseTurn(): Inicializa el turno para el jugador
-	 */
-	
+	/* initialiseTurn(): inicializa el turno para el jugador */
 	public void initialiseTurn() {
 		action = pool.obtain(); // Obtiene la accion del pool
 		action.setPool(pool); // establece el pool donde va a ir cuando sea eliminada
 		addAction(action); // Añade y ejecuta la acción
 	}
+	
+	/* -------------- Getters and Setters -------------- */
 	
 	public void setPlayer(String player) {
 		setText(player);

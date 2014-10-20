@@ -10,18 +10,18 @@ import com.me.missingwords.MissingWords;
 
 /**
  *
- * Clase que representa al jugador controlado por la máquina (IA).
+ * Representa al jugador controlado por el dispositivo (IA): NPC 
  * 
  */
 
 public class NPCPlayer extends Player {
-	
-	private int wordCounter; // Contador que recorre la palabra
+	private int wordCounter; // Contador usado para recorrer la palabra
 	private Timer h; // Temporizador
 	private boolean isTurnFinished; // Variable que indica si el turno ha terminado o no
 
 	public NPCPlayer(String name, MissingWords missingWords) {
 		super(name, missingWords);
+		
 		this.missingWords = missingWords;
 		wordCounter = 0;
 		h = new Timer();
@@ -32,10 +32,11 @@ public class NPCPlayer extends Player {
 	public void act(float delta) {
 		super.act(delta);
 		
+		/* Entrando al turno del NPC */
 		if (isTurnFinished()) { // ¿Ha terminad su turno?
 			if (isMyTurn()) { // Si no ha terminado y es su turno
-				System.out.println("Entrando al turno NPC....");
-				isTurnFinished = false; // Restringimos que haga más de un turno seguido
+				/* Evitamos que entre hasta que no acabe su turno actual */
+				isTurnFinished = false; 
 				
 				/* Juega la máquina */
 				playTurn(missingWords.getGameScreen().getSubmitBox(), 
@@ -46,26 +47,23 @@ public class NPCPlayer extends Player {
 		}
 	}
 	
-	/*
-	 * playTurn(): Método con el que la máquina juega su turno y confirma la palabra 
-	 */
-	
+	/* playTurn(): la máquina juega su turno: confirma la palabra y juega al minijuego */
 	void playTurn(SubmitBox submitBox, ArrayList<Tile> original, ArrayList<Tile> copy,
 			ArrayList<Tile> word) {
 		missingWords.getGameScreen().getTurnControl().prepareTurn(); // Prepara el turno
 		missingWords.getGameScreen().getTurnControl().initialiseTurn(); // Inicializa el turno
 	}
 	
-	/*
-	 * createWord(): Método con el que la máquina crea una palabra
-	 */
-	
+	/* createWord(): la máquina crea una palabra */
 	public void createWord(final SubmitBox submitBox, final ArrayList<Tile> original,
 			final ArrayList<Tile> copy, final ArrayList<Tile> word) {
+		int repeatCount = word.size(); // Contador de letras de la palabra
 		
-		int repeatCount = word.size(); // Contador de letras
-		
-		h.scheduleTask(new Task() { // Nueva tarea
+		/* 
+		 * Creamos una tarea con el temporizador. Va escogiendo las letras para formar
+		 * una palabra.
+		 */
+		h.scheduleTask(new Task() {
 			
 			@Override
 			public void run() {
@@ -87,12 +85,14 @@ public class NPCPlayer extends Player {
 			}
 		}, 2, 1, repeatCount - 1);
 	}
-	
-	/* 
-	 * submitWord(): Método con el que la máquina confirma una palabra
-	 */
-	
+	 
+	/* submitWord(): la máquina confirma una palabra */
 	private void submitWord(final SubmitBox submitBox) {
+		
+		/* 
+		 * Creamos una tarea con el temporizador. Confirma la palabra y asigna las tiradas
+		 * correspondientes en base a los puntos. 
+		 */
 		h.scheduleTask(new Task() {
 			
 			@Override
@@ -100,31 +100,42 @@ public class NPCPlayer extends Player {
 				SnapshotArray<Actor> array = new SnapshotArray<>();
 				int score = 0;
 				
-				array = submitBox.getChildren();
+				array = submitBox.getChildren(); // Obtenemos la palabra en un array de Tiles
 				
+				/* 
+				 * Con la clase StringBuilder creamos un array de strings a partir del array de
+				 * Tiles
+				 */
 				StringBuilder word = new StringBuilder();
 				
-				for(int i = 0; i < array.size; ++i) {
+				for (int i = 0; i < array.size; ++i) {
 					Tile t = (Tile) array.get(i);
-					word.append(t.getLetter());
-					score += t.getPoints();
+					word.append(t.getLetter()); // añadimos la letra al array de strings
+					score += t.getPoints(); // sumamos los puntos de la Tile
 				}
 				
-				missingWords.getGameScreen().addPlayedWord(word.toString());
+				/* Añadimos la palabra a la lista de palabras jugadas */
+				//missingWords.getGameScreen().addPlayedWord(word.toString());
 				
+				/* Incrementamos el número de palabras formadas */
 				missingWords.getGameScreen().increaseTotalWords();
 				
+				/* Asignamos las tiradas correspondientes en base a la puntuación */
 				calculateRolls(score);
 				
+				/* La máquina juega el minijuego */
 				playMinigame();
 				
-				setMyTurn(false);
+				/* Finaliza el turno de la máquina */
+				setMyTurn(false); 
 			}
 		}, 1);
 		
-		System.out.println("Fin turno NPC");
+		/* Fin turno NPC */
 	}
 
+	/* -------------- Getters and Setters -------------- */
+	
 	public boolean isTurnFinished() {
 		return isTurnFinished;
 	}

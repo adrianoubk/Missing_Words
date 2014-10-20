@@ -4,13 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 
-public class RollDiceButton extends TextButton {
+/**
+ * 
+ * Botón que permite lanzar el dado.
+ *
+ */
 
+public class RollDiceButton extends MiniGameButton {
+	private final int POSITION_X = 180;
+	private final int POSITION_Y = 2;
+	
 	public RollDiceButton() {
 		super("Roll", 
 				new TextButtonStyle(new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("rollButtonUp.png", Texture.class))), 
@@ -18,16 +24,6 @@ public class RollDiceButton extends TextButton {
 				null, 
 				new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false)));
 		
-		setPosition(180, 2);
-	}
-	
-	public void show() {
-		setVisible(true);
-		setTouchable(Touchable.enabled);
-	}
-	
-	public void hide() {
-		setVisible(false);
-		setTouchable(Touchable.disabled);
+		setPosition(POSITION_X, POSITION_Y);
 	}
 }

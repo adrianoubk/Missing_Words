@@ -9,18 +9,15 @@ import com.me.missingwords.MissingWords;
 
 /**
  * 
- * Clase TimeBar
- * 
- * La clase TimeBar representa la barra del tiempo que tienes disponible para formar una 
- * palabra. Está formada por dos ninepatch. Un ninepatch es una imagen que tiene areas
- * modificables definidas. Es decir, el constructor del ninepatch recibe 4 parámetros además
- * de la textura que se va a utilizar como imagen. Estos son: left, right, top, bottom. Estos
- * son los valores que indican los píxeles que no modificará en esas direcciones.
+ * Representa la barra del tiempo que tienes disponible para formar una  palabra. Está formada 
+ * por dos ninepatch. Un ninepatch es una imagen que tiene areas modificables definidas. 
+ * Es decir, el constructor del ninepatch recibe 4 parámetros además de la textura que se va a 
+ * utilizar como imagen. Estos son: left, right, top, bottom. Estos son los valores que indican 
+ * los píxeles que no modificará en esas direcciones.
  *
  */
 
-public class TimeBar extends Actor {
-	
+public class TimeBar extends Actor {	
 	private final int BACKGROUND_X = 255;
 	private final int BACKGROUND_Y = 402;
 	private final int BACKGROUND_WIDTH = 290;
@@ -29,7 +26,7 @@ public class TimeBar extends Actor {
 	private final float LOADING_Y = 403.5f;
 	private final int LOADING_WIDTH = 286;
 	private final int LOADING_HEIGHT = 17;
-	private final double FRAME_TIME_ROUNDED = 0.017; // frame time = 1 / 60 = 0.0166666667 ~ 0.017
+	private final double FRAME_TIME_ROUNDED = 0.017; // frame time = 1 / 60 = 0.016666667 ~ 0.017
 	
 	private NinePatch backgroundBar; // Ninepatch fondo
 	private NinePatch loadingBar; // Ninepatch barra
@@ -39,34 +36,32 @@ public class TimeBar extends Actor {
 	private float seconds = 60; // Segundos disponibles para jugar
 	private float timeCounter = 1; // Contador de FPS
 	private float secondsCounter = 1; // Contador de segundos
-	
-	private boolean activated;
-	
+	private boolean activated; // Indica si está activo el tiempo
 	private MissingWords missingWords;
 	
-	public TimeBar(MissingWords missingWords) {
-		
+	public TimeBar(MissingWords missingWords) {	
 		this.missingWords = missingWords;
 		
-		textureBackground = new TextureRegion(MissingWords.myManager.get("barBackground.png", Texture.class));
+		textureBackground = new TextureRegion(
+				MissingWords.myManager.get("barBackground.png", Texture.class));
 		backgroundBar = new NinePatch(textureBackground, 6, 6, 5, 5);
 		
-		textureLoading = new TextureRegion(MissingWords.myManager.get("barLoading.png", Texture.class));
+		textureLoading = new TextureRegion(
+				MissingWords.myManager.get("barLoading.png", Texture.class));
 		loadingBar = new NinePatch(textureLoading, 5, 5, 4, 4);
 		
-		activated = false;
+		activated = false; // desactivamos el tiempo
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		backgroundBar.draw(batch, BACKGROUND_X, BACKGROUND_Y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 		
-		if (progress > FRAME_TIME_ROUNDED) 
+		if (progress > FRAME_TIME_ROUNDED) // Si el progreso es mayor que la ultima llamada a render()
 			loadingBar.draw(batch, LOADING_X, LOADING_Y, LOADING_WIDTH * progress, LOADING_HEIGHT);
 	}
 
 	/* El método act() define el comportamiento del actor dentro del escenario */
-	
 	@Override
 	public void act(float delta) {
 		super.act(delta);
@@ -79,12 +74,12 @@ public class TimeBar extends Actor {
 				--seconds; // quitamos 1 segundo
 				}
 			
-			if (seconds == 0) {
+			if (seconds == 0) { // Si se acaba el tiempo
 				System.out.println("Time out!");
 				
 				missingWords.getGameScreen().getHuman().setMyTurn(false);
 				
-				if (!missingWords.isSinglePlayer()) {
+				if (!missingWords.isSinglePlayer()) { // Activamos el turno del NPC
 					missingWords.getGameScreen().getNpc().setTurnFinished(true); 
 					missingWords.getGameScreen().getNpc().setMyTurn(true);
 				}
@@ -92,6 +87,7 @@ public class TimeBar extends Actor {
 		}
 	}
 	
+	/* reset(): restablece el contador del tiempo. Pero no empieza a correr */
 	public void reset() {
 		secondsCounter = 1;
 		timeCounter = 1;
@@ -101,10 +97,12 @@ public class TimeBar extends Actor {
 		stop();
 	}
 	
+	/* start(): activa el tiempo después de un estado de stop */
 	public void start() {
 		activated = true;
 	}
 	
+	/* stop(): para el tiempo */
 	public void stop() {
 		activated = false;
 	}

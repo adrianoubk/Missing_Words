@@ -4,6 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.MissingWords.Category;
 
+/**
+ * 
+ * Listener que permite seleccionar una categoría del juego.
+ *
+ */
+
 public class CategorySelectionListener extends AbstractSelectionListener {
 
 	public CategorySelectionListener(String option, MissingWords missingWords) {

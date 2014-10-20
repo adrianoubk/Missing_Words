@@ -16,30 +16,36 @@ import com.me.missingwords.listeners.MoveListener;
 import com.me.missingwords.listeners.RollListener;
 import com.me.missingwords.listeners.WaitListener;
 
+/**
+ * 
+ * Muestra la pantalla del minijuego.
+ *
+ */
+
 public class MiniGameScreen extends BaseScreen {
-	
 	private World world;
 	private RollDiceButton rollButton;
 	private MoveButton moveButton;
 	private WaitButton waitButton;
 	private ContinueButton continueButton;
 	private Dice dice;
-	private int playCount;
 	private Timer t;
 	private RollsLeft rollsLeft;
 
 	public MiniGameScreen(MissingWords missingWords) {
 		super(missingWords);
 		
-		playCount = 0;
-		
+		/* Creamos el temporizador */
 		t = new Timer();
 		
+		/* Creamos el tablero de juego */
 		world = new World(missingWords);
 		
+		/* Creamos el dado */
 		dice = new Dice();
 		stage.addActor(dice);
 		
+		/* Creamos los botones de lanzar, mover, esperar y continuar */
 		rollButton = new RollDiceButton();
 		rollButton.addListener(new RollListener(missingWords));
 		stage.addActor(rollButton);
@@ -58,6 +64,7 @@ public class MiniGameScreen extends BaseScreen {
 		continueButton.setVisible(false);
 		stage.addActor(continueButton);
 		
+		/* Creamos la etiqueta de tiradas restantes */
 		rollsLeft = new RollsLeft();
 		stage.addActor(rollsLeft);
 	}
@@ -66,7 +73,7 @@ public class MiniGameScreen extends BaseScreen {
 	public void render(float delta) {
 		super.render(delta);
 		
-		world.getRenderer().render();
+		world.getRenderer().render(); // renderizamos el tablero
 		stage.act();
 		stage.draw();
 	}
@@ -78,12 +85,12 @@ public class MiniGameScreen extends BaseScreen {
 
 	@Override
 	public void show() {
-		
 		super.show();
 		
-		dice.drawDice = false;
-		moveButton.setMoved(false);
+		dice.drawDice = false; // Ocultamos el dado
+		moveButton.setMoved(false); // No se ha movido ninguna vez
 		
+		/* Ocultamos los botones de esperar y continuar */
 		waitButton.hide();
 		continueButton.hide();
 		
@@ -95,15 +102,15 @@ public class MiniGameScreen extends BaseScreen {
 			
 		}
 		else { // PLAYER VS CPU
-			if ((playCount % 2) == 0) { // Jugada par -> turno jugador
+			if (missingWords.getGameScreen().getHuman().isMyTurn()) { // Turno jugador
 				rollButton.show();
 				moveButton.setVisible(true);
 				moveButton.setTouchable(Touchable.disabled);
 				rollsLeft.setRolls(missingWords.getGameScreen().getHuman().getRolls());
 			}
-			else { // Jugada impar -> turno npc
-				rollButton.setTouchable(Touchable.disabled);
-				moveButton.setTouchable(Touchable.disabled);
+			else { // Turno npc
+				rollButton.hide();
+				moveButton.hide();
 				rollsLeft.setRolls(missingWords.getGameScreen().getNpc().getRolls());
 				
 					t.scheduleTask(new Task() {
@@ -112,8 +119,8 @@ public class MiniGameScreen extends BaseScreen {
 							dice.roll();
 							rollsLeft.decreaseRolls();
 							
-							if (rollsLeft.getRolls() == 0)
-								rollsLeft.setRolls(-1);
+							if (rollsLeft.getRolls() == 0) // si no quedan tiradas
+								rollsLeft.setRolls(-1); // se establece condición de parada
 							
 							world.movePlayer(dice.getResult(), false);
 						}
@@ -122,7 +129,33 @@ public class MiniGameScreen extends BaseScreen {
 		}
 		
 	}
+	
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		super.hide();
+	}
 
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		super.pause();
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		super.resume();
+	}
+
+	@Override
+	public void dispose() {
+		world.dispose();
+		stage.dispose();
+	}
+	
+	/* -------------- Getters and Setters -------------- */
+	
 	public RollDiceButton getRollButton() {
 		return rollButton;
 	}
@@ -149,33 +182,5 @@ public class MiniGameScreen extends BaseScreen {
 
 	public RollsLeft getRollsLeft() {
 		return rollsLeft;
-	}
-
-	public void increasePlayCount() {
-		++playCount;
-	}
-
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		super.hide();
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		super.pause();
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		super.resume();
-	}
-
-	@Override
-	public void dispose() {
-		world.dispose();
-		stage.dispose();
 	}
 }

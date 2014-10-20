@@ -7,9 +7,7 @@ import com.me.missingwords.actors.Tile;
 
 /**
  * 
- * Clase TileListenerTable
- * 
- * Este listener envia la ficha al submitBox para comenzar a formar palabras.
+ * Listener que envia la ficha al submitBox para comenzar a formar palabras.
  *
  */
 

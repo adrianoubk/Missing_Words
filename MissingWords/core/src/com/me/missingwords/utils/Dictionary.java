@@ -9,8 +9,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.me.missingwords.MissingWords.Language;
 
-public class Dictionary {
-	
+/**
+ * 
+ * Diccionario del juego.
+ *
+ */
+
+public class Dictionary {	
 	private HashMap<String, String> dic;
 	
 	public Dictionary(Language language) throws IOException {

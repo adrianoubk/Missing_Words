@@ -15,19 +15,14 @@ import com.me.missingwords.actors.Tile;
 
 /**
  * 
- * Clase InputButtonListener
- * 
- * Este listener se encarga de controlar el evento cuando se hace click en el botón de enviar
- * palabra para comprobación.
+ * Listener que se encarga de confirmar una palabra al pulsar el botón.
  *
  */
 
 public class InputButtonListener extends ClickListener {
-	
 	private MissingWords missingWords;
 	
-	public InputButtonListener(MissingWords missingWords) {
-		
+	public InputButtonListener(MissingWords missingWords) {	
 		this.missingWords = missingWords;
 	}
 	
@@ -39,7 +34,8 @@ public class InputButtonListener extends ClickListener {
 		/* Obtenemos todas las fichas que estén en el submitBox para su comprobación */
 		SnapshotArray<Actor> array = missingWords.getGameScreen().getSubmitBox().getChildren();
 		
-		/* Creamos un objeto de tipo StringBuilder que nos sirve para construir un String con
+		/* 
+		 * Creamos un objeto de tipo StringBuilder que nos sirve para construir un String con
 		 * la palabra que forman las fichas.
 		 */
 		StringBuilder word = new StringBuilder();
@@ -52,27 +48,31 @@ public class InputButtonListener extends ClickListener {
 			score += t.getPoints();
 		}
 		
+		/* Calculamos el número de tiradas en base a los puntos del jugador */
 		missingWords.getGameScreen().getHuman().calculateRolls(score);
 		
+		/* Si la palabra está en el vocbulario */
 		if (missingWords.getVocabulary().getVocabulary().containsKey(word.toString())) {
+			/* Añadimos la palabra a la lista de palabras jugadas */
+			missingWords.getGameScreen().getHuman().addPlayedWord(word.toString());
 			
-			missingWords.getGameScreen().addPlayedWord(word.toString());
+			/* Creamos una etiqueta y mostramos el mensaje */
+			Label yes = new Label("Nice!", lStyle);
+			yes.setPosition(0, 0);
+			yes.addAction(Actions.fadeOut(1.5f));
+			missingWords.getGameScreen().getStage().addActor(yes);
 			
-			Label l = new Label("Nice!", lStyle);
-			l.setPosition(0, 0);
-			l.addAction(Actions.fadeOut(1.5f));
-			missingWords.getGameScreen().getStage().addActor(l);
+			missingWords.getGameScreen().increaseTotalWords(); // TotalWords + 1
 			
-			missingWords.getGameScreen().increaseTotalWords();
-			
-			missingWords.getGameScreen().getHuman().playTurn(); // El jugador forma una palabra y termina su turno
+			/* El jugador confirma la palabra y juega al minijuego */
+			missingWords.getGameScreen().getHuman().playTurn();
 			
 		}
-		else {
-			Label l2 = new Label("Not found!", lStyle);
-			l2.setPosition(550, 0);
-			l2.addAction(Actions.fadeOut(1.5f));
-			missingWords.getGameScreen().getStage().addActor(l2);
+		else { // Si no está, se muestra con una etiqueta
+			Label no = new Label("Not found!", lStyle);
+			no.setPosition(550, 0);
+			no.addAction(Actions.fadeOut(1.5f));
+			missingWords.getGameScreen().getStage().addActor(no);
 		}
 	}
 }

@@ -6,8 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.buttons.ClueButton;
 
+/**
+ * 
+ * Listener que procesa el evento al pulsar el botón "pista letra adicional".
+ *
+ */
+
 public class LetterClueListener extends ClickListener {
-	
 	private MissingWords missingWords;
 	private ClueButton button;
 	
@@ -18,7 +23,7 @@ public class LetterClueListener extends ClickListener {
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
-		
+		/* Limpiamos el submitBox antes de dar la ficha adicional */
 		if (missingWords.getGameScreen().getSubmitBox().hasChildren()) {
 			missingWords.getGameScreen().getSubmitBox().clearChildren();
 			missingWords.getGameScreen().getSubmitBox().setNumActors(0);
@@ -28,12 +33,14 @@ public class LetterClueListener extends ClickListener {
 			}
 		}
 		
+		/* Añadimos la letra adicional */
 		int index = missingWords.getGameScreen().getOriginalTiles().indexOf(missingWords.getGameScreen().getAdaptedWordNPC().get(0));
 		missingWords.getGameScreen().getOriginalTiles().get(index).setVisible(false);
 		missingWords.getGameScreen().getCopyTiles().get(index).setSmallSize(); 
 		missingWords.getGameScreen().getSubmitBox().addActor(missingWords.getGameScreen().getCopyTiles().get(index)); 
 		missingWords.getGameScreen().getSubmitBox().increaseNumActors();
 		
+		/* Desactivamos el botón de "pista letra adicional" */
 		button.disableStyle();
 		button.setTouchable(Touchable.disabled);
 	}

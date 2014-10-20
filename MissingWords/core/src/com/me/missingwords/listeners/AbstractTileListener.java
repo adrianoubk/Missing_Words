@@ -7,8 +7,6 @@ import com.me.missingwords.actors.Tile;
 
 /**
  * 
- * Clase AbstractTileListener
- * 
  * Clase abstracta que se encarga de ejecutar los eventos de click producidos en las fichas. 
  * Estos son:
  * 1. Tocar la ficha para enviarla al submitbox (TileListenerTable).
@@ -17,7 +15,6 @@ import com.me.missingwords.actors.Tile;
  */
 
 public abstract class AbstractTileListener extends ClickListener {
-	
 	protected SubmitBox submitBox;
 	protected Tile original, copy;
 	
@@ -27,10 +24,10 @@ public abstract class AbstractTileListener extends ClickListener {
 		this.copy = copy;
 	}
 	
-	/* clicked() será el método abstracto que definiremos en los listeners que hereden de la
+	/* 
+	 * clicked(): será el método abstracto que definiremos en los listeners que hereden de la
 	 * clase abstracta 
 	 */
-	
 	@Override
 	public abstract void clicked(InputEvent event, float x, float y);
 }

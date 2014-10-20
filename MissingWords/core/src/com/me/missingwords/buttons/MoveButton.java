@@ -4,13 +4,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 
-public class MoveButton extends TextButton {
+/**
+ * 
+ * Botón de movimiento del minijuego. Permite mover una ficha de jugador.
+ *
+ */
+
+public class MoveButton extends MiniGameButton {
+	private final int POSITION_X = 400;
+	private final int POSITION_Y = 2;
 	
+	/* 
+	 * Booleano que comprueba si el jugador se ha movido. Ya que tiene que mover al menos una
+	 * vez de sus tiradas
+	 */
 	private boolean hasMoved;
 
 	public MoveButton() {
@@ -20,20 +30,12 @@ public class MoveButton extends TextButton {
 				null, 
 				new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false)));
 		
-		setPosition(400, 2);
+		setPosition(POSITION_X, POSITION_Y);
 		
 		hasMoved = false;
 	}
 	
-	public void show() {
-		setVisible(true);
-		setTouchable(Touchable.enabled);
-	}
-	
-	public void hide() {
-		setVisible(false);
-		setTouchable(Touchable.disabled);
-	}
+	/* -------------- Getters and Setters -------------- */
 	
 	public boolean hasMoved() {
 		return hasMoved;

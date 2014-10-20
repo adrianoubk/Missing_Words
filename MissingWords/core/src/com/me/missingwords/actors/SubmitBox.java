@@ -7,16 +7,14 @@ import com.me.missingwords.MissingWords;
 
 /**
  * 
- * Clase SubmitBox
- * 
- * La clase SubmitBox representa el espacio donde las letras son colocadas al ser seleccionadas
- * para formar una nueva palabra.
+ * Representa el espacio donde las letras son colocadas al ser seleccionadas para formar una 
+ * nueva palabra.
  *
  */
 
-public class SubmitBox extends HorizontalGroup {
-	
+public class SubmitBox extends HorizontalGroup {	
 	private final int SUBMITBOX_HEIGHT = 55; // Altura del submitbox
+	
 	private int numActors; // Número de fichas que contiene el submitbox
 	
 	public SubmitBox() {
@@ -25,20 +23,19 @@ public class SubmitBox extends HorizontalGroup {
 		numActors = 0;
 	}
 	
-	/* 
-	 * El método update() modifica la posición del objeto a medida que se introducen nuevas
-	 * letras para centrarlo.
-	 */
-	
-	public void update() {
-		setPosition((MissingWords.VIEWPORT_WIDTH - getMinWidth()) / 2, SUBMITBOX_HEIGHT);
-	}
-	
 	@Override
 	public void act(float delta) {
 		super.act(delta);
 		
 		update();
+	}
+	
+	/* 
+	 * update(): modifica la posición del objeto a medida que se introducen nuevas
+	 * letras para centrarlo.
+	 */ 
+	public void update() {
+		setPosition((MissingWords.VIEWPORT_WIDTH - getMinWidth()) / 2, SUBMITBOX_HEIGHT);
 	}
 	
 	public void increaseNumActors() {
@@ -49,6 +46,7 @@ public class SubmitBox extends HorizontalGroup {
 		--numActors;
 	}
 	
+	/* clean(): elimina las fichas del grupo */
 	public void clean() {
 		clearChildren();
 		setNumActors(0);

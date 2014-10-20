@@ -8,7 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.me.missingwords.MissingWords;
 
-public class InfoRoll extends VerticalGroup {
+/**
+ * 
+ * Muestra las puntuaciones que hay que conseguir para obtener más o menos tiradas.
+ *
+ */
+
+public class InfoRoll extends VerticalGroup {	
+	private final int POSITION_X = 120;
+	private final int POSITION_Y = 400;
 	
 	private Label roll1, roll2, roll3, title;
 	private MissingWords missingWords;
@@ -16,11 +24,13 @@ public class InfoRoll extends VerticalGroup {
 	
 	public InfoRoll(MissingWords game) {
 		super();
+		
 		missingWords = game;
 		
-		font = new BitmapFont(Gdx.files.internal("fonts/info.fnt"), Gdx.files.internal("fonts/info.png"), false); 
-		//font = new BitmapFont();
+		font = new BitmapFont(Gdx.files.internal("fonts/info.fnt"), 
+				Gdx.files.internal("fonts/info.png"), false); 
 		
+		/* Creamos las etiquetas con la información a mostrar */
 		title = new Label("   Points = roll(s)", new LabelStyle(font, Color.BLACK));
 		roll1 = new Label(" 1 to " + missingWords.getMin() + " = 1 roll" , new LabelStyle(font, Color.BLACK));
 		roll2 = new Label((missingWords.getMin() + 1)  + " to " + (missingWords.getMax() - 1) + " = 2 rolls", new LabelStyle(font, Color.BLACK));
@@ -31,6 +41,6 @@ public class InfoRoll extends VerticalGroup {
 		addActor(roll2);
 		addActor(roll3);
 		
-		setPosition(120, 400);
+		setPosition(POSITION_X, POSITION_Y);
 	}
 }

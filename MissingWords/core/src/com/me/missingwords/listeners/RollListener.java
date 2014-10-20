@@ -5,8 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.me.missingwords.MissingWords;
 
+/**
+ * 
+ * Listener que permite tirar los dados al pulsar el botón roll.
+ *
+ */
+
 public class RollListener extends ClickListener {
-	
 	private MissingWords missingWords;
 	
 	public RollListener(MissingWords missingWords)  {
@@ -16,7 +21,7 @@ public class RollListener extends ClickListener {
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
 		
-		missingWords.getMiniGameScreen().getDice().roll();
+		missingWords.getMiniGameScreen().getDice().roll(); // tiramos
 		
 		missingWords.getMiniGameScreen().getRollsLeft().decreaseRolls();
 		
@@ -25,6 +30,7 @@ public class RollListener extends ClickListener {
 			missingWords.getMiniGameScreen().getWaitButton().show();
 		}
 		
+		/* Activamos el botón de movimiento */
 		missingWords.getMiniGameScreen().getMoveButton().setTouchable(Touchable.enabled);
 	}
 }

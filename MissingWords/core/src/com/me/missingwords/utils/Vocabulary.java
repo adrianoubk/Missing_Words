@@ -14,10 +14,8 @@ import com.me.missingwords.MissingWords.Language;
 
 /**
  * 
- * Clase Vocabulary
- * 
- * Clase que guarda las palabras del idioma seleccionado. Hace de diccionario para la aplicación.
- * Está formado por un map de strings y categories.
+ * Guarda el conjunto de palabras que se pueden jugar. Está formado por un map de strings y 
+ * categories.
  *
  */
 
@@ -55,8 +53,7 @@ public class Vocabulary {
 		br.close();
 	}
 	
-	/* El método randomKey() obtiene una palabra al azar del map */
-	
+	/* randomKey(): obtiene una palabra al azar del map */
 	public String randomKey() {
 		Object[] keys;
 		Object randomKey;

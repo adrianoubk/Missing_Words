@@ -5,8 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.me.missingwords.MissingWords;
 
+/**
+ * 
+ * Muestra la pantalla de carga, mientras se cargan los recursos.
+ *
+ */
+
 public class LoadingScreen extends BaseScreen {
-	
 	private BitmapFont font;
 
 	public LoadingScreen(MissingWords missingWords) {

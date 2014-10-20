@@ -7,9 +7,7 @@ import com.me.missingwords.actors.Tile;
 
 /**
  * 
- * Clase TileListenerSubmit
- * 
- * Este listener se encarga de devolver la ficha al tilebox cuando no es necesaria para formar
+ * Listener que se encarga de devolver la ficha al tilebox cuando no es necesaria para formar
  * la palabra.
  *
  */

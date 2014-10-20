@@ -16,14 +16,13 @@ import com.me.missingwords.buttons.SubmitButton;
 import com.me.missingwords.listeners.*;
 
 
-/** Clase GameScreen
+/** 
  * 
- * Clase que muestra la pantalla de juego.
+ * Muestra la pantalla de juego.
  *
  */
 
 public class GameScreen extends BaseScreen {
-	
 	public final int MAX_TILES = 16;
 
 	private ArrayList<Tile> originalTiles, copyTiles;
@@ -40,7 +39,6 @@ public class GameScreen extends BaseScreen {
 	private ClueButton letterClue, translationClue, lengthClue;
 	private SubmitButton submit;
 	private LengthClueBox lengthBox;
-	private ArrayList<String> playedWords;
 	private int totalWords;
 	private String winner;
 	private InfoRoll info;
@@ -50,44 +48,54 @@ public class GameScreen extends BaseScreen {
 		
 		System.out.println("Juego nuevo");
 		
-		totalWords = 0;
+		totalWords = 0; // Contadore de palabras totales, npc y player.
 		
-		playedWords = new ArrayList<>();
-		
+		/* Creamos el fondo de pantalla */
 		background = new Background(MissingWords.myManager.get("background.png", Texture.class));
 		stage.addActor(background);
 		
+		/* Creamos el bloque de la pista de longitud */
 		lengthBox = new LengthClueBox();
 		stage.addActor(lengthBox);
 		
+		/* Creamos el bloque de formación de palabras */
 		submitBox = new SubmitBox();
 		stage.addActor(submitBox);
 		
+		/* Creamos el jugador */
 		human = new HumanPlayer("Adri", missingWords);
 		stage.addActor(human);
 		
-		if (!missingWords.isSinglePlayer()) { // Si no es singleplayer, la cpu juega
+		/* Creamos el npc si no es SINGLEPLAYER */
+		if (!missingWords.isSinglePlayer()) { 
 			npc = new NPCPlayer("NPC", missingWords);
 			stage.addActor(npc);
 		}
 		
+		/* Creamos el slider donde descansan las letras */
 		slider = new Slider(MissingWords.myManager.get("grey_sliderHorizontal.png", Texture.class), missingWords);
 		stage.addActor(slider);
 		
+		/* Creamos la barra de turno */
 		turn = new Turn(0);
 		stage.addActor(turn);
 		
+		/* Creamos la barra de tiempo */
 		timeBar = new TimeBar(missingWords);
 		stage.addActor(timeBar);
 		
-		createButtons();
+		/* Creamos los botones de pistas */
+		createClueButtons();
 		
+		/* Creamos el bloque que contendrá las letras */
 		tileBox = new TileBox(new Table());
 		stage.addActor(tileBox);
 		
+		/* Creamos el objeto que controla los turnos */
 		turnControl = new TurnControl("none", missingWords);
 		stage.addActor(turnControl);
 		
+		/* Creamos el bloque con la información de las tiradas */
 		info = new InfoRoll(missingWords);
 		stage.addActor(info);
 	}
@@ -123,7 +131,8 @@ public class GameScreen extends BaseScreen {
 		super.show();
 	}
 	
-	private void createButtons() {	
+	/* createClueButtons(): crea los botones de pistas y los añade al escenario */
+	private void createClueButtons() {	
 		translationClue = new ClueButton(
 				new TextureRegionDrawable(new TextureRegion(
 						MissingWords.myManager.get("translationButtonUp.png", Texture.class))), 
@@ -165,16 +174,14 @@ public class GameScreen extends BaseScreen {
 		stage.addActor(submit);
 	}
 	
-
+	/* newTurn(): crea un nuevo turno para jugar */
 	private void newTurn() {
-		
-		turn.nextTurn(); // Turno nuevo
-		
+		turn.nextTurn(); // Turno nuevo	
 		turnControl.prepareTurn(); // Prepara el turno para el jugador
 		turnControl.initialiseTurn(); // Inicia el turno
-
 	}
 	
+	/* newTiles(): crea nuevas fichas y las añade */
 	public void newTiles() {
 		createTiles();
 		shuffleTiles();
@@ -182,50 +189,58 @@ public class GameScreen extends BaseScreen {
 		addListeners();
 	}
 	
+	/* createTiles(): crea los objetos tile */
 	private void createTiles() {
 		String randomWord;
 		String[] arrayWord;
 		ArrayList<String> adaptedWord = new ArrayList<String>();
 		String randomLetter;
 		
-		originalTiles = new ArrayList<Tile>(MAX_TILES);
+		originalTiles = new ArrayList<Tile>(MAX_TILES); // Creo un array con el máximo de fichas
 		
-		randomWord = missingWords.getVocabulary().randomKey();
+		randomWord = missingWords.getVocabulary().randomKey(); // palabra al azar del vocabulario
 		arrayWord = randomWord.split("(?!^)");
 		
+		/* Muestro la palabra, SOLO PRUEBAS */
 		for (int i = 0; i < arrayWord.length; ++i) {
 			System.out.print(arrayWord[i]);
 		}
 		
+		/* Si el idioma seleccionado es el alemán, adapto la palabra (por las vocales) */
 		if (missingWords.selectedLanguage.equals(Language.german)) {
 			adaptedWord = adaptWord(arrayWord);
 		}
-		else {
+		else { // Si no, la copio
 			for (int i = 0; i < arrayWord.length; ++i)
 				adaptedWord.add(arrayWord[i]);		
 		}
 		
 		System.out.print("\n");
 		
-		/* Creación de fichas */
+		/* Creamos las fichas */
+		for (int i = 0; i < adaptedWord.size(); ++i) 
+			originalTiles.add(new Tile(
+					adaptedWord.get(i), missingWords.getScores().getScores().get(adaptedWord.get(i))));
 		
-		for (int i = 0; i < adaptedWord.size(); ++i) {
-			System.out.println(adaptedWord.get(i));
-			originalTiles.add(new Tile(adaptedWord.get(i), missingWords.getScores().getScores().get(adaptedWord.get(i))));
-		}
+		/* Transformo la palabra en un ArrayList para el NPC, por su fácil manejo */
+		adaptedWordNPC = new ArrayList<Tile>(originalTiles); 
 		
-		adaptedWordNPC = new ArrayList<Tile>(originalTiles);
-		
+		/* Si quedan letras para completar la caja, las obtengo aleatoriamente y las añado */
 		for (int i = adaptedWord.size(); i < MAX_TILES; ++i) {
 			randomLetter = missingWords.getScores().randomKey();
 			originalTiles.add(new Tile(randomLetter, missingWords.getScores().getScores().get(randomLetter)));
 		}
 	}
 	
+	/* adaptWord(): Adapta la palabra si el idioma es el alemán, debido a las vocales */
 	private ArrayList<String> adaptWord(String[] arrayWord) {
 		int i = 0;
 		ArrayList<String> newArray = new ArrayList<String>();
 		
+		/* 
+		 * Recorremos la palabra e intercambiamos las ocurrencias de ae, oe y ue por sus vocales
+		 * con diéresis
+		 */
 		while (i < arrayWord.length) {
 			if ((arrayWord[i].equals("a") || arrayWord[i].equals("o") || arrayWord[i].equals("u")) 
 					&& (i + 1) < arrayWord.length && arrayWord[i + 1].equals("e")) {
@@ -235,7 +250,7 @@ public class GameScreen extends BaseScreen {
 						case "u": newArray.add("ue"); break;
 					}
 					
-					i += 2;
+					i += 2; // Si es una ocurrencia, saltamos 2 lugares. La vocal y la 'e'
 			}
 			else {
 				newArray.add(arrayWord[i]);
@@ -246,22 +261,29 @@ public class GameScreen extends BaseScreen {
 		return newArray;
 	}
 	
+	/* shuffleTiles(): desordena el array de letras */
 	private void shuffleTiles() {
 		Collections.shuffle(originalTiles);
-
-		copyTiles = new ArrayList<Tile>(); // Copia del arrayList
+		
+		/* 
+		 * Realizamos una copia del array de tiles original, para usarlo a la hora de 
+		 * seleccionar letras, no bajar las originales, perdiendo así su posición en la 
+		 * tabla (dependencia de Table LibGDX).
+		 */
+		copyTiles = new ArrayList<Tile>();
 		for (int i = 0; i < MAX_TILES; ++i) {
 			copyTiles.add(new Tile(originalTiles.get(i)));;
 		}
 	}
 	
+	/* addTiles(): añadimos las tiles al bloque de letras */
 	private void addTiles() {
 		int i = 0;
 		
 		Iterator<Tile> iterator = originalTiles.iterator();
 		
-		while (iterator.hasNext()) {
-			if (i == 4 || i == 8 || i == 12) {
+		while (iterator.hasNext()) { 
+			if (i == 4 || i == 8 || i == 12) { // Solo 4 tiles por fila
 				tileBox.getTileTable().row();
 			}
 					
@@ -269,7 +291,8 @@ public class GameScreen extends BaseScreen {
 			++i;
 		}
 	}
-
+	
+	/* addListeners(): añade los listeners a las tiles para poder tocarlas */
 	private void addListeners() {	
 		for (int i = 0; i < MAX_TILES; ++i) {
 			originalTiles.get(i).addListener(new TileListenerTable(submitBox, originalTiles.get(i), copyTiles.get(i)));
@@ -277,14 +300,32 @@ public class GameScreen extends BaseScreen {
 		}
 	}
 	
-	public void addPlayedWord(String word) {
-		if (!playedWords.contains(word))
-			playedWords.add(word);
-	}
-	
+	/* increaseTotalWords(): Incrementa el total de palabras jugadas */ 
 	public void increaseTotalWords() {
 		++totalWords;
 	}
+	
+	@Override
+	public void hide() {
+		System.out.println("Ocultando");
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void resume() {
+		System.out.println("Resumiendo");
+	}
+	
+	@Override
+	public void dispose() {
+		stage.dispose();
+	}
+	
+	/* -------------- Getters and Setters -------------- */
 
 	public HumanPlayer getHuman() {
 		return human;
@@ -360,30 +401,5 @@ public class GameScreen extends BaseScreen {
 
 	public Turn getTurn() {
 		return turn;
-	}
-
-	public ArrayList<String> getPlayedWords() {
-		return playedWords;
-	}
-
-	@Override
-	public void hide() {
-		System.out.println("Ocultando");
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void resume() {
-		System.out.println("Resumiendo");
-	}
-
-	@Override
-	public void dispose() {
-		//playedWords.clear();
-		stage.dispose();
 	}
 }

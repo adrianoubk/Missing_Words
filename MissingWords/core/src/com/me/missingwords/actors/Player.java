@@ -5,37 +5,24 @@ import com.me.missingwords.MissingWords;
 
 /**
  * 
- * Clase abstracta que representa un jugador.
+ * Representa a un jugador (Abstracta).
  *
  */
 
 public abstract class Player extends Actor {
-	
-	protected String name;
-	protected boolean isMyTurn;
-	protected int rolls;
+	protected String name; // Nombre del jugador
+	protected boolean isMyTurn; // Booleano que indica si es su turno o no
+	protected int rolls; // Tiradas disponibles del jugador
 	protected MissingWords missingWords;
 	
 	public Player(String name, MissingWords missingWords) {
-		
 		this.name = name;
 		this.missingWords = missingWords;
 		isMyTurn = false;
 		rolls = 0;
 	}
 
-	public boolean isMyTurn() {
-		return isMyTurn;
-	}
-
-	public void setMyTurn(boolean isMyTurn) {
-		this.isMyTurn = isMyTurn;
-	}
-	
-	public int getRolls() {
-		return rolls;
-	}
-
+	/* calculateRolls(): calcula el numero de tiradas en base a los puntos */
 	public void calculateRolls(int points) {
 		if (points <= missingWords.getMin())
 			rolls = 1;
@@ -47,7 +34,22 @@ public abstract class Player extends Actor {
 			rolls = 3;
 	}
 	
+	/* playMinigame(): Cambia a la pantalla del minijuego para jugarlo */
 	public void playMinigame() {
 		missingWords.setScreen(missingWords.MiniGameScreen);
+	}
+	
+	/* -------------- Getters and Setters -------------- */
+	
+	public boolean isMyTurn() {
+		return isMyTurn;
+	}
+
+	public void setMyTurn(boolean isMyTurn) {
+		this.isMyTurn = isMyTurn;
+	}
+	
+	public int getRolls() {
+		return rolls;
 	}
 }

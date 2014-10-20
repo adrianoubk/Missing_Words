@@ -7,18 +7,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /** 
  * 
- * La clase Font se usa para escribir texto en la pantalla.
+ * Se usa para escribir texto en la pantalla.
  *
  */
 
 public class Font extends Actor {
-	
 	private BitmapFont font;
 	private String text;
 	
 	public Font(String text) {
-		font = new BitmapFont(Gdx.files.internal("fonts/title.fnt"), Gdx.files.internal("fonts/title.png"), false);
 		this.text = text;
+		font = new BitmapFont(Gdx.files.internal("fonts/title.fnt"), Gdx.files.internal("fonts/title.png"), false);
 	}
 	
 	@Override

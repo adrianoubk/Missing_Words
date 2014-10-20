@@ -8,15 +8,12 @@ import com.me.missingwords.MissingWords;
 
 /** 
  * 
- * Clase Slider
- * 
- * La clase Slider representa la barra donde descansan las letras al ser seleccionadas para
- * formar una nueva palabra.
+ * Representa la barra donde descansan las letras al ser seleccionadas para formar una nueva 
+ * palabra.
  *
  */
 
 public class Slider extends Actor {
-	
 	private final int TILE_WIDTH = 50; // Ancho de la ficha
 	private final int SLIDER_HEIGHT = 35; // Altura a la que se dibuja el slider
 	private TextureRegion sliderTexture; // Textura del slider
@@ -42,6 +39,7 @@ public class Slider extends Actor {
 		if (missingWords.getGameScreen() == null)
 			System.out.println("game es null");
 		
-		sliderTexture.setRegionWidth(missingWords.getGameScreen().getSubmitBox().getNumActors() * TILE_WIDTH);
+		sliderTexture.setRegionWidth(
+				missingWords.getGameScreen().getSubmitBox().getNumActors() * TILE_WIDTH);
 	}
 }

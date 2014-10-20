@@ -4,12 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 
-public class ContinueButton extends TextButton {
+/**
+ * 
+ * Botón continuar tras acabar de jugar el minijuego.
+ *
+ */
+
+public class ContinueButton extends MiniGameButton {
+	private final int POSITION_X = 300;
+	private final int POSITION_Y = 2;
 	
 	public ContinueButton() {
 		super("Continue", 
@@ -18,16 +24,6 @@ public class ContinueButton extends TextButton {
 				null, 
 				new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false)));
 		
-		setPosition(300, 2);
-	}
-	
-	public void show() {
-		setVisible(true);
-		setTouchable(Touchable.enabled);
-	}
-	
-	public void hide() {
-		setVisible(false);
-		setTouchable(Touchable.disabled);
+		setPosition(POSITION_X, POSITION_Y);
 	}
 }

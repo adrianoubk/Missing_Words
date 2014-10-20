@@ -14,14 +14,11 @@ import com.me.missingwords.listeners.GameModeSelectionListener;
 
 /** 
  * 
- * Clase MenuScreen
- * 
- * Esta clase se encarga de mostrar el menú principal de la apliación.
+ * Muestra el menú principal del juego.
  *
  */
 
 public class MenuScreen extends BaseScreen {
-	
 	private Background background;
 	private Font titleFont;
 	private TextButton playerVsCpu, singlePlayer;
@@ -31,20 +28,6 @@ public class MenuScreen extends BaseScreen {
 
 	public MenuScreen(MissingWords missingWords) {
 		super(missingWords);
-	}
-
-	@Override
-	public void render(float delta) {
-		
-		super.render(delta);
-		
-		stage.act();
-		stage.draw();
-	}
-
-	@Override
-	public void show() {
-		super.show();
 		
 		background = new Background(MissingWords.myManager.get("background.png", Texture.class));
 		stage.addActor(background);
@@ -68,5 +51,19 @@ public class MenuScreen extends BaseScreen {
 		singlePlayer.setPosition(265, 100);
 		singlePlayer.addListener(new GameModeSelectionListener("singleplayer", missingWords));
 		stage.addActor(singlePlayer);
+	}
+
+	@Override
+	public void render(float delta) {
+		
+		super.render(delta);
+		
+		stage.act();
+		stage.draw();
+	}
+
+	@Override
+	public void show() {
+		super.show();
 	}
 }
