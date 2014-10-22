@@ -77,6 +77,9 @@ public class TimeBar extends Actor {
 			if (seconds == 0) { // Si se acaba el tiempo
 				System.out.println("Time out!");
 				
+				/* Incrementamos el número de palabras. Palabra fallida */
+				missingWords.getStatsData().increaseMaxWords();
+				
 				missingWords.getGameScreen().getHuman().setMyTurn(false);
 				
 				if (!missingWords.isSinglePlayer()) { // Activamos el turno del NPC

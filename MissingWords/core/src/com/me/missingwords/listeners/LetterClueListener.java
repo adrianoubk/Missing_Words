@@ -43,5 +43,8 @@ public class LetterClueListener extends ClickListener {
 		/* Desactivamos el botón de "pista letra adicional" */
 		button.disableStyle();
 		button.setTouchable(Touchable.disabled);
+		
+		/* Incrementamos el contador de pistas usadas */
+		missingWords.getStatsData().increaseCluesUsed();
 	}
 }

@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Background;
 import com.me.missingwords.actors.Font;
+import com.me.missingwords.buttons.BackButton;
+import com.me.missingwords.listeners.BackButtonListener;
 import com.me.missingwords.listeners.CategorySelectionListener;
 
 /**
@@ -25,12 +27,17 @@ public class CategorySelectionScreen extends BaseScreen {
 	private TextButtonStyle tStyle;
 	private TextureRegionDrawable up, down;
 	private BitmapFont font;
+	private BackButton backButton;
 
 	public CategorySelectionScreen(MissingWords missingWords) {
 		super(missingWords);
 		
 		background = new Background(MissingWords.myManager.get("background.png", Texture.class));
 		stage.addActor(background);
+		
+		backButton = new BackButton();
+		backButton.addListener(new BackButtonListener(missingWords));
+		stage.addActor(backButton);
 		
 		titleFont = new Font("Categories");
 		stage.addActor(titleFont);

@@ -62,5 +62,8 @@ public class TranslationClueListener extends ClickListener {
 		/* Desactivamos el botón de "pista traducción" */
 		button.disableStyle();
 		button.setTouchable(Touchable.disabled);
+		
+		/* Incrementamos el contador de pistas usadas */
+		missingWords.getStatsData().increaseCluesUsed();
 	}
 }

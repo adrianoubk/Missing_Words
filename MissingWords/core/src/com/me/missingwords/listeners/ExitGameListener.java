@@ -19,6 +19,15 @@ public class ExitGameListener extends ClickListener {
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
+		/* Calculamos el porcentaje de aciertos */
+		missingWords.getStatsData().calculatePercentageHits();
+		
+		/* Guardamos los datos de las estadísticas */
+		missingWords.getStatsData().saveData();
+		
+		/* Actualizamos los valores de las estadísticas */
+		missingWords.getStatsScreen().updateLabels();
+		
 		/* Liberamos los recursos de las pantallas  y eliminamos las mismas */
 		missingWords.GameScreen.dispose();
 		missingWords.MiniGameScreen.dispose();

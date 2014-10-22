@@ -64,6 +64,17 @@ public class InputButtonListener extends ClickListener {
 			
 			missingWords.getGameScreen().increaseTotalWords(); // TotalWords + 1
 			
+			/* Añadimos los datos a las estadísticas */
+			missingWords.getStatsData().increaseMaxWords();
+			missingWords.getStatsData().increaseCorrectWords();
+			
+			/* Comprobamos si hemos formado una palabra más larga y la añadimos si es así */
+			if (missingWords.getStatsData().getLargestWord().length() < word.length())
+				missingWords.getStatsData().setLargestWord(word.toString());
+			
+			/* Comprobamos si hemos formado una palabra con más puntos y la añadimos si es así */
+				missingWords.getStatsData().setBestWord(word.toString(), score);
+			
 			/* El jugador confirma la palabra y juega al minijuego */
 			missingWords.getGameScreen().getHuman().playTurn();
 			

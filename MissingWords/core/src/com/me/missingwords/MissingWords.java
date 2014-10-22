@@ -9,6 +9,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.me.missingwords.data.StatsData;
 import com.me.missingwords.screens.*;
 import com.me.missingwords.utils.Dictionary;
 import com.me.missingwords.utils.Scores;
@@ -42,6 +43,7 @@ public class MissingWords extends Game {
 	public MiniGameScreen MiniGameScreen;
 	public VictoryScreen VictoryScreen;
 	public LoadingScreen LoadingScreen;
+	public StatsScreen StatsScreen;
 	
 	/* La clase SpriteBatch nos permite dibujar las texturas de nuestro juego. Agrupa 
 	 * sprites(imagenes) para enviarlas al procesador grafico y asi dibujarlas a la vez.
@@ -51,64 +53,55 @@ public class MissingWords extends Game {
 	private SpriteBatch myBatch; 
 	
 	/* Gestor de recursos del juego */
-	
 	public static AssetManager myManager;
 	
 	/* Categorías del juego */
-	
 	public enum Category {days, months};
 	
 	/* Idiomas que soporta el juego */
-	
 	public enum Language {english, german};
 	
 	/* Idioma con el que se jugará */
-	
 	public Language selectedLanguage; 
 	
 	/* Categoría con la que se jugará */
-	
 	public Category selectedCategory;
 	
 	/* Booleano que indica si se ha llegado a la victoria */
-	
 	private boolean victory;
 	
 	/* Booleano que indica si se está jugando en el modo SINGLEPLAYER */
-	
 	private boolean singlePlayer;
 	
 	/* Vocabulario que se usa en el juego */
-	
 	private Vocabulary vocabulary;
 	
 	/* Diccionario del juego. Útil para las pista de traducción */
-	
 	private Dictionary dictionary;
 	
 	/* Puntuaciones que tienen las letras del juego */
-	
 	private Scores scores;
 	
 	/* Umbrales máximo y mínimo que marcan la puntuación a conseguir para obtener más tiradas */
-	
 	private int max, min;
 	
-	/* create(): Creamos los objetos necesarios para construir la aplicación */
+	/* Datos de las estadísticas */
+	private StatsData statsData;
 	
+	/* create(): Creamos los objetos necesarios para construir la aplicación */
 	@Override
 	public void create() {
-		
 		/* Creamos el SpriteBatch y el Gestor de recursos */
-		
 		myBatch = new SpriteBatch();
 		myManager = new AssetManager();
+		
+		/* Cargamos los datos de las estadísticas */
+		statsData = new StatsData();
 		
 		/* 
 		 * Con la función load() añadimos los recursos a la cola de carga, pero aún no se
 		 * han cargado. 
 		 */
-		
 		myManager.load("background.png", Texture.class);
 		myManager.load("barLoading.png", Texture.class);
 		myManager.load("barBackground.png", Texture.class);
@@ -179,6 +172,8 @@ public class MissingWords extends Game {
 		myManager.load("continueButtonUp.png", Texture.class);
 		myManager.load("continueButtonDown.png", Texture.class);
 		myManager.load("bothPlayers.png", Texture.class);
+		myManager.load("backButtonUp.png", Texture.class);
+		myManager.load("backButtonDown.png", Texture.class);
 		
 		victory = false; 
 		
@@ -199,7 +194,7 @@ public class MissingWords extends Game {
 	public void createMenuScreens() {
 		CategorySelectionScreen = new CategorySelectionScreen(this);
 		MenuScreen = new MenuScreen(this);
-	
+		StatsScreen = new StatsScreen(this);
 	}
 	
 	/* createGameScreens(): crea las pantallas de juego */
@@ -278,6 +273,10 @@ public class MissingWords extends Game {
 		return MiniGameScreen;
 	}
 
+	public StatsScreen getStatsScreen() {
+		return StatsScreen;
+	}
+
 	public Vocabulary getVocabulary() {
 		return vocabulary;
 	}
@@ -320,6 +319,10 @@ public class MissingWords extends Game {
 
 	public void setSinglePlayer(boolean singlePlayer) {
 		this.singlePlayer = singlePlayer;
+	}
+
+	public StatsData getStatsData() {
+		return statsData;
 	}
 }
 

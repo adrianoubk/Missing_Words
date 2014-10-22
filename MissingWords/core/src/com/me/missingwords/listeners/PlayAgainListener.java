@@ -19,6 +19,15 @@ public class PlayAgainListener extends ClickListener {
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
+		/* Calculamos el porcentaje de aciertos */
+		missingWords.getStatsData().calculatePercentageHits();
+		
+		/* Guardamos los datos de las estadísticas */
+		missingWords.getStatsData().saveData();
+		
+		/* Actualizamos los valores de las estadísticas */
+		missingWords.getStatsScreen().updateLabels();
+		
 		/* Liberamos recursos y eliminamos las pantallas de juego */
 		missingWords.GameScreen.dispose();
 		missingWords.MiniGameScreen.dispose();
@@ -27,6 +36,6 @@ public class PlayAgainListener extends ClickListener {
 		/* Creamos las pantallas para un juego nuevo */
 		missingWords.createGameScreens();
 		
-		missingWords.setScreen(missingWords.GameScreen); // Cambiamos a pantalla de juego
+		missingWords.setScreen(missingWords.GameScreen); // Cambiamos a la pantalla de juego
 	}
 }

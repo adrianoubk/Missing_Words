@@ -27,8 +27,8 @@ public class World {
 	private StaticTiledMapTile playerTile, npcTile, transparentTile, holeTile, bothPlayers;
 	
 	/* Posiciones iniciales de los jugadores */
-	private int playerPosition = 0;
-	private int npcPosition = 31;
+	private int playerPosition = 30;
+	private int npcPosition = 28;
 	
 	/* Capas del mapa */
 	private TiledMapTileLayer pathLayer, tokenLayer;
@@ -232,11 +232,13 @@ public class World {
 		if (playerPosition == 31) { // Si gana el jugador
 			missingWords.getGameScreen().setWinner("Player");
 			missingWords.setVictory(true);
+			missingWords.getStatsData().increaseGamesWon(); // Incrementamos partidas ganadas
 		}
 		
 		if (npcPosition == 0) { // Si gana el NPC
 			missingWords.getGameScreen().setWinner("NPC");
 			missingWords.setVictory(true);
+			missingWords.getStatsData().increaseGamesLost(); // Incrementamos partidas perdidas
 		}
 		
 		if (missingWords.victory()) { // Nos muestra la pantalla de victoria

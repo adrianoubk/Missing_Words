@@ -43,5 +43,8 @@ public class LengthClueListener extends ClickListener {
 		/* Añadimos las fichas al stage */
 		missingWords.getGameScreen().getStage().addActor(missingWords.getGameScreen().getLengthBox());
 		missingWords.getGameScreen().getStage().addActor(missingWords.getGameScreen().getSubmitBox());
+		
+		/* Incrementamos el contador de pistas usadas */
+		missingWords.getStatsData().increaseCluesUsed();
 	}
 }

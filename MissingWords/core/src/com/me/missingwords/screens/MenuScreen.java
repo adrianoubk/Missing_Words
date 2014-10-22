@@ -11,6 +11,7 @@ import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Background;
 import com.me.missingwords.actors.Font;
 import com.me.missingwords.listeners.GameModeSelectionListener;
+import com.me.missingwords.listeners.StatsListener;
 
 /** 
  * 
@@ -21,7 +22,7 @@ import com.me.missingwords.listeners.GameModeSelectionListener;
 public class MenuScreen extends BaseScreen {
 	private Background background;
 	private Font titleFont;
-	private TextButton playerVsCpu, singlePlayer;
+	private TextButton playerVsCpu, singlePlayer, stats;
 	private TextButtonStyle tStyle;
 	private TextureRegionDrawable up, down;
 	private BitmapFont font;
@@ -51,6 +52,11 @@ public class MenuScreen extends BaseScreen {
 		singlePlayer.setPosition(265, 100);
 		singlePlayer.addListener(new GameModeSelectionListener("singleplayer", missingWords));
 		stage.addActor(singlePlayer);
+		
+		stats = new TextButton("Stats", tStyle);
+		stats.setPosition(265, 0);
+		stats.addListener(new StatsListener(missingWords));
+		stage.addActor(stats);
 	}
 
 	@Override
