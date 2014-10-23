@@ -116,7 +116,6 @@ public class StatsData {
 		if (score > scoreBestWord) {
 			this.bestWord = bestWord;
 			scoreBestWord = score;
-		}
-		
+		}	
 	}
 }

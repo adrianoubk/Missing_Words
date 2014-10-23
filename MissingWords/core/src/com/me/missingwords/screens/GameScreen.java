@@ -12,6 +12,7 @@ import com.me.missingwords.MissingWords;
 import com.me.missingwords.MissingWords.Language;
 import com.me.missingwords.actors.*;
 import com.me.missingwords.buttons.ClueButton;
+import com.me.missingwords.buttons.PauseButton;
 import com.me.missingwords.buttons.SubmitButton;
 import com.me.missingwords.listeners.*;
 
@@ -37,11 +38,13 @@ public class GameScreen extends BaseScreen {
 	private HumanPlayer human;
 	private TurnControl turnControl;
 	private ClueButton letterClue, translationClue, lengthClue;
+	private PauseButton pauseButton;
 	private SubmitButton submit;
 	private LengthClueBox lengthBox;
 	private int totalWords;
 	private String winner;
 	private InfoRoll info;
+	private PauseDialog pauseDialog;
 
 	public GameScreen(MissingWords missingWords) {
 		super(missingWords);
@@ -87,6 +90,11 @@ public class GameScreen extends BaseScreen {
 		/* Creamos los botones de pistas */
 		createClueButtons();
 		
+		/* Creamos el botón de pausa */
+		pauseButton = new PauseButton();
+		pauseButton.addListener(new PauseButtonListener(missingWords));
+		stage.addActor(pauseButton);
+		
 		/* Creamos el bloque que contendrá las letras */
 		tileBox = new TileBox(new Table());
 		stage.addActor(tileBox);
@@ -98,6 +106,8 @@ public class GameScreen extends BaseScreen {
 		/* Creamos el bloque con la información de las tiradas */
 		info = new InfoRoll(missingWords);
 		stage.addActor(info);
+		
+		pauseDialog = new PauseDialog(missingWords);
 	}
 
 	@Override
@@ -375,6 +385,10 @@ public class GameScreen extends BaseScreen {
 		return lengthClue;
 	}
 
+	public PauseButton getPauseButton() {
+		return pauseButton;
+	}
+
 	public SubmitButton getSubmit() {
 		return submit;
 	}
@@ -401,5 +415,9 @@ public class GameScreen extends BaseScreen {
 
 	public Turn getTurn() {
 		return turn;
+	}
+
+	public PauseDialog getPauseDialog() {
+		return pauseDialog;
 	}
 }

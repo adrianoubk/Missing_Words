@@ -102,6 +102,7 @@ public class MissingWords extends Game {
 		 * Con la función load() añadimos los recursos a la cola de carga, pero aún no se
 		 * han cargado. 
 		 */
+		myManager.load("loadingBackground.png", Texture.class);
 		myManager.load("background.png", Texture.class);
 		myManager.load("barLoading.png", Texture.class);
 		myManager.load("barBackground.png", Texture.class);
@@ -174,6 +175,9 @@ public class MissingWords extends Game {
 		myManager.load("bothPlayers.png", Texture.class);
 		myManager.load("backButtonUp.png", Texture.class);
 		myManager.load("backButtonDown.png", Texture.class);
+		myManager.load("pauseButtonUp.png", Texture.class);
+		myManager.load("pauseButtonDown.png", Texture.class);
+		myManager.load("backgroundDialog.png", Texture.class);
 		
 		victory = false; 
 		

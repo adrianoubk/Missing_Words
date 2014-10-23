@@ -38,7 +38,6 @@ public abstract class BaseScreen implements Screen {
 	 */
 	private ScalingViewport viewport;
 	
-	
 	public BaseScreen(MissingWords missingWords) {
 		this.missingWords = missingWords; // Conectamos el juego con la pantalla base
 		this.myBatch = missingWords.getSB();
@@ -49,6 +48,7 @@ public abstract class BaseScreen implements Screen {
 		 */
 		viewport = new ScalingViewport(Scaling.stretch, 
 				MissingWords.VIEWPORT_WIDTH , MissingWords.VIEWPORT_HEIGHT);
+		
 		stage = new Stage(viewport, myBatch);
 	}
 	

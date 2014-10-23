@@ -19,8 +19,8 @@ import com.me.missingwords.listeners.BackButtonListener;
  */
 
 public class StatsScreen extends BaseScreen {
-	private VerticalGroup stats;
-	private Label player, hits, largestWord, bestWord, gamesWon, gamesLost, cluesUsed;
+	private VerticalGroup statsBox;
+	private Label stats, hits, largestWord, bestWord, gamesWon, gamesLost, cluesUsed;
 	private Background background;
 	private BitmapFont fontPlayer, fontStats;
 	private BackButton backButton;
@@ -31,39 +31,42 @@ public class StatsScreen extends BaseScreen {
 		fontPlayer = new BitmapFont(Gdx.files.internal("fonts/title.fnt"), Gdx.files.internal("fonts/title.png"), false);
 		fontStats = new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false);
 		
+		/* Creamos el fondo de pantalla */
 		background = new Background(MissingWords.myManager.get("background.png", Texture.class));
 		stage.addActor(background);
 		
+		/* Creamos el botón de vuelta atrás */
 		backButton = new BackButton();
 		backButton.addListener(new BackButtonListener(missingWords));
 		stage.addActor(backButton);
 		
-		stats = new VerticalGroup();
-		stats.setPosition(50, 380);
-		stats.align(Align.left);
+		/* Creamos el título */
+		stats = new Label("Stats", new LabelStyle(fontPlayer, fontPlayer.getColor()));
+		stats.setPosition((MissingWords.VIEWPORT_WIDTH - stats.getMinWidth()) / 2, 400);
 		stage.addActor(stats);
 		
-		player = new Label("Stats", new LabelStyle(fontPlayer, fontPlayer.getColor()));
-		player.setPosition((MissingWords.VIEWPORT_WIDTH - player.getMinWidth()) / 2, 400);
-		stage.addActor(player);
-		
+		/* Creamos las etiquetas con las estadísticas */
 		hits = new Label("% hits: " + missingWords.getStatsData().getPercentageHits() + " %", new LabelStyle(fontStats, fontStats.getColor()));
-		stats.addActor(hits);
-		
 		gamesWon = new Label("Games won: " + missingWords.getStatsData().getGamesWon(), new LabelStyle(fontStats, fontStats.getColor()));
-		stats.addActor(gamesWon);
-		
 		gamesLost = new Label("Games lost: " + missingWords.getStatsData().getGamesLost(), new LabelStyle(fontStats, fontStats.getColor()));
-		stats.addActor(gamesLost);
-		
 		largestWord = new Label("Largest word: "  + missingWords.getStatsData().getLargestWord(), new LabelStyle(fontStats, fontStats.getColor()));
-		stats.addActor(largestWord);
-		
-		bestWord = new Label("Best word: " + missingWords.getStatsData().getBestWord(), new LabelStyle(fontStats, fontStats.getColor()));
-		stats.addActor(bestWord);
-		
+		bestWord = new Label("Best word: " + missingWords.getStatsData().getBestWord(), new LabelStyle(fontStats, fontStats.getColor()));	
 		cluesUsed = new Label("Clues used: " + missingWords.getStatsData().getCluesUsed(), new LabelStyle(fontStats, fontStats.getColor()));
-		stats.addActor(cluesUsed);
+		
+		/* Creamos el grupo que va a contener las etiquetas de las estadísticas */
+		statsBox = new VerticalGroup();
+		statsBox.setPosition(50, 380);
+		statsBox.align(Align.left);
+		
+		/* Añadimos las etiquetas al grupo */
+		statsBox.addActor(hits);
+		statsBox.addActor(gamesWon);
+		statsBox.addActor(gamesLost);
+		statsBox.addActor(largestWord);
+		statsBox.addActor(bestWord);
+		statsBox.addActor(cluesUsed);
+		
+		stage.addActor(stats); // Añadimos el grupo al stage
 	}
 	
 	/* updateLabels(): actualiza los valores de las stats */
@@ -86,7 +89,6 @@ public class StatsScreen extends BaseScreen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 		super.resize(width, height);
 	}
 
@@ -116,7 +118,9 @@ public class StatsScreen extends BaseScreen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		super.dispose();
+		fontPlayer.dispose();
+		fontStats.dispose();
+		stage.dispose();
 	}
 }

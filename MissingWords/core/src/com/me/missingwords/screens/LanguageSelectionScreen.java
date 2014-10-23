@@ -23,29 +23,32 @@ public class LanguageSelectionScreen extends BaseScreen {
 	public LanguageSelectionScreen(MissingWords missingWords) {
 		super(missingWords);
 		
+		/* Creamos el fondo de pantalla */
 		background = new Background(MissingWords.myManager.get("background.png", Texture.class));
 		stage.addActor(background);
 		
+		/* Creamos los botones con los idiomas */
 		buttonGerman = new ImageButton(new TextureRegionDrawable(
-				new TextureRegion(MissingWords.myManager.get("Germany-flag.png", Texture.class))));
-		
+				new TextureRegion(MissingWords.myManager.get("Germany-flag.png", Texture.class))));	
 		buttonGerman.addListener(new LanguageListener("german", missingWords));
 		
 		buttonEnglish = new ImageButton(new TextureRegionDrawable(
-				new TextureRegion(MissingWords.myManager.get("United-kingdom-flag.png", Texture.class))));
-		
+				new TextureRegion(MissingWords.myManager.get("United-kingdom-flag.png", Texture.class))));	
 		buttonEnglish.addListener(new LanguageListener("english", missingWords));
 		
+		/* Creamos el grupo que almacena los botones */
 		languageBox = new HorizontalGroup();
-		languageBox.space(100);
+		languageBox.space(100); // Espacio entre botones
 		
+		/* Añadimos los botones al grupo */
 		languageBox.addActor(buttonGerman);
 		languageBox.addActor(buttonEnglish);
 		
+		/* Posicionamos el grupo en el centro de la pantalla */
 		languageBox.setPosition((MissingWords.VIEWPORT_WIDTH - languageBox.getMinWidth()) / 2, 
 				(MissingWords.VIEWPORT_HEIGHT - languageBox.getMaxHeight()) / 2);
 		
-		stage.addActor(languageBox);
+		stage.addActor(languageBox); // Añadimos el grupo al escenario
 	}
 	
 	@Override
@@ -59,5 +62,16 @@ public class LanguageSelectionScreen extends BaseScreen {
 	@Override
 	public void show() {
 		super.show();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		stage.dispose();
 	}
 }

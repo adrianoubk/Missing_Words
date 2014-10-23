@@ -45,6 +45,7 @@ public class HumanPlayer extends Player {
 		missingWords.getGameScreen().getLengthClue().setTouchable(touchable);
 		missingWords.getGameScreen().getTranslationClue().setTouchable(touchable);
 		missingWords.getGameScreen().getSubmit().setTouchable(touchable);
+		missingWords.getGameScreen().getPauseButton().setTouchable(touchable);
 	}
 	
 	/* addPlayedWord(): añade una palabra a la lista de palabras jugadas */
