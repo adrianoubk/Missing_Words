@@ -66,7 +66,7 @@ public class StatsScreen extends BaseScreen {
 		statsBox.addActor(bestWord);
 		statsBox.addActor(cluesUsed);
 		
-		stage.addActor(stats); // Añadimos el grupo al stage
+		stage.addActor(statsBox); // Añadimos el grupo al stage
 	}
 	
 	/* updateLabels(): actualiza los valores de las stats */

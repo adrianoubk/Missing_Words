@@ -24,6 +24,7 @@ public class InfoRoll extends VerticalGroup {
 	
 	public InfoRoll(MissingWords game) {
 		super();
+		//.align(Align.left);
 		
 		missingWords = game;
 		
