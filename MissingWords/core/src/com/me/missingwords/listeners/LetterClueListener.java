@@ -40,6 +40,9 @@ public class LetterClueListener extends ClickListener {
 		missingWords.getGameScreen().getSubmitBox().addActor(missingWords.getGameScreen().getCopyTiles().get(index)); 
 		missingWords.getGameScreen().getSubmitBox().increaseNumActors();
 		
+		/* Añadimos el score */
+		missingWords.getGameScreen().getWordScore().setScore(missingWords.getGameScreen().getOriginalTiles().get(index).getPoints());
+		
 		/* Desactivamos el botón de "pista letra adicional" */
 		button.disableStyle();
 		button.setTouchable(Touchable.disabled);

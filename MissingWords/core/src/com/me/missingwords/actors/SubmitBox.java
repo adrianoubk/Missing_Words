@@ -13,7 +13,7 @@ import com.me.missingwords.MissingWords;
  */
 
 public class SubmitBox extends HorizontalGroup {	
-	private final int SUBMITBOX_HEIGHT = 55; // Altura del submitbox
+	private final int SUBMITBOX_HEIGHT = 40; // Altura del submitbox
 	
 	private int numActors; // Número de fichas que contiene el submitbox
 	

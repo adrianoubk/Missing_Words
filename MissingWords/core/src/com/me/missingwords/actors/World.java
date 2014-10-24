@@ -14,11 +14,14 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.me.missingwords.MissingWords;
 
 public class World {
 	private final int SQUARES = 32; // Casillas del mapa
-	
+	private int steps; // contador de movimiento
+	private int timerCount;
 	private TiledMap tileMap; // Mapa de losetas
 	private OrthogonalTiledMapRenderer renderer; // Renderer del mapa de losetas
 	private ArrayList<Vector2> arraySquares; // array con las casillas del juego
@@ -27,16 +30,20 @@ public class World {
 	private StaticTiledMapTile playerTile, npcTile, transparentTile, holeTile, bothPlayers;
 	
 	/* Posiciones iniciales de los jugadores */
-	private int playerPosition = 30;
-	private int npcPosition = 28;
+	private int playerPosition = 0;
+	private int npcPosition = 31;
 	
 	/* Capas del mapa */
 	private TiledMapTileLayer pathLayer, tokenLayer;
 	
 	private MissingWords missingWords;
 	
+	private Timer t;
+	
 	public World(MissingWords missingWords) {
 		this.missingWords = missingWords;
+		
+		t = new Timer();
 		
 		/* Cargamos el mapa */
 		tileMap = new TmxMapLoader().load("minigame.tmx");
@@ -133,70 +140,112 @@ public class World {
 	}
 	
 	/* movePlayer(): mueve el jugador por el tablero */
-	public void movePlayer(int steps, boolean player) {
-		Cell cell = new Cell();
-		
+	public void movePlayer(int roll, boolean player) {
 		if (player) { // mueve el jugador
-			/* Obtenemos la casilla del jugador de la capa Tokens */
-			cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);
+			/* Comprobamos que no nos pasemos con la tirada si llegamos a la meta con menos */
+			if (playerPosition + roll > 31)
+				 timerCount = steps = 31 - playerPosition;
+			else 
+				timerCount = steps = roll;
 			
-			/* Antes de mover, comprobamos si estabamos en la misma casilla que el adversario */
-			if (cell.getTile().equals(bothPlayers))
-				cell.setTile(npcTile); // Al movernos dejamos solo la loseta del adversario
-			else
-				cell.setTile(transparentTile); // Si no, dejamos la loseta transparente
-		
-			playerPosition += steps; // movemos al jugador
-			
-			if (playerPosition > 31) // Si nos pasamos de nuestra meta, lo colocamos en la meta
-				playerPosition = 31;
-			
-			/* Comprobamos si a la casilla que hemos llegado es la misma que el adversario */
-			if (playerPosition == npcPosition) {
-				cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);		
-				cell.setTile(bothPlayers); // Si es, colocamos la loseta de los 2 jugadores
-			}
-			else { // Si no, colocamos a nuestro jugador en la casilla correspondiente
-				cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);		
-				cell.setTile(playerTile);
-			
-				cell = pathLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);
+			t.scheduleTask(new Task() {
 				
-				/* Comprobamos si hemos caído en un agujero */
-				if (cell.getTile().equals(holeTile)) 
-					respawnPlayer(playerPosition, true); // Volvemos al jugador al inicio
-			}
+				@Override
+				public void run() {
+					 Cell cell = new Cell();
+					 
+					/* Obtenemos la casilla del jugador de la capa Tokens */
+					cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);
+					
+					/* Antes de mover, comprobamos si estabamos en la misma casilla que el adversario */
+					if (cell.getTile().equals(bothPlayers))
+						cell.setTile(npcTile); // Al movernos dejamos solo la loseta del adversario
+					else
+						cell.setTile(transparentTile); // Si no, dejamos la loseta transparente
+					
+					++playerPosition; // Aumentamos posicion
+					
+					if (playerPosition == 31) { // Si nos pasamos de nuestra meta, lo colocamos en la meta
+						steps = 0; // finalizamos movimiento, si quedan.
+					}
+					else
+						--steps ; // restamos movimiento
+					
+					/* Comprobamos si a la casilla que hemos llegado es la misma que el adversario */
+					if (playerPosition == npcPosition) {
+						cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);		
+						cell.setTile(bothPlayers); // Si es, colocamos la loseta de los 2 jugadores
+					}
+					else { // Si no, colocamos a nuestro jugador en la casilla correspondiente
+						cell = tokenLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);		
+						cell.setTile(playerTile);		
+					}
+						
+					if (steps == 0) { // Si ha terminado el movimiento
+						/* Comprobamos si hemos caído en un agujero, sino, comprobamos victoria */
+						cell = pathLayer.getCell((int) arraySquares.get(playerPosition).x, (int) arraySquares.get(playerPosition).y);
+					
+						if (cell.getTile().equals(holeTile)) 
+							respawnPlayer(playerPosition, true); // Volvemos al jugador al inicio
+						else
+							checkVictory();
+					}
+				}
+			}, 0, 0.3f, timerCount - 1);
 		}
 		
 		else { // Idem pero para el NPC
-			cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
+			missingWords.getMiniGameScreen().gettRoll().stop(); // Paramos las tiradas
 			
-			if (cell.getTile().equals(bothPlayers))
-				cell.setTile(playerTile);
-			else
-				cell.setTile(transparentTile);
+			/* Comprobamos que no nos pasemos con la tirada si llegamos a la meta con menos */
+			if (npcPosition - roll < 0)
+				 timerCount = steps = roll - ((npcPosition - roll) * -1);
+			else 
+				timerCount = steps = roll;
 			
-			npcPosition -= steps;
-			
-			if (npcPosition < 0)
-				npcPosition = 0;
-			
-			if (playerPosition == npcPosition) {
-				cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);		
-				cell.setTile(bothPlayers);
-			}
-			else {
-				cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);			
-				cell.setTile(npcTile);
-			
-				cell = pathLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
-			
-				if (cell.getTile().equals(holeTile)) 
-					respawnPlayer(npcPosition, false);
-			}
+			t.scheduleTask(new Task() {
+				
+				@Override
+				public void run() {
+					Cell cell = new Cell();
+					 
+					cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
+					
+					if (cell.getTile().equals(bothPlayers))
+						cell.setTile(playerTile); 
+					else
+						cell.setTile(transparentTile); 
+					
+					--npcPosition; 
+					
+					if (playerPosition == 0) { 
+						steps = 0;
+					}
+					else
+						--steps ;
+
+					if (playerPosition == npcPosition) {
+						cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);		
+						cell.setTile(bothPlayers); 
+					}
+					else {
+						cell = tokenLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);		
+						cell.setTile(npcTile);		
+					}
+						
+					if (steps == 0) {
+						missingWords.getMiniGameScreen().gettRoll().start(); // Tiramos de nuevo
+						
+						cell = pathLayer.getCell((int) arraySquares.get(npcPosition).x, (int) arraySquares.get(npcPosition).y);
+					
+						if (cell.getTile().equals(holeTile)) 
+							respawnPlayer(npcPosition, false); 
+						else
+							checkVictory();
+					}
+				}
+			}, 2, 0.3f, timerCount - 1);
 		}
-		
-		checkVictory(); // Comprobamos tras habernos movido, si hemos llegado a nuestro objetivo
 	}
 	
 	/* respawnPlayer(): lleva al jugador a la casilla de inicio al caer en un agujero */

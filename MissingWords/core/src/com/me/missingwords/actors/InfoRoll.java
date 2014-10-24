@@ -16,7 +16,7 @@ import com.me.missingwords.MissingWords;
 
 public class InfoRoll extends VerticalGroup {	
 	private final int POSITION_X = 120;
-	private final int POSITION_Y = 400;
+	private final int POSITION_Y = 350;
 	
 	private Label roll1, roll2, roll3, title;
 	private MissingWords missingWords;

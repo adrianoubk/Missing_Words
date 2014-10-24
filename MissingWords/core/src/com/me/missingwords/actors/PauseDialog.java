@@ -56,5 +56,10 @@ public class PauseDialog extends Dialog {
 		
 		/* Reanudamos el tiempo */
 		missingWords.getGameScreen().getTimeBar().start();
+		
+		/* Si no es singleplayer y es el turno de la npc, reanudamos su temporizador */
+		if (!missingWords.isSinglePlayer())
+			if (missingWords.getGameScreen().getNpc().isMyTurn())
+				missingWords.getGameScreen().getNpc().getNpcTimer().start();
 	}
 }

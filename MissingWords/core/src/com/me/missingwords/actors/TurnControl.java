@@ -56,8 +56,12 @@ public class TurnControl extends Label {
 								
 								missingWords.getGameScreen().getTileBox().getTileTable().setVisible(true);
 								
+								/* Permitimos que toque la pantalla */
 								if (missingWords.getGameScreen().getHuman().isMyTurn())
 									missingWords.getGameScreen().getHuman().touchScreen(Touchable.enabled);
+								
+								/* El botón de pause siempre se puede tocar */
+								missingWords.getGameScreen().getPauseButton().setTouchable(Touchable.enabled);
 								
 								if (!missingWords.isSinglePlayer())
 									if (missingWords.getGameScreen().getNpc().isMyTurn()) { // Si es el turno de la máquina
@@ -116,6 +120,9 @@ public class TurnControl extends Label {
 		
 		/* Prohibimos al jugador que toque la pantalla */
 		missingWords.getGameScreen().getHuman().touchScreen(Touchable.disabled); 
+		
+		/* Desactivamos el botón de pausa */
+		missingWords.getGameScreen().getPauseButton().setTouchable(Touchable.disabled);
 		
 		/* Creamos las fichas y las ocultamos hasta que empiece el turno */
 		missingWords.getGameScreen().newTiles(); 

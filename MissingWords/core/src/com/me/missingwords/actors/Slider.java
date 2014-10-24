@@ -15,7 +15,7 @@ import com.me.missingwords.MissingWords;
 
 public class Slider extends Actor {
 	private final int TILE_WIDTH = 50; // Ancho de la ficha
-	private final int SLIDER_HEIGHT = 35; // Altura a la que se dibuja el slider
+	private final int SLIDER_HEIGHT = 25; // Altura a la que se dibuja el slider
 	private TextureRegion sliderTexture; // Textura del slider
 	
 	private MissingWords missingWords;

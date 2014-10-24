@@ -28,6 +28,9 @@ public class HumanPlayer extends Player {
 	public void playTurn() {
 		playMinigame(); // Juega el minijuego
 		
+		/* Restablecemos el score */
+		missingWords.getGameScreen().getWordScore().setScore(0);
+		
 		setMyTurn(false); // Acaba su turno
 		
 		/* Activamos el turno de la máquina. Solo para el modo PLAYER VS CPU */	
@@ -45,7 +48,6 @@ public class HumanPlayer extends Player {
 		missingWords.getGameScreen().getLengthClue().setTouchable(touchable);
 		missingWords.getGameScreen().getTranslationClue().setTouchable(touchable);
 		missingWords.getGameScreen().getSubmit().setTouchable(touchable);
-		missingWords.getGameScreen().getPauseButton().setTouchable(touchable);
 	}
 	
 	/* addPlayedWord(): añade una palabra a la lista de palabras jugadas */

@@ -16,7 +16,7 @@ import com.me.missingwords.MissingWords;
 
 public class NPCPlayer extends Player {
 	private int wordCounter; // Contador usado para recorrer la palabra
-	private Timer h; // Temporizador
+	private Timer npcTimer; // Temporizador
 	private boolean isTurnFinished; // Variable que indica si el turno ha terminado o no
 
 	public NPCPlayer(String name, MissingWords missingWords) {
@@ -24,7 +24,7 @@ public class NPCPlayer extends Player {
 		
 		this.missingWords = missingWords;
 		wordCounter = 0;
-		h = new Timer();
+		npcTimer = new Timer();
 		isTurnFinished = false;
 	}
 	
@@ -63,7 +63,7 @@ public class NPCPlayer extends Player {
 		 * Creamos una tarea con el temporizador. Va escogiendo las letras para formar
 		 * una palabra.
 		 */
-		h.scheduleTask(new Task() {
+		npcTimer.scheduleTask(new Task() {
 			
 			@Override
 			public void run() {
@@ -72,7 +72,8 @@ public class NPCPlayer extends Player {
 				original.get(index).setVisible(false); // Oculta la ficha original
 				copy.get(index).setSmallSize(); // Cambia el tamaño de la ficha copia al enviarla al submitBox
 				submitBox.addActor(copy.get(index)); // Añade la ficha al submitBox
-				submitBox.increaseNumActors(); 
+				submitBox.increaseNumActors();
+				missingWords.getGameScreen().getWordScore().increaseScore(original.get(index).getPoints());
 				
 				if (wordCounter < word.size()) { // Si quedan letras por procesar
 					++wordCounter;
@@ -93,7 +94,7 @@ public class NPCPlayer extends Player {
 		 * Creamos una tarea con el temporizador. Confirma la palabra y asigna las tiradas
 		 * correspondientes en base a los puntos. 
 		 */
-		h.scheduleTask(new Task() {
+		npcTimer.scheduleTask(new Task() {
 			
 			@Override
 			public void run() {
@@ -126,6 +127,9 @@ public class NPCPlayer extends Player {
 				/* La máquina juega el minijuego */
 				playMinigame();
 				
+				/* Restablecemos el score */
+				missingWords.getGameScreen().getWordScore().setScore(0);
+				
 				/* Finaliza el turno de la máquina */
 				setMyTurn(false); 
 			}
@@ -142,5 +146,9 @@ public class NPCPlayer extends Player {
 
 	public void setTurnFinished(boolean isTurnFinished) {
 		this.isTurnFinished = isTurnFinished;
+	}
+
+	public Timer getNpcTimer() {
+		return npcTimer;
 	}
 }

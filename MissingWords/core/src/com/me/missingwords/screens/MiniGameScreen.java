@@ -29,14 +29,14 @@ public class MiniGameScreen extends BaseScreen {
 	private WaitButton waitButton;
 	private ContinueButton continueButton;
 	private Dice dice;
-	private Timer t;
+	private Timer tRoll;
 	private RollsLeft rollsLeft;
 
 	public MiniGameScreen(MissingWords missingWords) {
 		super(missingWords);
 		
 		/* Creamos el temporizador */
-		t = new Timer();
+		tRoll = new Timer();
 		
 		/* Creamos el tablero de juego */
 		world = new World(missingWords);
@@ -113,7 +113,7 @@ public class MiniGameScreen extends BaseScreen {
 				moveButton.hide();
 				rollsLeft.setRolls(missingWords.getGameScreen().getNpc().getRolls());
 				
-					t.scheduleTask(new Task() {
+					tRoll.scheduleTask(new Task() {
 						@Override
 						public void run() {
 							dice.roll();
@@ -182,5 +182,9 @@ public class MiniGameScreen extends BaseScreen {
 
 	public RollsLeft getRollsLeft() {
 		return rollsLeft;
+	}
+
+	public Timer gettRoll() {
+		return tRoll;
 	}
 }

@@ -27,5 +27,10 @@ public class PauseButtonListener extends ClickListener {
 		
 		/* Para el tiempo */
 		missingWords.getGameScreen().getTimeBar().stop();
+		
+		/* Si no es singleplayer y es el turno de la npc, reanudamos su temporizador */
+		if (!missingWords.isSinglePlayer()) 
+			if (missingWords.getGameScreen().getNpc().isMyTurn())
+				missingWords.getGameScreen().getNpc().getNpcTimer().stop();
 	}
 }

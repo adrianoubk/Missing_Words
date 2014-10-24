@@ -33,6 +33,9 @@ public class LengthClueListener extends ClickListener {
 			}
 		}
 		
+		/* Restablecemos el score */
+		missingWords.getGameScreen().getWordScore().setScore(0);
+		
 		/* Creamos las fichas de longitud */
 		missingWords.getGameScreen().getLengthBox().createLength(missingWords.getGameScreen().getAdaptedWordNPC().size());
 		

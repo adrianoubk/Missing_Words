@@ -1,7 +1,7 @@
 package com.me.missingwords.listeners;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-
+import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.SubmitBox;
 import com.me.missingwords.actors.Tile;
 
@@ -14,8 +14,8 @@ import com.me.missingwords.actors.Tile;
 
 public class TileListenerSubmit extends AbstractTileListener {
 	
-	public TileListenerSubmit(SubmitBox submitBox, Tile original, Tile copy)  {
-		super(submitBox, original, copy);
+	public TileListenerSubmit(SubmitBox submitBox, Tile original, Tile copy, MissingWords missingWords) {
+		super(submitBox, original, copy, missingWords);
 	}
 	
 	@Override
@@ -23,5 +23,6 @@ public class TileListenerSubmit extends AbstractTileListener {
 		original.setVisible(true);  // Ponemos visible la ficha original
 		submitBox.removeActor(copy); // Eliminamos la ficha copia del submitBox
 		submitBox.decreaseNumActors(); // --NumActors;
+		missingWords.getGameScreen().getWordScore().decreaseScore(original.getPoints());
 	}
 }

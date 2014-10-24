@@ -40,6 +40,9 @@ public class TranslationClueListener extends ClickListener {
 			}
 		}
 		
+		/* Restablecemos el score */
+		missingWords.getGameScreen().getWordScore().setScore(0);
+		
 		/* Creamos un array de strings */
 		StringBuilder word = new StringBuilder();
 		

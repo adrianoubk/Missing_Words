@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
@@ -45,6 +46,7 @@ public class GameScreen extends BaseScreen {
 	private String winner;
 	private InfoRoll info;
 	private PauseDialog pauseDialog;
+	private WordScore wordScore;
 
 	public GameScreen(MissingWords missingWords) {
 		super(missingWords);
@@ -103,11 +105,19 @@ public class GameScreen extends BaseScreen {
 		turnControl = new TurnControl("none", missingWords);
 		stage.addActor(turnControl);
 		
+		Image panel = new Image(MissingWords.myManager.get("blue_panel.png", Texture.class));
+		panel.setBounds(10, 250, 230, 160);
+		//stage.addActor(panel);
+		
 		/* Creamos el bloque con la información de las tiradas */
 		info = new InfoRoll(missingWords);
 		stage.addActor(info);
 		
+		/* Creamos el dialogo de pausa */
 		pauseDialog = new PauseDialog(missingWords);
+		
+		wordScore = new WordScore();
+		stage.addActor(wordScore);
 	}
 
 	@Override
@@ -151,7 +161,7 @@ public class GameScreen extends BaseScreen {
 				new TextureRegionDrawable(new TextureRegion(
 						MissingWords.myManager.get("translationButton_Used.png", Texture.class))));
 						
-		translationClue.setPosition(272, 5);
+		translationClue.setPosition(580, 300);
 		translationClue.addListener(new TranslationClueListener(missingWords, translationClue));
 		stage.addActor(translationClue);
 		
@@ -163,7 +173,7 @@ public class GameScreen extends BaseScreen {
 				new TextureRegionDrawable(new TextureRegion(
 						MissingWords.myManager.get("letterButton_Used.png", Texture.class))));
 		
-		letterClue.setPosition(341, 5);
+		letterClue.setPosition(650, 300);
 		letterClue.addListener(new LetterClueListener(missingWords, letterClue));
 		stage.addActor(letterClue);
 		
@@ -175,7 +185,7 @@ public class GameScreen extends BaseScreen {
 				new TextureRegionDrawable(new TextureRegion(
 						MissingWords.myManager.get("lengthButton_Used.png", Texture.class))));
 		
-		lengthClue.setPosition(410, 5);
+		lengthClue.setPosition(720, 300);
 		lengthClue.addListener(new LengthClueListener(missingWords, lengthClue));
 		stage.addActor(lengthClue);
 		
@@ -305,8 +315,8 @@ public class GameScreen extends BaseScreen {
 	/* addListeners(): añade los listeners a las tiles para poder tocarlas */
 	private void addListeners() {	
 		for (int i = 0; i < MAX_TILES; ++i) {
-			originalTiles.get(i).addListener(new TileListenerTable(submitBox, originalTiles.get(i), copyTiles.get(i)));
-			copyTiles.get(i).addListener(new TileListenerSubmit(submitBox, originalTiles.get(i), copyTiles.get(i)));
+			originalTiles.get(i).addListener(new TileListenerTable(submitBox, originalTiles.get(i), copyTiles.get(i), missingWords));
+			copyTiles.get(i).addListener(new TileListenerSubmit(submitBox, originalTiles.get(i), copyTiles.get(i), missingWords));
 		}
 	}
 	
@@ -419,5 +429,9 @@ public class GameScreen extends BaseScreen {
 
 	public PauseDialog getPauseDialog() {
 		return pauseDialog;
+	}
+
+	public WordScore getWordScore() {
+		return wordScore;
 	}
 }

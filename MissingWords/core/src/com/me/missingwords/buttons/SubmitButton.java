@@ -14,8 +14,8 @@ import com.me.missingwords.MissingWords;
 
 public class SubmitButton extends ImageButton {
 
-	private final int POSITION_X = 479;
-	private final int POSITION_Y = 5;
+	private final int POSITION_X = 650;
+	private final int POSITION_Y = 150;
 	
 	public SubmitButton() {
 		super(
