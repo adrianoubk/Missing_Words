@@ -54,7 +54,7 @@ public class MenuScreen extends BaseScreen {
 		playerVsCpu = new TextButton("Player VS CPU", tStyle);
 		playerVsCpu.addListener(new MenuListener(missingWords, "playervscpu"));
 		
-		singlePlayer = new TextButton("SinglePlayer", tStyle);
+		singlePlayer = new TextButton("Single-Player", tStyle);
 		singlePlayer.addListener(new MenuListener(missingWords, "singleplayer"));
 		
 		stats = new TextButton("Stats", tStyle);
