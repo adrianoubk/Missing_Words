@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.me.missingwords.MissingWords;
 
 /**
@@ -16,15 +15,17 @@ import com.me.missingwords.MissingWords;
  *
  */
 
-public class WaitListener extends ClickListener {
-	private MissingWords missingWords;
+public class WaitListener extends AbstractListener {
 	
 	public WaitListener(MissingWords missingWords) {
-		this.missingWords = missingWords;
+		super(missingWords);
 	}
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
+		/* Reproducimos el efecto de sonido si está activo */
+		missingWords.getSoundFX().getButton().play(missingWords.getSoundFX().getVolume());
+		
 		/* Si ha movido al menos una vez */
 		if (missingWords.getMiniGameScreen().getMoveButton().hasMoved()) {
 			missingWords.getMiniGameScreen().getWaitButton().hide();
@@ -38,7 +39,7 @@ public class WaitListener extends ClickListener {
 							new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false),
 					Color.BLACK));
 			
-			warning.setPosition(50, 50);
+			warning.setPosition((MissingWords.VIEWPORT_WIDTH - warning.getMinWidth()) / 2, 200);
 			warning.addAction(Actions.fadeOut(3));
 			missingWords.getMiniGameScreen().getStage().addActor(warning);
 		}

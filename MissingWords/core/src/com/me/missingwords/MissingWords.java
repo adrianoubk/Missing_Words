@@ -6,11 +6,13 @@ import java.io.IOException;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.missingwords.data.StatsData;
 import com.me.missingwords.screens.*;
+import com.me.missingwords.sound.SoundFX;
 import com.me.missingwords.utils.Dictionary;
 import com.me.missingwords.utils.Scores;
 import com.me.missingwords.utils.Vocabulary;
@@ -21,7 +23,7 @@ import com.me.missingwords.utils.Vocabulary;
  * 
  */
 
-/*  La clase Game permite a nuestro juego dividirse en distintas pantallas como la pantalla de 
+/* La clase Game permite a nuestro juego dividirse en distintas pantallas como la pantalla de 
  * juego, menu, carga, etc. Game implementa ApplicationListener, una interfaz que se encarga de 
  * recibir los eventos con los que entra en contacto nuestra aplicacion. Estos son cuando la 
  * aplicacion es creada, pausada, resumida (despues de un estado de pausa),
@@ -44,6 +46,8 @@ public class MissingWords extends Game {
 	public VictoryScreen VictoryScreen;
 	public LoadingScreen LoadingScreen;
 	public StatsScreen StatsScreen;
+	public SettingsScreen SettingsScreen;
+	public InstructionsScreen InstructionsScreen;
 	
 	/* La clase SpriteBatch nos permite dibujar las texturas de nuestro juego. Agrupa 
 	 * sprites(imagenes) para enviarlas al procesador grafico y asi dibujarlas a la vez.
@@ -56,7 +60,7 @@ public class MissingWords extends Game {
 	public static AssetManager myManager;
 	
 	/* Categorías del juego */
-	public enum Category {days, months};
+	public enum Category {days, months, wquestions, colors, ALL};
 	
 	/* Idiomas que soporta el juego */
 	public enum Language {english, german};
@@ -87,6 +91,9 @@ public class MissingWords extends Game {
 	
 	/* Datos de las estadísticas */
 	private StatsData statsData;
+	
+	/* Controla el sonido de la app */
+	private SoundFX soundFX;
 	
 	/* create(): Creamos los objetos necesarios para construir la aplicación */
 	@Override
@@ -178,6 +185,19 @@ public class MissingWords extends Game {
 		myManager.load("pauseButtonUp.png", Texture.class);
 		myManager.load("pauseButtonDown.png", Texture.class);
 		myManager.load("backgroundDialog.png", Texture.class);
+		myManager.load("sounds/roll.mp3", Sound.class);
+		myManager.load("sounds/tap.ogg", Sound.class);
+		myManager.load("sounds/menu.wav", Sound.class);
+		myManager.load("sounds/positive.wav", Sound.class);
+		myManager.load("sounds/negative.wav", Sound.class);
+		myManager.load("sounds/clue.mp3", Sound.class);
+		myManager.load("sounds/hole.wav", Sound.class);
+		myManager.load("sounds/win.wav", Sound.class);
+		myManager.load("checkboxOn.png", Texture.class);
+		myManager.load("checkboxOff.png", Texture.class);
+		myManager.load("germanyFlagSelected.png", Texture.class);
+		myManager.load("ukFlagSelected.png", Texture.class);
+		myManager.load("sounds/timeout.mp3", Sound.class);
 		
 		victory = false; 
 		
@@ -190,7 +210,12 @@ public class MissingWords extends Game {
 	@Override
 	public void dispose() {
 		super.dispose();
-		myBatch.dispose();
+		CategorySelectionScreen.dispose();
+		MenuScreen.dispose();
+		SettingsScreen.dispose();
+		StatsScreen.dispose();
+		LanguageSelectionScreen.dispose();
+		LoadingScreen.dispose();
 		myManager.dispose();
 	}
 	
@@ -199,13 +224,17 @@ public class MissingWords extends Game {
 		CategorySelectionScreen = new CategorySelectionScreen(this);
 		MenuScreen = new MenuScreen(this);
 		StatsScreen = new StatsScreen(this);
+		SettingsScreen = new SettingsScreen(this);
+		InstructionsScreen = new InstructionsScreen(this);
 	}
 	
 	/* createGameScreens(): crea las pantallas de juego */
-	public void createGameScreens() {
+	public boolean createGameScreens() {
 		GameScreen = new GameScreen(this);
 		MiniGameScreen = new MiniGameScreen(this);
 		VictoryScreen = new VictoryScreen(this);
+		
+		return true;
 	}
 	
 	/* createUtils(): inicializa el vocabulario, diccionario y puntuación */
@@ -263,6 +292,11 @@ public class MissingWords extends Game {
 		br.close(); // cerramos el buffer
 	}
 	
+	/* createSoundFX(): Crea el gestor de sonido de la app */
+	public void createSoundFX() {
+		soundFX = new SoundFX();
+	}
+	
 	/* -------------- Getters and Setters -------------- */
 	
 	public SpriteBatch getSB() {
@@ -279,6 +313,10 @@ public class MissingWords extends Game {
 
 	public StatsScreen getStatsScreen() {
 		return StatsScreen;
+	}
+
+	public SettingsScreen getSettingsScreen() {
+		return SettingsScreen;
 	}
 
 	public Vocabulary getVocabulary() {
@@ -327,6 +365,10 @@ public class MissingWords extends Game {
 
 	public StatsData getStatsData() {
 		return statsData;
+	}
+
+	public SoundFX getSoundFX() {
+		return soundFX;
 	}
 }
 

@@ -2,7 +2,6 @@ package com.me.missingwords.listeners;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.me.missingwords.MissingWords;
-import com.me.missingwords.actors.SubmitBox;
 import com.me.missingwords.actors.Tile;
 
 /**
@@ -12,17 +11,24 @@ import com.me.missingwords.actors.Tile;
  *
  */
 
-public class TileListenerSubmit extends AbstractTileListener {
+public class TileListenerSubmit extends AbstractListener {
+	private Tile original, copy;
 	
-	public TileListenerSubmit(SubmitBox submitBox, Tile original, Tile copy, MissingWords missingWords) {
-		super(submitBox, original, copy, missingWords);
+	public TileListenerSubmit(Tile original, Tile copy, MissingWords missingWords) {
+		super(missingWords);
+		this.original = original;
+		this.copy = copy;
 	}
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
+		/* Reproducimos el efecto de sonido si está activo */
+		missingWords.getSoundFX().getTap().play(missingWords.getSoundFX().getVolume());
+		
 		original.setVisible(true);  // Ponemos visible la ficha original
-		submitBox.removeActor(copy); // Eliminamos la ficha copia del submitBox
-		submitBox.decreaseNumActors(); // --NumActors;
+		missingWords.getGameScreen().getSubmitBox().removeActor(copy); // Eliminamos la copia
+		missingWords.getGameScreen().getSubmitBox().decreaseNumActors(); // --NumActors;
+		
 		missingWords.getGameScreen().getWordScore().decreaseScore(original.getPoints());
 	}
 }

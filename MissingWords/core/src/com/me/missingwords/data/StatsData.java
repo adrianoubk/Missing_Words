@@ -31,6 +31,7 @@ public class StatsData {
 		cluesUsed = prefs.getInteger("cluesUsed", 0);
 		largestWord = prefs.getString("largestWord", "N/A");
 		bestWord = prefs.getString("bestWord", "N/A");
+		scoreBestWord = prefs.getInteger("scoreBestWord", 0);
 	}
 	
 	/* saveData(): guarda la información en el fichero de preferencias stats */
@@ -43,6 +44,7 @@ public class StatsData {
 		prefs.putInteger("cluesUsed", cluesUsed);
 		prefs.putString("largestWord", largestWord);
 		prefs.putString("bestWord", bestWord);
+		prefs.putInteger("scoreBestWord", scoreBestWord);
 		
 		prefs.flush();
 	}

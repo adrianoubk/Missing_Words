@@ -33,11 +33,22 @@ public class HumanPlayer extends Player {
 		
 		setMyTurn(false); // Acaba su turno
 		
+		/* Si la cpu falla. ?????? 
+		int result = new Random().nextInt(10 - 1 + 1) + 1; // max = 10 y min = 1
+		
+		if (result <= 9) {
+			Label confused = new Label("NPC is confused and don't remember any word. So it's your turn again :)", new LabelStyle(new BitmapFont(), Color.BLACK));
+			confused.setPosition((MissingWords.VIEWPORT_WIDTH - confused.getMinWidth()) / 2, 50);
+			confused.addAction(Actions.fadeOut(5));
+			missingWords.getGameScreen().getStage().addActor(confused);
+			missingWords.getGameScreen().getNpc().setMyTurn(false);
+		}*/
+		
 		/* Activamos el turno de la máquina. Solo para el modo PLAYER VS CPU */	
 		if (!missingWords.isSinglePlayer()) {
-			missingWords.getGameScreen().getNpc().setTurnFinished(true); 
-			missingWords.getGameScreen().getNpc().setMyTurn(true);
-		}
+		missingWords.getGameScreen().getNpc().setTurnFinished(true); 
+		missingWords.getGameScreen().getNpc().setMyTurn(true);
+		}	
 	}
 	
 	/* touchScreen(): controla si el jugador puede interactuar con la pantalla */

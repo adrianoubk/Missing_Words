@@ -18,3 +18,26 @@ september,septiembre
 october,octubre
 november,noviembre
 december,diciembre
+what,que
+which,cual
+where,donde
+when,cuando
+why,por que
+who,quien
+whom,quien
+whose,de quien
+black,negro
+grey,gris
+violet,violeta
+white,blanco
+green,verde
+orange,naranja
+red,rojo
+brown,marron
+skyblue,celeste
+blue,azul
+yellow,amarillo
+pink,rosa
+purple,purpura
+beige,beige
+turquoise,turquesa

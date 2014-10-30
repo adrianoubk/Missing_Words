@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Background;
-import com.me.missingwords.listeners.LanguageListener;
+import com.me.missingwords.listeners.MenuListener;
 
 /** 
  * 
@@ -30,11 +30,11 @@ public class LanguageSelectionScreen extends BaseScreen {
 		/* Creamos los botones con los idiomas */
 		buttonGerman = new ImageButton(new TextureRegionDrawable(
 				new TextureRegion(MissingWords.myManager.get("Germany-flag.png", Texture.class))));	
-		buttonGerman.addListener(new LanguageListener("german", missingWords));
+		buttonGerman.addListener(new MenuListener(missingWords, "german"));
 		
 		buttonEnglish = new ImageButton(new TextureRegionDrawable(
 				new TextureRegion(MissingWords.myManager.get("United-kingdom-flag.png", Texture.class))));	
-		buttonEnglish.addListener(new LanguageListener("english", missingWords));
+		buttonEnglish.addListener(new MenuListener(missingWords, "english"));
 		
 		/* Creamos el grupo que almacena los botones */
 		languageBox = new HorizontalGroup();

@@ -13,8 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Background;
-import com.me.missingwords.listeners.GameModeSelectionListener;
-import com.me.missingwords.listeners.StatsListener;
+import com.me.missingwords.listeners.MenuListener;
 
 /** 
  * 
@@ -25,7 +24,7 @@ import com.me.missingwords.listeners.StatsListener;
 public class MenuScreen extends BaseScreen {
 	private Background background;
 	private Label title;
-	private TextButton playerVsCpu, singlePlayer, stats;
+	private TextButton playerVsCpu, singlePlayer, stats, settings, instructions, exit;
 	private TextButtonStyle tStyle;
 	private TextureRegionDrawable up, down;
 	private BitmapFont font;
@@ -53,25 +52,37 @@ public class MenuScreen extends BaseScreen {
 		tStyle = new TextButtonStyle(up, down, null, font);
 		
 		playerVsCpu = new TextButton("Player VS CPU", tStyle);
-		playerVsCpu.addListener(new GameModeSelectionListener("playervscpu", missingWords));
+		playerVsCpu.addListener(new MenuListener(missingWords, "playervscpu"));
 		
 		singlePlayer = new TextButton("SinglePlayer", tStyle);
-		singlePlayer.addListener(new GameModeSelectionListener("singleplayer", missingWords));
+		singlePlayer.addListener(new MenuListener(missingWords, "singleplayer"));
 		
 		stats = new TextButton("Stats", tStyle);
-		stats.addListener(new StatsListener(missingWords));
+		stats.addListener(new MenuListener(missingWords, "stats"));
+		
+		settings = new TextButton("Settings", tStyle);
+		settings.addListener(new MenuListener(missingWords, "settings"));
+		
+		instructions = new TextButton("Instructions", tStyle);
+		instructions.addListener(new MenuListener(missingWords, "instructions"));
+		
+		exit = new TextButton("Exit", tStyle);
+		exit.addListener(new MenuListener(missingWords, "exit"));
 		
 		/* Creamos un grupo para añadir los botones */
 		buttonsBox = new VerticalGroup();
-		buttonsBox.space(20); // Espacio entre botones
+		buttonsBox.space(10); // Espacio entre botones
 		
 		/* Añadimos los botones */
 		buttonsBox.addActor(playerVsCpu);
 		buttonsBox.addActor(singlePlayer);
 		buttonsBox.addActor(stats);
+		buttonsBox.addActor(settings);
+		buttonsBox.addActor(instructions);
+		buttonsBox.addActor(exit);
 		
 		/* Posicionamos el grupo */
-		buttonsBox.setPosition((MissingWords.VIEWPORT_WIDTH - buttonsBox.getMaxWidth()) / 2, 350);
+		buttonsBox.setPosition((MissingWords.VIEWPORT_WIDTH - buttonsBox.getMaxWidth()) / 2, 375);
 		
 		stage.addActor(buttonsBox); // Añadimos el grupo al stage
 	}

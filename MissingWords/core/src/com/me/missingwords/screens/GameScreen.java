@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
@@ -104,10 +103,6 @@ public class GameScreen extends BaseScreen {
 		/* Creamos el objeto que controla los turnos */
 		turnControl = new TurnControl("none", missingWords);
 		stage.addActor(turnControl);
-		
-		Image panel = new Image(MissingWords.myManager.get("blue_panel.png", Texture.class));
-		panel.setBounds(10, 250, 230, 160);
-		//stage.addActor(panel);
 		
 		/* Creamos el bloque con la información de las tiradas */
 		info = new InfoRoll(missingWords);
@@ -209,7 +204,7 @@ public class GameScreen extends BaseScreen {
 		addListeners();
 	}
 	
-	/* createTiles(): crea los objetos tile */
+	/* createTiles(): crea los objetos de tipo Tile */
 	private void createTiles() {
 		String randomWord;
 		String[] arrayWord;
@@ -315,8 +310,8 @@ public class GameScreen extends BaseScreen {
 	/* addListeners(): añade los listeners a las tiles para poder tocarlas */
 	private void addListeners() {	
 		for (int i = 0; i < MAX_TILES; ++i) {
-			originalTiles.get(i).addListener(new TileListenerTable(submitBox, originalTiles.get(i), copyTiles.get(i), missingWords));
-			copyTiles.get(i).addListener(new TileListenerSubmit(submitBox, originalTiles.get(i), copyTiles.get(i), missingWords));
+			originalTiles.get(i).addListener(new TileListenerTable(originalTiles.get(i), copyTiles.get(i), missingWords));
+			copyTiles.get(i).addListener(new TileListenerSubmit(originalTiles.get(i), copyTiles.get(i), missingWords));
 		}
 	}
 	
@@ -327,17 +322,29 @@ public class GameScreen extends BaseScreen {
 	
 	@Override
 	public void hide() {
-		System.out.println("Ocultando");
+		
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
+	public void pause() {		
+		/* Muestra el dialogo con el botón de resume */
+		missingWords.getGameScreen().getPauseDialog().show(missingWords.getGameScreen().getStage());
+		
+		/* Oculta las fichas para evitar trampas */
+		missingWords.getGameScreen().getTileBox().getTileTable().setVisible(false);
+		
+		/* Para el tiempo */
+		missingWords.getGameScreen().getTimeBar().stop();
+		
+		/* Si no es singleplayer y es el turno de la npc, reanudamos su temporizador */
+		if (!missingWords.isSinglePlayer()) 
+			if (missingWords.getGameScreen().getNpc().isMyTurn())
+				missingWords.getGameScreen().getNpc().getNpcTimer().stop();
 	}
 
 	@Override
 	public void resume() {
-		System.out.println("Resumiendo");
+		
 	}
 	
 	@Override

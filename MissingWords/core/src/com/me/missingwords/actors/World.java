@@ -187,8 +187,8 @@ public class World {
 					
 						if (cell.getTile().equals(holeTile)) 
 							respawnPlayer(playerPosition, true); // Volvemos al jugador al inicio
-						else
-							checkVictory();
+						
+						checkVictory();
 					}
 				}
 			}, 0, 0.3f, timerCount - 1);
@@ -218,7 +218,7 @@ public class World {
 					
 					--npcPosition; 
 					
-					if (playerPosition == 0) { 
+					if (npcPosition == 0) { 
 						steps = 0;
 					}
 					else
@@ -240,8 +240,8 @@ public class World {
 					
 						if (cell.getTile().equals(holeTile)) 
 							respawnPlayer(npcPosition, false); 
-						else
-							checkVictory();
+						
+						checkVictory();
 					}
 				}
 			}, 2, 0.3f, timerCount - 1);
@@ -251,6 +251,9 @@ public class World {
 	/* respawnPlayer(): lleva al jugador a la casilla de inicio al caer en un agujero */
 	public void respawnPlayer(int oldPosition, boolean player) {
 		Cell cell = new Cell();
+		
+		/* Reproducimos el efecto de sonido si está activo */
+		missingWords.getSoundFX().getHole().play(missingWords.getSoundFX().getVolume());
 		
 		if (player) { // Si es el jugador		
 			cell = tokenLayer.getCell((int) arraySquares.get(oldPosition).x, (int) arraySquares.get(oldPosition).y);

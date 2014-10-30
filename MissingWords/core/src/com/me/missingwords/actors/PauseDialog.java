@@ -36,30 +36,57 @@ public class PauseDialog extends Dialog {
 		
 		setStyle(style); // aplicamos el estilo
 		
+		
+		
 		/* Creamos un botón dentro del diálogo */
-		button("resume", null, new TextButtonStyle(
+		button("resume", "resume", new TextButtonStyle(
 				new TextureRegionDrawable(
 						new TextureRegion(MissingWords.myManager.get("upButton.png", Texture.class))),
 				new TextureRegionDrawable(
 						new TextureRegion(MissingWords.myManager.get("downButton.png", Texture.class))), 
 				null, 
 				new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false)));
+		
+		button("exit", "exit", new TextButtonStyle(
+				new TextureRegionDrawable(
+						new TextureRegion(MissingWords.myManager.get("upButton.png", Texture.class))),
+				new TextureRegionDrawable(
+						new TextureRegion(MissingWords.myManager.get("downButton.png", Texture.class))), 
+				null, 
+				new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false)));	
 	}
 	
 	/* result(): Método que se ejecuta al pulsar el botón y cierra el diálogo */
 	@Override
-	protected void result(Object object) {
+	public void result(Object object) {
 		super.result(object);
 		
-		/* Mostramos las fichas */
-		missingWords.getGameScreen().getTileBox().getTileTable().setVisible(true);
+		/* Reproducimos el efecto de sonido si está activo */
+		missingWords.getSoundFX().getButton().play(missingWords.getSoundFX().getVolume());
 		
-		/* Reanudamos el tiempo */
-		missingWords.getGameScreen().getTimeBar().start();
+		if (object.equals("resume")) {
+			/* Mostramos las fichas */
+			missingWords.getGameScreen().getTileBox().getTileTable().setVisible(true);
 		
-		/* Si no es singleplayer y es el turno de la npc, reanudamos su temporizador */
-		if (!missingWords.isSinglePlayer())
-			if (missingWords.getGameScreen().getNpc().isMyTurn())
-				missingWords.getGameScreen().getNpc().getNpcTimer().start();
+			/* Reanudamos el tiempo */
+			missingWords.getGameScreen().getTimeBar().start();
+		
+			/* Si no es singleplayer y es el turno de la npc, reanudamos su temporizador */
+			if (!missingWords.isSinglePlayer())
+				if (missingWords.getGameScreen().getNpc().isMyTurn())
+					missingWords.getGameScreen().getNpc().getNpcTimer().start();
+		}
+		else {
+			/* Liberamos los recursos de las pantallas  y eliminamos las mismas */
+			missingWords.GameScreen.dispose();
+			missingWords.MiniGameScreen.dispose();
+			missingWords.VictoryScreen.dispose();
+			
+			/* Desactivamos el SINGLEPLAYER, si es aplicable */
+			if (missingWords.isSinglePlayer())
+				missingWords.setSinglePlayer(false);
+			
+			missingWords.setScreen(missingWords.MenuScreen);
+		}
 	}
 }

@@ -22,11 +22,13 @@ public class Dice extends Actor {
 	private Random r; // Variable que obtendrá el número aleatorio entre 1 y 6
 	public boolean drawDice; // Booleano que indica si se dibuja el dado o no
 	private int result; // Resultado obtenido en una tirada
+	private MissingWords missingWords;
 	
-	public Dice() {
+	public Dice(MissingWords missingWords) {
 		r = new Random();
 		diceTexture = new TextureRegion();
 		drawDice = false;
+		this.missingWords = missingWords;
 	}
 	
 	@Override
@@ -37,6 +39,9 @@ public class Dice extends Actor {
 	
 	/* roll(): realiza una tirada */
 	public void roll() {
+		/* Reproducimos el efecto de sonido si está activo */
+		missingWords.getSoundFX().getRoll().play(missingWords.getSoundFX().getVolume());
+		
 		result = r.nextInt(6 - 1 + 1) + 1; // 1d6 -> max = 6 y min = 1
 		
 		switch (result) {

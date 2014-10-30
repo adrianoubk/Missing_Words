@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class WordScore extends Label {
 	private int score;
+	private int penalties;
 	
 	public WordScore() {
 		super("Score: 0", 
@@ -20,12 +21,17 @@ public class WordScore extends Label {
 				new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false), Color.BLACK));
 		
 		score = 0;
+		penalties = 0;
 		
-		setPosition(615, 235);
+		setPosition(615, 235); // 615
 	}
 	
 	private void updateLabel() {
-		setText("Score: " + score);
+		if (penalties > 0)
+			setText("Score: " + score + "\n(" + "-" + penalties + " rolls)");
+		
+		if (penalties == 0)
+			setText("Score: " + score);
 	}
 	
 	public void decreaseScore(int tileScore) {
@@ -38,10 +44,20 @@ public class WordScore extends Label {
 		updateLabel();
 	}
 	
+	public void increasePenalties(int penalties) {
+		this.penalties += penalties;
+		updateLabel();
+	}
+	
 	/* -------------- Getters and Setters -------------- */
 
 	public void setScore(int score) {
 		this.score = score;
+		updateLabel();
+	}
+	
+	public void setPenalties(int penalties) {
+		this.penalties = penalties;
 		updateLabel();
 	}
 }

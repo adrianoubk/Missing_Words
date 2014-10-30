@@ -41,9 +41,12 @@ public class Vocabulary {
 		while((line = br.readLine()) != null) {	
 			word = line.split(",");
 			
-			if (word[1].equals(category.toString())) {
+			if (category == Category.ALL)
 				vocabulary.put(word[0], category);
-			}
+			else 
+				if (word[1].equals(category.toString())) {
+					vocabulary.put(word[0], category);
+				}
 		}
 			
 		/*for (Entry<String, Category> e: vocabulary.entrySet()) {

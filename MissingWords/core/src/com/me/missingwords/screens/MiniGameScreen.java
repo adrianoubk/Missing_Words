@@ -42,7 +42,7 @@ public class MiniGameScreen extends BaseScreen {
 		world = new World(missingWords);
 		
 		/* Creamos el dado */
-		dice = new Dice();
+		dice = new Dice(missingWords);
 		stage.addActor(dice);
 		
 		/* Creamos los botones de lanzar, mover, esperar y continuar */
@@ -126,8 +126,7 @@ public class MiniGameScreen extends BaseScreen {
 						}
 					}, 1, 2, rollsLeft.getRolls() - 1);
 			}
-		}
-		
+		}	
 	}
 	
 	@Override

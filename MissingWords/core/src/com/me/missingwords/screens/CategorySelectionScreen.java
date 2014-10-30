@@ -26,7 +26,7 @@ import com.me.missingwords.listeners.CategorySelectionListener;
 public class CategorySelectionScreen extends BaseScreen {
 	private Background background;
 	private Label title;
-	private TextButton categoryButton;
+	private TextButton days, months, wquestions, colors, all;
 	private TextButtonStyle tStyle;
 	private TextureRegionDrawable up, down;
 	private BitmapFont font;
@@ -59,14 +59,31 @@ public class CategorySelectionScreen extends BaseScreen {
 		
 		tStyle = new TextButtonStyle(up, down, null, font);
 		
-		categoryButton = new TextButton("Days", tStyle);
-		categoryButton.addListener(new CategorySelectionListener("days", missingWords));
+		days = new TextButton("Days", tStyle);
+		days.addListener(new CategorySelectionListener("days", missingWords));
+		
+		months = new TextButton("Months", tStyle);
+		months.addListener(new CategorySelectionListener("months", missingWords));
+		
+		wquestions = new TextButton("W-Questions", tStyle);
+		wquestions.addListener(new CategorySelectionListener("wquestions", missingWords));
+		
+		colors = new TextButton("Colors", tStyle);
+		colors.addListener(new CategorySelectionListener("colors", missingWords));
+		
+		all = new TextButton("All", tStyle);
+		all.addListener(new CategorySelectionListener("all", missingWords));
 		
 		/* Creamos el contenedor de botones */
 		buttonsBox = new VerticalGroup();
+		buttonsBox.space(20);
 		
 		/* Añadimos los botones */
-		buttonsBox.addActor(categoryButton);
+		buttonsBox.addActor(days);
+		buttonsBox.addActor(months);
+		buttonsBox.addActor(wquestions);
+		buttonsBox.addActor(colors);
+		buttonsBox.addActor(all);
 
 		/* Posicionamos el grupo */
 		buttonsBox.setPosition((MissingWords.VIEWPORT_WIDTH - buttonsBox.getMaxWidth()) / 2, 350);

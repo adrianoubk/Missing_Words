@@ -48,19 +48,22 @@ public class InputButtonListener extends ClickListener {
 			score += t.getPoints();
 		}
 		
-		/* Calculamos el número de tiradas en base a los puntos del jugador */
-		missingWords.getGameScreen().getHuman().calculateRolls(score);
-		
 		/* Si la palabra está en el vocbulario */
 		if (missingWords.getVocabulary().getVocabulary().containsKey(word.toString())) {
+			/* Reproducimos el efecto de sonido si está activo */
+			missingWords.getSoundFX().getPositiveSound().play(missingWords.getSoundFX().getVolume());
+			
+			/* Calculamos el número de tiradas en base a los puntos del jugador */
+			missingWords.getGameScreen().getHuman().calculateRolls(score);
+			
 			/* Añadimos la palabra a la lista de palabras jugadas */
 			missingWords.getGameScreen().getHuman().addPlayedWord(word.toString());
 			
 			/* Creamos una etiqueta y mostramos el mensaje */
-			Label yes = new Label("Nice!", lStyle);
-			yes.setPosition(0, 0);
-			yes.addAction(Actions.fadeOut(1.5f));
-			missingWords.getGameScreen().getStage().addActor(yes);
+			Label nice = new Label("Nice!", lStyle);
+			nice.setPosition(0, 0);
+			nice.addAction(Actions.fadeOut(1));
+			missingWords.getGameScreen().getStage().addActor(nice);
 			
 			missingWords.getGameScreen().increaseTotalWords(); // TotalWords + 1
 			
@@ -80,10 +83,13 @@ public class InputButtonListener extends ClickListener {
 			
 		}
 		else { // Si no está, se muestra con una etiqueta
-			Label no = new Label("Not found!", lStyle);
-			no.setPosition(550, 0);
-			no.addAction(Actions.fadeOut(1.5f));
-			missingWords.getGameScreen().getStage().addActor(no);
+			/* Reproducimos el efecto de sonido si está activo */
+			missingWords.getSoundFX().getNegativeSound().play(missingWords.getSoundFX().getVolume());
+			
+			Label notfound = new Label("Not found!", lStyle);
+			notfound.setPosition(630, 0);
+			notfound.addAction(Actions.fadeOut(1));
+			missingWords.getGameScreen().getStage().addActor(notfound);
 		}
 	}
 }

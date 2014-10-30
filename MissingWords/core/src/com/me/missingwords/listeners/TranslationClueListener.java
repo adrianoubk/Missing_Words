@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Tile;
 import com.me.missingwords.buttons.ClueButton;
@@ -19,54 +18,77 @@ import com.me.missingwords.buttons.ClueButton;
  *
  */
 
-public class TranslationClueListener extends ClickListener {
-	private MissingWords missingWords;
+public class TranslationClueListener extends AbstractListener {
 	private ClueButton button;
 	
 	public TranslationClueListener(MissingWords missingWords, ClueButton button) {
-		this.missingWords = missingWords;
+		super(missingWords);
 		this.button = button;
 	}
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
-		/* Limpiamos el submitBox antes de dar la traducción */
-		if (missingWords.getGameScreen().getSubmitBox().hasChildren()) {
-			missingWords.getGameScreen().getSubmitBox().clearChildren();
-			missingWords.getGameScreen().getSubmitBox().setNumActors(0);
+		missingWords.getGameScreen().getHuman().increaseCluesUsed();
+		
+		if (missingWords.getGameScreen().getHuman().getCluesUsed() <= 2) {	
+			/* Reproducimos el efecto de sonido si está activo */
+			missingWords.getSoundFX().getClue().play(missingWords.getSoundFX().getVolume());
 			
-			for (int i = 0; i < missingWords.getGameScreen().getOriginalTiles().size(); ++i) {
-				missingWords.getGameScreen().getOriginalTiles().get(i).setVisible(true);
+			/* Limpiamos el submitBox antes de dar la traducción */
+			if (missingWords.getGameScreen().getSubmitBox().hasChildren()) {
+				missingWords.getGameScreen().getSubmitBox().clearChildren();
+				missingWords.getGameScreen().getSubmitBox().setNumActors(0);
+				
+				for (int i = 0; i < missingWords.getGameScreen().getOriginalTiles().size(); ++i) {
+					missingWords.getGameScreen().getOriginalTiles().get(i).setVisible(true);
+				}
+			}
+			
+			/* Restablecemos el score */
+			missingWords.getGameScreen().getWordScore().setScore(0);
+			
+			/* Creamos un array de strings */
+			StringBuilder word = new StringBuilder();
+			
+			for(int i = 0; i < missingWords.getGameScreen().getAdaptedWordNPC().size(); ++i) {
+				Tile t = (Tile) missingWords.getGameScreen().getAdaptedWordNPC().get(i);
+				word.append(t.getLetter());
+			}
+			
+			/* Creamos una etiqueta que indica la traducción */
+			
+			BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
+			LabelStyle lStyle = new LabelStyle(font, Color.BLACK);
+			
+			Label l = new Label(missingWords.getDictionary().getDictionary().get(word.toString()), lStyle);
+			l.setTouchable(Touchable.disabled);
+			l.setPosition((MissingWords.VIEWPORT_WIDTH - l.getMinWidth()) / 2, 40);
+			l.addAction(Actions.fadeOut(3));
+			missingWords.getGameScreen().getStage().addActor(l);
+			
+			/* Desactivamos el botón de "pista traducción" */
+			button.disableStyle();
+			button.setTouchable(Touchable.disabled);
+			
+			/* Incrementamos el contador de pistas usadas */
+			missingWords.getStatsData().increaseCluesUsed();
+			
+			/* Restamos las tiradas por usar pista (-2) */
+			missingWords.getGameScreen().getHuman().decreaseRolls(2);
+			
+			/* Actualizamos las penalizaciones */
+			missingWords.getGameScreen().getWordScore().increasePenalties(2);
+			
+			if (missingWords.getGameScreen().getHuman().getCluesUsed() == 2) {
+				if (!button.isTouchable() && !missingWords.getGameScreen().getLetterClue().isTouchable()) {
+					missingWords.getGameScreen().getLengthClue().disableStyle();
+					missingWords.getGameScreen().getLengthClue().setTouchable(Touchable.disabled);
+				}
+				else if (!button.isTouchable() && !missingWords.getGameScreen().getLengthClue().isTouchable()) {
+					missingWords.getGameScreen().getLetterClue().disableStyle();
+					missingWords.getGameScreen().getLetterClue().setTouchable(Touchable.disabled);
+				}
 			}
 		}
-		
-		/* Restablecemos el score */
-		missingWords.getGameScreen().getWordScore().setScore(0);
-		
-		/* Creamos un array de strings */
-		StringBuilder word = new StringBuilder();
-		
-		for(int i = 0; i < missingWords.getGameScreen().getAdaptedWordNPC().size(); ++i) {
-			Tile t = (Tile) missingWords.getGameScreen().getAdaptedWordNPC().get(i);
-			word.append(t.getLetter());
-		}
-		
-		/* Creamos una etiqueta que indica la traducción */
-		
-		BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
-		LabelStyle lStyle = new LabelStyle(font, Color.BLACK);
-		
-		Label l = new Label(missingWords.getDictionary().getDictionary().get(word.toString()), lStyle);
-		l.setTouchable(Touchable.disabled);
-		l.setPosition((MissingWords.VIEWPORT_WIDTH - l.getMinWidth()) / 2, 60);
-		l.addAction(Actions.fadeOut(5));
-		missingWords.getGameScreen().getStage().addActor(l);
-		
-		/* Desactivamos el botón de "pista traducción" */
-		button.disableStyle();
-		button.setTouchable(Touchable.disabled);
-		
-		/* Incrementamos el contador de pistas usadas */
-		missingWords.getStatsData().increaseCluesUsed();
 	}
 }

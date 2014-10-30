@@ -2,7 +2,6 @@ package com.me.missingwords.listeners;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.me.missingwords.MissingWords;
 
 /**
@@ -11,15 +10,17 @@ import com.me.missingwords.MissingWords;
  *
  */
 
-public class MoveListener extends ClickListener {
-	private MissingWords missingWords;
+public class MoveListener extends AbstractListener {
 	
 	public MoveListener(MissingWords missingWords) {
-		this.missingWords = missingWords;
+		super(missingWords);
 	}
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
+		/* Reproducimos el efecto de sonido si está activo */
+		missingWords.getSoundFX().getButton().play(missingWords.getSoundFX().getVolume());
+		
 		/* Activamos que el jugador ha movido al menos una vez */
 		missingWords.getMiniGameScreen().getMoveButton().setMoved(true);
 		

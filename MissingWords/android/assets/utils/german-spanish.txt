@@ -18,3 +18,31 @@ september,septiembre
 oktober,octubre
 november,noviembre
 dezember,diciembre
+was,que
+welche,cual
+wo,donde
+wann,cuando
+warum,por que
+wer,quien
+wem,de quien
+wessen,de quien
+wen,a quien
+woher,de donde
+schwarz,negro
+grau,gris
+violett,violeta
+weiss,blanco
+gruen,verde
+orange,naranja
+rot,rojo
+braun,marron
+hellblau,celeste
+blau,azul
+gelb,amarillo
+bruenett,moreno
+gold,oro
+purpurn,purpura
+beige,beige
+rosa,rosa
+tuerkis,turquesa
+silber,plata

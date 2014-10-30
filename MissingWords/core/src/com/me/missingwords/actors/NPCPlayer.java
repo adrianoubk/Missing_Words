@@ -69,6 +69,9 @@ public class NPCPlayer extends Player {
 			public void run() {
 				int index = original.indexOf(word.get(wordCounter)); // Primera letra  
 				
+				/* Reproducimos el efecto de sonido si está activo */
+				missingWords.getSoundFX().getTap().play(missingWords.getSoundFX().getVolume());
+				
 				original.get(index).setVisible(false); // Oculta la ficha original
 				copy.get(index).setSmallSize(); // Cambia el tamaño de la ficha copia al enviarla al submitBox
 				submitBox.addActor(copy.get(index)); // Añade la ficha al submitBox
@@ -88,8 +91,7 @@ public class NPCPlayer extends Player {
 	}
 	 
 	/* submitWord(): la máquina confirma una palabra */
-	private void submitWord(final SubmitBox submitBox) {
-		
+	private void submitWord(final SubmitBox submitBox) {	
 		/* 
 		 * Creamos una tarea con el temporizador. Confirma la palabra y asigna las tiradas
 		 * correspondientes en base a los puntos. 
@@ -115,8 +117,8 @@ public class NPCPlayer extends Player {
 					score += t.getPoints(); // sumamos los puntos de la Tile
 				}
 				
-				/* Añadimos la palabra a la lista de palabras jugadas */
-				//missingWords.getGameScreen().addPlayedWord(word.toString());
+				/* Reproducimos el efecto de sonido si está activo */
+				missingWords.getSoundFX().getPositiveSound().play(missingWords.getSoundFX().getVolume());
 				
 				/* Incrementamos el número de palabras formadas */
 				missingWords.getGameScreen().increaseTotalWords();

@@ -41,19 +41,18 @@ public class TurnControl extends Label {
 		 * Creamos la acción secuencial 
 		 * 
 		 * 1: Retraso de 0.5 sg
-		 * 2: Aparecer con una duración de 2 sg
-		 * 3: Desaparecer con una duración de 2 sg
+		 * 2: Aparecer con una duración de 1 sg
+		 * 3: Desaparecer con una duración de 1 sg
 		 * 4: Ejecutar un trozo de código -> Iniciar el turno
 		 */
 		
 		pool = new Pool<SequenceAction>() {
 		    protected SequenceAction newObject () {
 		        return new SequenceAction(Actions.delay(0.5f),
-		        		Actions.fadeIn(2), Actions.fadeOut(2),
+		        		Actions.fadeIn(1), Actions.fadeOut(1),
 		        		Actions.run(new Runnable() {		
 							@Override
-							public void run() {
-								
+							public void run() {		
 								missingWords.getGameScreen().getTileBox().getTileTable().setVisible(true);
 								
 								/* Permitimos que toque la pantalla */
@@ -70,8 +69,7 @@ public class TurnControl extends Label {
 											missingWords.getGameScreen().getOriginalTiles(), 
 											missingWords.getGameScreen().getCopyTiles(), 
 											missingWords.getGameScreen().getAdaptedWordNPC());
-									
-								}
+									}
 					
 								missingWords.getGameScreen().getTimeBar().start(); // Activamos el tiempo
 								removeAction(action); // Enviamos la accion al "pool"
@@ -107,16 +105,23 @@ public class TurnControl extends Label {
 		missingWords.getGameScreen().getTimeBar().reset();
 		
 		/* 
-		 * Establecemos el jugador que va a jugar. Si solo juega un jugador, no entrará
-		 * en la parte correspondiente de la cpu 
+		 * Establecemos el jugador que va a jugar y restablecemos las tiradas. Si solo juega 
+		 * un jugador, no entrará en la parte correspondiente de la cpu. En el caso del jugador 
+		 * restablecemos las pistas que puede usar por turno
 		 */
 		if (missingWords.getGameScreen().getHuman().isMyTurn()) {
-			setPlayer("Your Turn"); 
+			setPlayer("Your Turn");
+			missingWords.getGameScreen().getHuman().setRolls(0);
+			missingWords.getGameScreen().getHuman().setCluesUsed(0);
 		}
 		else {
 			missingWords.getGameScreen().getNpc().setMyTurn(true);
+			missingWords.getGameScreen().getNpc().setRolls(0);
 			setPlayer("Npc's Turn");
 		}
+		
+		/* Restablecemos las penalizaciones */
+		missingWords.getGameScreen().getWordScore().setPenalties(0);
 		
 		/* Prohibimos al jugador que toque la pantalla */
 		missingWords.getGameScreen().getHuman().touchScreen(Touchable.disabled); 
@@ -141,5 +146,9 @@ public class TurnControl extends Label {
 	public void setPlayer(String player) {
 		setText(player);
 		this.player = player;
+	}
+
+	public SequenceAction getAction() {
+		return action;
 	}
 }

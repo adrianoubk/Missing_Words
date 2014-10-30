@@ -2,7 +2,6 @@ package com.me.missingwords.listeners;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.me.missingwords.MissingWords;
 
 /**
@@ -11,16 +10,14 @@ import com.me.missingwords.MissingWords;
  *
  */
 
-public class RollListener extends ClickListener {
-	private MissingWords missingWords;
+public class RollListener extends AbstractListener {
 	
 	public RollListener(MissingWords missingWords)  {
-		this.missingWords = missingWords;
+		super(missingWords);
 	}
 	
 	@Override
 	public void clicked(InputEvent event, float x, float y) {
-		
 		missingWords.getMiniGameScreen().getDice().roll(); // tiramos
 		
 		missingWords.getMiniGameScreen().getRollsLeft().decreaseRolls();

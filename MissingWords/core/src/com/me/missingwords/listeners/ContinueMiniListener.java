@@ -1,7 +1,6 @@
 package com.me.missingwords.listeners;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.me.missingwords.MissingWords;
 
 /**
@@ -10,15 +9,17 @@ import com.me.missingwords.MissingWords;
  *
  */
 
-public class ContinueMiniListener extends ClickListener {
-	private MissingWords missingWords;
+public class ContinueMiniListener extends AbstractListener {
 	
 	public ContinueMiniListener(MissingWords missingWords) {
-		this.missingWords = missingWords;
+		super(missingWords);
 	}
 	
 	@Override
-	public void clicked(InputEvent event, float x, float y) {		
+	public void clicked(InputEvent event, float x, float y) {
+		/* Reproducimos el efecto de sonido si está activo */
+		missingWords.getSoundFX().getButton().play(missingWords.getSoundFX().getVolume());
+		
 		missingWords.setScreen(missingWords.GameScreen);
 	}
 }

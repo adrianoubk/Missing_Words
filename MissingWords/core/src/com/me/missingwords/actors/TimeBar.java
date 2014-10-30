@@ -77,6 +77,9 @@ public class TimeBar extends Actor {
 			if (seconds == 0) { // Si se acaba el tiempo
 				System.out.println("Time out!");
 				
+				/* Reproducimos el efecto de sonido si está activo */
+				missingWords.getSoundFX().getTimeout().play(missingWords.getSoundFX().getVolume());
+				
 				/* Incrementamos el número de palabras. Palabra fallida */
 				missingWords.getStatsData().increaseMaxWords();
 				

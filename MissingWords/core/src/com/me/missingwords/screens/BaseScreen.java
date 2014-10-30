@@ -73,7 +73,8 @@ public abstract class BaseScreen implements Screen {
 	/* show(): se ejecuta cuando se muestra la pantalla */
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(stage); // Indicamos que la entrada la procesará el stage 
+		Gdx.input.setInputProcessor(stage); // Indicamos que la entrada la procesará el stage
+		Gdx.input.setCatchBackKey(true); // No usar el botón atrás de Android
 	}
 
 	@Override

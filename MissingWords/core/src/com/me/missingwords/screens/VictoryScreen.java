@@ -107,7 +107,7 @@ public class VictoryScreen extends BaseScreen {
 		statistics.add(totalWords).expand();
 		
 		/* Creamos el botón de salida */
-		exitButton = new TextButton("exit", new TextButtonStyle(
+		exitButton = new TextButton("Exit", new TextButtonStyle(
 			new TextureRegionDrawable(
 				new TextureRegion(MissingWords.myManager.get("upButton.png", Texture.class))), 
 			new TextureRegionDrawable(
@@ -118,7 +118,7 @@ public class VictoryScreen extends BaseScreen {
 		exitButton.addListener(new ExitGameListener(missingWords));
 		
 		/* Creamos el botón de jugar de nuevo */
-		playAgainButton = new TextButton("Play Again?", new TextButtonStyle(
+		playAgainButton = new TextButton("Play again?", new TextButtonStyle(
 			new TextureRegionDrawable(
 				new TextureRegion(MissingWords.myManager.get("upButton.png", Texture.class))), 
 			new TextureRegionDrawable(
@@ -170,6 +170,9 @@ public class VictoryScreen extends BaseScreen {
 	@Override
 	public void show() {	
 		super.show();
+		
+		/* Reproducimos el efecto de sonido si está activo */
+		missingWords.getSoundFX().getWin().play(missingWords.getSoundFX().getVolume());
 		
 		/* Creamos el array de strings con las palabras que ha jugado el jugador */
 		wordArray =  missingWords.getGameScreen().getHuman().getPlayedWords().toArray(
