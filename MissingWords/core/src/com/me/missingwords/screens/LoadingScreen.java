@@ -23,7 +23,7 @@ public class LoadingScreen extends BaseScreen {
 		/* Si ha cargado todos los recursos del juego, pasamos a la siguiente pantalla */
 		if (MissingWords.myManager.update()) {
 			/* Creamos el gestor de sonido y la pantalla de selección de idioma */
-			missingWords.createSoundFX(); 
+			missingWords.createObjects();
 			missingWords.LanguageSelectionScreen = new LanguageSelectionScreen(missingWords);
 			missingWords.setScreen(missingWords.LanguageSelectionScreen);
 		}

@@ -36,8 +36,6 @@ public class Slider extends Actor {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		if (missingWords.getGameScreen() == null)
-			System.out.println("game es null");
 		
 		sliderTexture.setRegionWidth(
 				missingWords.getGameScreen().getSubmitBox().getNumActors() * TILE_WIDTH);

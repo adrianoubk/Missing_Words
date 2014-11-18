@@ -29,6 +29,11 @@ public class PlayAgainListener extends AbstractListener {
 		/* Actualizamos los valores de las estadísticas */
 		missingWords.getStatsScreen().updateLabels();
 		
+		/* Guardamos las palabras jugadas para esta categoría */
+		missingWords.getCategoryData().write(missingWords.getCategoryData().getCategoryWords(), 
+											 missingWords.selectedCategory.toString(), 
+											 missingWords.selectedLanguage.toString());
+		
 		/* Liberamos recursos y eliminamos las pantallas de juego */
 		missingWords.GameScreen.dispose();
 		missingWords.MiniGameScreen.dispose();

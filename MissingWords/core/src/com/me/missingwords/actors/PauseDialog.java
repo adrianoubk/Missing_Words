@@ -36,8 +36,6 @@ public class PauseDialog extends Dialog {
 		
 		setStyle(style); // aplicamos el estilo
 		
-		
-		
 		/* Creamos un botón dentro del diálogo */
 		button("resume", "resume", new TextButtonStyle(
 				new TextureRegionDrawable(

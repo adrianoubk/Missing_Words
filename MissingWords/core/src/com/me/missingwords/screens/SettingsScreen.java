@@ -92,10 +92,10 @@ public class SettingsScreen extends BaseScreen {
 		/* Creamos la información */
 		
 		about = new Label("About", new LabelStyle(fontSettings, fontSettings.getColor()));
-		about.setPosition((MissingWords.VIEWPORT_WIDTH - about.getMinWidth()) / 2, 50);
+		about.setPosition((MissingWords.VIEWPORT_WIDTH - about.getMinWidth()) / 2, 70);
 		stage.addActor(about);
 		
-		about2 = new Label("MissingWords v1.0. https://github.com/adrianoubk/Missing_Words\nAuthor: Adrian Perez. Contributors: Anke Berns, Manuel Palomo.", 
+		about2 = new Label("MissingWords v1.0. https://github.com/adrianoubk/Missing_Words\nAuthor: Adrian Perez. Contributors: Anke Berns, Manuel Palomo, \nAlicia Garrido, Andrea Calderón", 
 				 new LabelStyle(new BitmapFont(), Color.BLACK));
 		about2.setPosition((MissingWords.VIEWPORT_WIDTH - about2.getMinWidth()) / 2, 5);
 		stage.addActor(about2);

@@ -1,6 +1,5 @@
 package com.me.missingwords.actors;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -24,7 +23,8 @@ public class Tile extends Actor {
 	public Tile(String letter, int points) {
 		this.letter = letter;
 		this.points = points;
-		tileTexture = new TextureRegion(MissingWords.myManager.get(buildPath(letter), Texture.class));
+		
+		tileTexture = MissingWords.tiles.findRegion(letter);
 		setDefaultSize();
 	}
 	
@@ -36,18 +36,6 @@ public class Tile extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		batch.draw(tileTexture, getX(), getY(), getWidth(), getHeight());
-	}
-	
-	/* 
-	 * buildPath(): crea la ruta del archivo ".png" donde se encuentra la textura de 
-	 * la ficha debido a que estas se crean aleatoriamente y no sabemos cual es.
-	 */
-	private String buildPath(String letter) {
-		String path = new String();
-		
-		path = letter + ".png";
-		
-		return path;
 	}
 	
 	/* -------------- Getters and Setters -------------- */

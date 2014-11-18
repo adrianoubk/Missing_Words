@@ -40,10 +40,8 @@ public class VictoryScreen extends BaseScreen {
 	public VictoryScreen(MissingWords missingWords) {
 		super(missingWords);
 		
-		font = new BitmapFont(Gdx.files.internal("fonts/title.fnt"), Gdx.files.internal("fonts/title.png"), false);
-		
+		font = new BitmapFont(Gdx.files.internal("fonts/title.fnt"), Gdx.files.internal("fonts/title.png"), false);	
 		fontList = new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false);
-		
 		fontButton = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
 		
 		/* Establecemos el fondo */

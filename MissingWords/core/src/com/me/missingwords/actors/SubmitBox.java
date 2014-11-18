@@ -19,6 +19,7 @@ public class SubmitBox extends HorizontalGroup {
 	
 	public SubmitBox() {
 		super();
+		
 		align(Align.bottom); // alinear el submitbox a la base
 		numActors = 0;
 	}

@@ -45,11 +45,11 @@ public class InstructionsScreen extends BaseScreen {
 		stage.addActor(backButton);
 		
 		/* Creamos los elementos con las instrucciones */	
-		instructions = new Label("- Goal: Win the mini-game by making words. Each\n"
+		instructions = new Label("Goal: Win the mini-game by making words. For each\n"
 				+ "word you form you get rolls to move your character.\n"
-				+ "Be careful with the holes! Don't forget that you have\n"
-				+ "to use at least one of your rolls before use \"wait\".\n"
-				+ "- Clues: You can only use 2 clues per turn. Min. 1 roll.\n", 
+				+ "Don't forget that you have to use at least one of your\n"
+				+ "rolls before using the option \"wait\". Avoid the holes!\n"
+				+ "Clues: You can only use 2 clues per turn. Min. 1 roll.\n", 
 				new LabelStyle(new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false), Color.BLACK));
 		instructions.setPosition(10, 225);
 		stage.addActor(instructions);
@@ -69,17 +69,17 @@ public class InstructionsScreen extends BaseScreen {
 		length.setPosition(10, 70);
 		stage.addActor(length);
 		
-		translationLabel = new Label("-> translation of one of the words (-2 rolls).", 
+		translationLabel = new Label("-> translation (-2 rolls).", 
 				new LabelStyle(new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false), Color.BLACK));
 		translationLabel.setPosition(70, 180);
 		stage.addActor(translationLabel);
 		
-		letterLabel = new Label("-> first letter of one of the words (-1 roll).", 
+		letterLabel = new Label("-> first letter (-1 roll).", 
 				new LabelStyle(new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false), Color.BLACK));
 		letterLabel.setPosition(70, 131);
 		stage.addActor(letterLabel);
 		
-		lengthLabel = new Label("-> length of one of the words (-1 roll).", 
+		lengthLabel = new Label("-> length of the word (-1 roll).", 
 				new LabelStyle(new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false), Color.BLACK));
 		lengthLabel.setPosition(70, 82);
 		stage.addActor(lengthLabel);

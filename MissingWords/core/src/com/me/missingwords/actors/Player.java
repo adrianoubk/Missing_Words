@@ -25,7 +25,6 @@ public abstract class Player extends Actor {
 
 	/* calculateRolls(): calcula el numero de tiradas en base a los puntos */
 	public void calculateRolls(int points) {
-		System.out.println("Rolls before: " + rolls);
 		if (points <= missingWords.getMin())
 			rolls += 1;
 		
@@ -37,8 +36,6 @@ public abstract class Player extends Actor {
 		
 		if (rolls <= 0)
 			rolls = 1; // Minimo si formas una palabra
-		
-		System.out.println("Rolls after: " + rolls);	
 	}
 	
 	/* playMinigame(): Cambia a la pantalla del minijuego para jugarlo */

@@ -67,7 +67,7 @@ public class GameScreen extends BaseScreen {
 		stage.addActor(submitBox);
 		
 		/* Creamos el jugador */
-		human = new HumanPlayer("Adri", missingWords);
+		human = new HumanPlayer("Player", missingWords);
 		stage.addActor(human);
 		
 		/* Creamos el npc si no es SINGLEPLAYER */
@@ -265,7 +265,7 @@ public class GameScreen extends BaseScreen {
 						case "u": newArray.add("ue"); break;
 					}
 					
-					i += 2; // Si es una ocurrencia, saltamos 2 lugares. La vocal y la 'e'
+					i += 2; // Si es una ocurrencia, saltamos 2 posiciones. La vocal y la 'e'
 			}
 			else {
 				newArray.add(arrayWord[i]);

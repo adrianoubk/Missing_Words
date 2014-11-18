@@ -4,16 +4,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.MissingWords.Category;
 
-/**
- * 
- * Listener que permite seleccionar una categoría del juego.
- *
- */
-
-public class CategorySelectionListener extends AbstractListener {
+public class CategoryStatsListener extends AbstractListener {
 	private String option;
-
-	public CategorySelectionListener(String option, MissingWords missingWords) {
+	
+	public CategoryStatsListener(MissingWords missingWords, String option) {
 		super(missingWords);
 		this.option = option;
 	}
@@ -23,11 +17,11 @@ public class CategorySelectionListener extends AbstractListener {
 		/* Reproducimos el efecto de sonido si está activo */
 		missingWords.getSoundFX().getButton().play(missingWords.getSoundFX().getVolume());
 		
-		switch (option) {
+		switch(option) {
 		case "days": missingWords.selectedCategory = Category.days; break;
 		case "months": missingWords.selectedCategory = Category.months; break;
-		case "wquestions": missingWords.selectedCategory = Category.wquestions; break;
 		case "colours": missingWords.selectedCategory = Category.colours; break;
+		case "wquestions": missingWords.selectedCategory = Category.wquestions; break;
 		case "size": missingWords.selectedCategory = Category.size; break;
 		case "classroom": missingWords.selectedCategory = Category.classroom; break;
 		case "bodyparts": missingWords.selectedCategory = Category.bodyparts; break;
@@ -35,13 +29,9 @@ public class CategorySelectionListener extends AbstractListener {
 		case "university": missingWords.selectedCategory = Category.university; break;
 		case "city": missingWords.selectedCategory = Category.city; break;
 		case "freetime": missingWords.selectedCategory = Category.freetime; break;
-		case "all": missingWords.selectedCategory = Category.ALL; break;
 		}
 		
-		missingWords.createUtils();
-		missingWords.createGameScreens();
-		missingWords.setScreen(missingWords.GameScreen);
-		missingWords.getCategoryData().read(missingWords.selectedCategory.toString(), 
-											missingWords.selectedLanguage.toString());
+		missingWords.setScreen(missingWords.CategoryStatsScreen); 
 	}
+	
 }

@@ -5,11 +5,10 @@ import java.io.IOException;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.me.missingwords.data.CategoryStatsData;
 import com.me.missingwords.data.StatsData;
 import com.me.missingwords.screens.*;
 import com.me.missingwords.sound.SoundFX;
@@ -48,6 +47,7 @@ public class MissingWords extends Game {
 	public StatsScreen StatsScreen;
 	public SettingsScreen SettingsScreen;
 	public InstructionsScreen InstructionsScreen;
+	public CategoryStatsScreen CategoryStatsScreen;
 	
 	/* La clase SpriteBatch nos permite dibujar las texturas de nuestro juego. Agrupa 
 	 * sprites(imagenes) para enviarlas al procesador grafico y asi dibujarlas a la vez.
@@ -57,10 +57,11 @@ public class MissingWords extends Game {
 	private SpriteBatch myBatch; 
 	
 	/* Gestor de recursos del juego */
-	public static AssetManager myManager;
+	public static MyAssetManager myManager;
 	
 	/* Categorías del juego */
-	public enum Category {days, months, wquestions, colors, ALL};
+	public enum Category {days, months, wquestions, colours, size, classroom, bodyparts,
+						  feelings, university, city, freetime, ALL};
 	
 	/* Idiomas que soporta el juego */
 	public enum Language {english, german};
@@ -92,112 +93,28 @@ public class MissingWords extends Game {
 	/* Datos de las estadísticas */
 	private StatsData statsData;
 	
+	/* Estadísticas de las categorías */
+	private CategoryStatsData categoryData;
+	
 	/* Controla el sonido de la app */
 	private SoundFX soundFX;
+	
+	/* Paquete de texturas de las tiles */
+	public static TextureAtlas tiles;
 	
 	/* create(): Creamos los objetos necesarios para construir la aplicación */
 	@Override
 	public void create() {
 		/* Creamos el SpriteBatch y el Gestor de recursos */
 		myBatch = new SpriteBatch();
-		myManager = new AssetManager();
+		myManager = new MyAssetManager();
 		
 		/* Cargamos los datos de las estadísticas */
 		statsData = new StatsData();
 		
-		/* 
-		 * Con la función load() añadimos los recursos a la cola de carga, pero aún no se
-		 * han cargado. 
-		 */
-		myManager.load("loadingBackground.png", Texture.class);
-		myManager.load("background.png", Texture.class);
-		myManager.load("barLoading.png", Texture.class);
-		myManager.load("barBackground.png", Texture.class);
-		myManager.load("tileBox.png", Texture.class);
-		myManager.load("a.png", Texture.class);
-		myManager.load("b.png", Texture.class);
-		myManager.load("c.png", Texture.class);
-		myManager.load("d.png", Texture.class);
-		myManager.load("e.png", Texture.class);
-		myManager.load("f.png", Texture.class);
-		myManager.load("g.png", Texture.class);
-		myManager.load("h.png", Texture.class);
-		myManager.load("i.png", Texture.class);
-		myManager.load("j.png", Texture.class);
-		myManager.load("k.png", Texture.class);
-		myManager.load("l.png", Texture.class);
-		myManager.load("m.png", Texture.class);
-		myManager.load("n.png", Texture.class);
-		myManager.load("o.png", Texture.class);
-		myManager.load("p.png", Texture.class);
-		myManager.load("q.png", Texture.class);
-		myManager.load("r.png", Texture.class);
-		myManager.load("s.png", Texture.class);
-		myManager.load("t.png", Texture.class);
-		myManager.load("u.png", Texture.class);
-		myManager.load("v.png", Texture.class);
-		myManager.load("w.png", Texture.class);
-		myManager.load("x.png", Texture.class);
-		myManager.load("y.png", Texture.class);
-		myManager.load("z.png", Texture.class);
-		myManager.load("ae.png", Texture.class);
-		myManager.load("oe.png", Texture.class);
-		myManager.load("ue.png", Texture.class);
-		myManager.load("upButtonLarge.png", Texture.class);
-		myManager.load("grey_sliderHorizontal.png", Texture.class);
-		myManager.load("submitButtonUp.png", Texture.class);
-		myManager.load("submitButtonDown.png", Texture.class);
-		myManager.load("letterButtonUp.png", Texture.class);
-		myManager.load("letterButtonDown.png", Texture.class);
-		myManager.load("Germany-flag.png", Texture.class);
-		myManager.load("United-kingdom-flag.png", Texture.class);
-		myManager.load("downButton.png", Texture.class);
-		myManager.load("translationButtonDown.png", Texture.class);
-		myManager.load("translationButtonUp.png", Texture.class);
-		myManager.load("lengthButtonDown.png", Texture.class);
-		myManager.load("lengthButtonUp.png", Texture.class);
-		myManager.load("letterButton_Used.png", Texture.class);
-		myManager.load("lengthButton_Used.png", Texture.class);
-		myManager.load("translationButton_Used.png", Texture.class);
-		myManager.load("none.png", Texture.class);
-		myManager.load("holeGrass.png", Texture.class);
-		myManager.load("rollButtonDown.png", Texture.class);
-		myManager.load("rollButtonUp.png", Texture.class);
-		myManager.load("1.png", Texture.class);
-		myManager.load("2.png", Texture.class);
-		myManager.load("3.png", Texture.class);
-		myManager.load("4.png", Texture.class);
-		myManager.load("5.png", Texture.class);
-		myManager.load("6.png", Texture.class);
-		myManager.load("player.png", Texture.class);
-		myManager.load("transparentTile.png", Texture.class);
-		myManager.load("npc.png", Texture.class);
-		myManager.load("split.png", Texture.class);
-		myManager.load("squareBlue.png", Texture.class);
-		myManager.load("verticalScroll.png", Texture.class);
-		myManager.load("selection.png", Texture.class);
-		myManager.load("upButton.png", Texture.class);
-		myManager.load("continueButtonUp.png", Texture.class);
-		myManager.load("continueButtonDown.png", Texture.class);
-		myManager.load("bothPlayers.png", Texture.class);
-		myManager.load("backButtonUp.png", Texture.class);
-		myManager.load("backButtonDown.png", Texture.class);
-		myManager.load("pauseButtonUp.png", Texture.class);
-		myManager.load("pauseButtonDown.png", Texture.class);
-		myManager.load("backgroundDialog.png", Texture.class);
-		myManager.load("sounds/roll.mp3", Sound.class);
-		myManager.load("sounds/tap.ogg", Sound.class);
-		myManager.load("sounds/menu.wav", Sound.class);
-		myManager.load("sounds/positive.wav", Sound.class);
-		myManager.load("sounds/negative.wav", Sound.class);
-		myManager.load("sounds/clue.mp3", Sound.class);
-		myManager.load("sounds/hole.wav", Sound.class);
-		myManager.load("sounds/win.wav", Sound.class);
-		myManager.load("checkboxOn.png", Texture.class);
-		myManager.load("checkboxOff.png", Texture.class);
-		myManager.load("germanyFlagSelected.png", Texture.class);
-		myManager.load("ukFlagSelected.png", Texture.class);
-		myManager.load("sounds/timeout.mp3", Sound.class);
+		categoryData = new CategoryStatsData();
+
+		myManager.loadAssets();
 		
 		victory = false; 
 		
@@ -224,17 +141,16 @@ public class MissingWords extends Game {
 		CategorySelectionScreen = new CategorySelectionScreen(this);
 		MenuScreen = new MenuScreen(this);
 		StatsScreen = new StatsScreen(this);
+		CategoryStatsScreen = new CategoryStatsScreen(this);
 		SettingsScreen = new SettingsScreen(this);
 		InstructionsScreen = new InstructionsScreen(this);
 	}
 	
 	/* createGameScreens(): crea las pantallas de juego */
-	public boolean createGameScreens() {
+	public void createGameScreens() {
 		GameScreen = new GameScreen(this);
 		MiniGameScreen = new MiniGameScreen(this);
 		VictoryScreen = new VictoryScreen(this);
-		
-		return true;
 	}
 	
 	/* createUtils(): inicializa el vocabulario, diccionario y puntuación */
@@ -292,9 +208,11 @@ public class MissingWords extends Game {
 		br.close(); // cerramos el buffer
 	}
 	
-	/* createSoundFX(): Crea el gestor de sonido de la app */
-	public void createSoundFX() {
+	/* createObjects(): Crea objetos necesarios para el funcionamiento de la app */
+	public void createObjects() {
 		soundFX = new SoundFX();
+		tiles = new TextureAtlas();
+		tiles = myManager.get("tiles.atlas", TextureAtlas.class);
 	}
 	
 	/* -------------- Getters and Setters -------------- */
@@ -365,6 +283,10 @@ public class MissingWords extends Game {
 
 	public StatsData getStatsData() {
 		return statsData;
+	}
+
+	public CategoryStatsData getCategoryData() {
+		return categoryData;
 	}
 
 	public SoundFX getSoundFX() {

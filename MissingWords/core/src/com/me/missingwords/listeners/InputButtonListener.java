@@ -71,6 +71,9 @@ public class InputButtonListener extends ClickListener {
 			missingWords.getStatsData().increaseMaxWords();
 			missingWords.getStatsData().increaseCorrectWords();
 			
+			/* Añadimos la palabra a las estadísticas de su categoría */
+			missingWords.getCategoryData().addWord(word.toString());
+			
 			/* Comprobamos si hemos formado una palabra más larga y la añadimos si es así */
 			if (missingWords.getStatsData().getLargestWord().length() < word.length())
 				missingWords.getStatsData().setLargestWord(word.toString());

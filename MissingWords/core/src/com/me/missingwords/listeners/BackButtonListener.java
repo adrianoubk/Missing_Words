@@ -20,6 +20,9 @@ public class BackButtonListener extends AbstractListener {
 		/* Reproducimos el efecto de sonido si está activo */
 		missingWords.getSoundFX().getButton().play(missingWords.getSoundFX().getVolume());
 		
-		missingWords.setScreen(missingWords.MenuScreen);
+		if (missingWords.getScreen().equals(missingWords.CategoryStatsScreen))
+			missingWords.setScreen(missingWords.StatsScreen);
+		else
+			missingWords.setScreen(missingWords.MenuScreen);
 	}
 }

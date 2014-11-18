@@ -26,12 +26,13 @@ import com.me.missingwords.listeners.CategorySelectionListener;
 public class CategorySelectionScreen extends BaseScreen {
 	private Background background;
 	private Label title;
-	private TextButton days, months, wquestions, colors, all;
+	private TextButton days, months, wquestions, colours, size, classroom, bodyparts, feelings, 
+					   university, city, freetime;
 	private TextButtonStyle tStyle;
 	private TextureRegionDrawable up, down;
 	private BitmapFont font;
 	private BackButton backButton;
-	private VerticalGroup buttonsBox;
+	private VerticalGroup buttonsBoxLeft, buttonsBoxRight;
 
 	public CategorySelectionScreen(MissingWords missingWords) {
 		super(missingWords);
@@ -46,7 +47,7 @@ public class CategorySelectionScreen extends BaseScreen {
 		stage.addActor(backButton);
 		
 		/* Creamos el título */
-		title = new Label("Categories", 
+		title = new Label("Category selection", 
 				new LabelStyle(new BitmapFont(Gdx.files.internal("fonts/title.fnt"), Gdx.files.internal("fonts/title.png"), false), Color.ORANGE));
 			title.setPosition((MissingWords.VIEWPORT_WIDTH - title.getMinWidth()) / 2, 400);
 			stage.addActor(title);
@@ -68,27 +69,56 @@ public class CategorySelectionScreen extends BaseScreen {
 		wquestions = new TextButton("W-Questions", tStyle);
 		wquestions.addListener(new CategorySelectionListener("wquestions", missingWords));
 		
-		colors = new TextButton("Colors", tStyle);
-		colors.addListener(new CategorySelectionListener("colors", missingWords));
+		colours = new TextButton("Colours", tStyle);
+		colours.addListener(new CategorySelectionListener("colours", missingWords));
 		
-		all = new TextButton("All", tStyle);
-		all.addListener(new CategorySelectionListener("all", missingWords));
+		size = new TextButton("Size", tStyle);
+		size.addListener(new CategorySelectionListener("size", missingWords));
 		
-		/* Creamos el contenedor de botones */
-		buttonsBox = new VerticalGroup();
-		buttonsBox.space(20);
+		classroom = new TextButton("Classroom", tStyle);
+		classroom.addListener(new CategorySelectionListener("classroom", missingWords));
+		
+		bodyparts = new TextButton("Body-parts", tStyle);
+		bodyparts.addListener(new CategorySelectionListener("bodyparts", missingWords));
+		
+		feelings = new TextButton("Feelings", tStyle);
+		feelings.addListener(new CategorySelectionListener("feelings", missingWords));
+		
+		university = new TextButton("University", tStyle);
+		university.addListener(new CategorySelectionListener("university", missingWords));
+		
+		city = new TextButton("City", tStyle);
+		city.addListener(new CategorySelectionListener("city", missingWords));
+		
+		freetime = new TextButton("Free time", tStyle);
+		freetime.addListener(new CategorySelectionListener("freetime", missingWords));
+		
+		/* Creamos los contenedores de botones */
+		buttonsBoxLeft = new VerticalGroup();
+		buttonsBoxLeft.space(10);
+		buttonsBoxLeft.setPosition(200, 400);
 		
 		/* Añadimos los botones */
-		buttonsBox.addActor(days);
-		buttonsBox.addActor(months);
-		buttonsBox.addActor(wquestions);
-		buttonsBox.addActor(colors);
-		buttonsBox.addActor(all);
+		buttonsBoxLeft.addActor(days);
+		buttonsBoxLeft.addActor(months);
+		buttonsBoxLeft.addActor(wquestions);
+		buttonsBoxLeft.addActor(colours);
+		buttonsBoxLeft.addActor(size);
 
-		/* Posicionamos el grupo */
-		buttonsBox.setPosition((MissingWords.VIEWPORT_WIDTH - buttonsBox.getMaxWidth()) / 2, 350);
+		stage.addActor(buttonsBoxLeft); // Añadimos el grupo al stage
 		
-		stage.addActor(buttonsBox); // Añadimos el grupo al stage
+		buttonsBoxRight = new VerticalGroup();
+		buttonsBoxRight.space(10);
+		buttonsBoxRight.setPosition(600, 400);
+		
+		buttonsBoxRight.addActor(classroom);
+		buttonsBoxRight.addActor(bodyparts);
+		buttonsBoxRight.addActor(feelings);
+		buttonsBoxRight.addActor(university);
+		buttonsBoxRight.addActor(city);
+		buttonsBoxRight.addActor(freetime);
+		
+		stage.addActor(buttonsBoxRight);
 	}
 	
 	@Override
