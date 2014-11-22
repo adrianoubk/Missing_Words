@@ -18,6 +18,6 @@ public class BackButton extends ImageButton {
 		super(new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("backButtonUp.png", Texture.class))),
 			new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("backButtonDown.png", Texture.class))));
 		
-		setPosition(20, 20);
+		setPosition(10, 10);
 	}
 }

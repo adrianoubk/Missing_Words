@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
+import com.me.missingwords.MissingWords.Language;
 
 /**
  * 
@@ -23,7 +24,7 @@ public class MoveButton extends MiniGameButton {
 	 */
 	private boolean hasMoved;
 
-	public MoveButton() {
+	public MoveButton(MissingWords missingWords) {
 		super("Move", 
 				new TextButtonStyle(new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("rollButtonUp.png", Texture.class))), 
 				new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("rollButtonDown.png", Texture.class))), 
@@ -31,6 +32,11 @@ public class MoveButton extends MiniGameButton {
 				new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false)));
 		
 		setPosition(POSITION_X, POSITION_Y);
+		
+		if (missingWords.selectedLanguage == Language.english)
+			setText("Move");
+		else
+			setText("Geh weiter!");
 		
 		hasMoved = false;
 	}

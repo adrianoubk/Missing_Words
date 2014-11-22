@@ -39,7 +39,7 @@ public class MissingWords extends Game {
 	
 	public GameScreen GameScreen;
 	public BaseScreen LanguageSelectionScreen;
-	public BaseScreen MenuScreen;
+	public MenuScreen MenuScreen;
 	public BaseScreen CategorySelectionScreen;
 	public MiniGameScreen MiniGameScreen;
 	public VictoryScreen VictoryScreen;
@@ -49,6 +49,10 @@ public class MissingWords extends Game {
 	public InstructionsScreen InstructionsScreen;
 	public CategoryStatsScreen CategoryStatsScreen;
 	
+	public MenuScreen getMenuScreen() {
+		return MenuScreen;
+	}
+
 	/* La clase SpriteBatch nos permite dibujar las texturas de nuestro juego. Agrupa 
 	 * sprites(imagenes) para enviarlas al procesador grafico y asi dibujarlas a la vez.
 	 * Puesto que dibujarlas de una en una es mas costoso. Se recomiendo tener un único

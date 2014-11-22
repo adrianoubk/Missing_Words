@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.me.missingwords.MissingWords;
+import com.me.missingwords.MissingWords.Language;
 
 /**
  * 
@@ -38,6 +39,11 @@ public class WaitListener extends AbstractListener {
 					new LabelStyle(
 							new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false),
 					Color.BLACK));
+			
+			if (missingWords.selectedLanguage == Language.english)
+				warning.setText("You must move at least once");
+			else
+				warning.setText("Geh bitte ein Feld weiter!");
 			
 			warning.setPosition((MissingWords.VIEWPORT_WIDTH - warning.getMinWidth()) / 2, 200);
 			warning.addAction(Actions.fadeOut(3));

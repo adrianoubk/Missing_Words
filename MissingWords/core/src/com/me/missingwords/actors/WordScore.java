@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.me.missingwords.MissingWords;
+import com.me.missingwords.MissingWords.Language;
 
 /**
  * 
@@ -14,11 +16,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 public class WordScore extends Label {
 	private int score;
 	private int penalties;
+	private MissingWords missingWords;
 	
-	public WordScore() {
+	public WordScore(MissingWords missingWords) {
 		super("Score: 0", 
 			new LabelStyle(
 				new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false), Color.BLACK));
+		
+		this.missingWords = missingWords;
 		
 		score = 0;
 		penalties = 0;
@@ -27,11 +32,19 @@ public class WordScore extends Label {
 	}
 	
 	private void updateLabel() {
-		if (penalties > 0)
-			setText("Score: " + score + "\n(" + "-" + penalties + " rolls)");
+		if (penalties > 0) {
+			if (missingWords.selectedLanguage == Language.english)
+				setText("Score: " + score + "\n(" + "-" + penalties + " rolls)");
+			else
+				setText("Punkt: " + score + "\n(" + "-" + penalties + " würfeln)");
+		}
 		
-		if (penalties == 0)
-			setText("Score: " + score);
+		if (penalties == 0) {
+			if (missingWords.selectedLanguage == Language.english)
+				setText("Score: " + score);
+			else
+				setText("Punkt: " + score);
+		}
 	}
 	
 	public void decreaseScore(int tileScore) {

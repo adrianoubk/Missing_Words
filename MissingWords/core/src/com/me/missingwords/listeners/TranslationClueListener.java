@@ -52,7 +52,10 @@ public class TranslationClueListener extends AbstractListener {
 			
 			for(int i = 0; i < missingWords.getGameScreen().getAdaptedWordNPC().size(); ++i) {
 				Tile t = (Tile) missingWords.getGameScreen().getAdaptedWordNPC().get(i);
-				word.append(t.getLetter());
+				if (i == 0)
+					word.append(t.getLetter().toUpperCase());
+				else
+					word.append(t.getLetter());
 			}
 			
 			/* Creamos una etiqueta que indica la traducción */

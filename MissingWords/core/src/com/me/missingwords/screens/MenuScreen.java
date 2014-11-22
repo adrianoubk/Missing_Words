@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Background;
 import com.me.missingwords.listeners.MenuListener;
+import com.me.missingwords.utils.LanguageMenusStrings;
 
 /** 
  * 
@@ -21,7 +22,7 @@ import com.me.missingwords.listeners.MenuListener;
  *
  */
 
-public class MenuScreen extends BaseScreen {
+public class MenuScreen extends BaseScreen implements LanguageMenusStrings {
 	private Background background;
 	private Label title;
 	private TextButton playerVsCpu, singlePlayer, stats, settings, instructions, exit;
@@ -51,22 +52,22 @@ public class MenuScreen extends BaseScreen {
 		
 		tStyle = new TextButtonStyle(up, down, null, font);
 		
-		playerVsCpu = new TextButton("Player VS CPU", tStyle);
+		playerVsCpu = new TextButton(null, tStyle);
 		playerVsCpu.addListener(new MenuListener(missingWords, "playervscpu"));
 		
-		singlePlayer = new TextButton("Single-Player", tStyle);
+		singlePlayer = new TextButton(null, tStyle);
 		singlePlayer.addListener(new MenuListener(missingWords, "singleplayer"));
 		
-		stats = new TextButton("Stats", tStyle);
+		stats = new TextButton(null, tStyle);
 		stats.addListener(new MenuListener(missingWords, "stats"));
 		
-		settings = new TextButton("Settings", tStyle);
+		settings = new TextButton(null, tStyle);
 		settings.addListener(new MenuListener(missingWords, "settings"));
 		
-		instructions = new TextButton("Instructions", tStyle);
+		instructions = new TextButton(null, tStyle);
 		instructions.addListener(new MenuListener(missingWords, "instructions"));
 		
-		exit = new TextButton("Exit", tStyle);
+		exit = new TextButton(null, tStyle);
 		exit.addListener(new MenuListener(missingWords, "exit"));
 		
 		/* Creamos un grupo para añadir los botones */
@@ -86,6 +87,28 @@ public class MenuScreen extends BaseScreen {
 		
 		stage.addActor(buttonsBox); // Añadimos el grupo al stage
 	}
+	
+	@Override
+	public void updateLanguageStrings() {
+		switch(missingWords.selectedLanguage.toString()) {
+		case "german":
+			playerVsCpu.setText(playerCPU_de);
+			singlePlayer.setText(singlePlayer_de);
+			stats.setText(stats_de);
+			settings.setText(settings_de);
+			instructions.setText(instructions_de);
+			exit.setText(exit_de);
+			break;
+		case "english":
+			playerVsCpu.setText(playerCPU_en);
+			singlePlayer.setText(singlePlayer_en);
+			stats.setText(stats_en);
+			settings.setText(settings_en);
+			instructions.setText(instructions_en);
+			exit.setText(exit_en);
+			break;
+		}
+	}
 
 	@Override
 	public void render(float delta) {
@@ -98,6 +121,7 @@ public class MenuScreen extends BaseScreen {
 	@Override
 	public void show() {
 		super.show();
+		updateLanguageStrings();
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import com.me.missingwords.actors.Background;
 import com.me.missingwords.buttons.BackButton;
 import com.me.missingwords.listeners.BackButtonListener;
 import com.me.missingwords.listeners.CategoryStatsListener;
+import com.me.missingwords.utils.LanguageMenusStrings;
 
 /**
  * 
@@ -23,15 +24,15 @@ import com.me.missingwords.listeners.CategoryStatsListener;
  *
  */
 
-public class StatsScreen extends BaseScreen {
+public class StatsScreen extends BaseScreen implements LanguageMenusStrings {
 	private VerticalGroup statsBox, categoriesLeft, categoriesRight;
 	private Label stats, hits, largestWord, bestWord, gamesWon, gamesLost, cluesUsed,
 				  general, categories;
 	private Background background;
 	private BitmapFont fontPlayer, fontStats;
 	private BackButton backButton;
-	private TextButton days, months, wquestions, colours, size, classroom, body_parts, feelings,
-	                   university, city, free_time;
+	private TextButton days, months, wquestions, colours, size, classroom, bodyparts, feelings,
+	                   university, city, freetime;
 	
 	public StatsScreen(MissingWords missingWords) {
 		super(missingWords);
@@ -49,22 +50,22 @@ public class StatsScreen extends BaseScreen {
 		stage.addActor(backButton);
 		
 		/* Creamos el título */
-		stats = new Label("Stats", new LabelStyle(fontPlayer, fontPlayer.getColor()));
-		stats.setPosition((MissingWords.VIEWPORT_WIDTH - stats.getMinWidth()) / 2, 400);
+		stats = new Label(null, new LabelStyle(fontPlayer, fontPlayer.getColor()));
+		stats.setPosition((MissingWords.VIEWPORT_WIDTH - stats.getMinWidth()) / 2, 450);
 		stage.addActor(stats);
 		
 		/* Creamos las etiquetas con las estadísticas generales */
-		general =  new Label("- General:", new LabelStyle(fontStats, fontStats.getColor()));
-		hits = new Label("% hits: " + missingWords.getStatsData().getPercentageHits() + " %", new LabelStyle(fontStats, fontStats.getColor()));
-		gamesWon = new Label("Games won: " + missingWords.getStatsData().getGamesWon(), new LabelStyle(fontStats, fontStats.getColor()));
-		gamesLost = new Label("Games lost: " + missingWords.getStatsData().getGamesLost(), new LabelStyle(fontStats, fontStats.getColor()));
-		largestWord = new Label("Largest word: "  + missingWords.getStatsData().getLargestWord(), new LabelStyle(fontStats, fontStats.getColor()));
-		bestWord = new Label("Best word: " + missingWords.getStatsData().getBestWord(), new LabelStyle(fontStats, fontStats.getColor()));	
-		cluesUsed = new Label("Clues used: " + missingWords.getStatsData().getCluesUsed(), new LabelStyle(fontStats, fontStats.getColor()));
+		general =  new Label(null, new LabelStyle(fontStats, fontStats.getColor()));
+		hits = new Label(null, new LabelStyle(fontStats, fontStats.getColor()));
+		gamesWon = new Label(null, new LabelStyle(fontStats, fontStats.getColor()));
+		gamesLost = new Label(null, new LabelStyle(fontStats, fontStats.getColor()));
+		largestWord = new Label(null, new LabelStyle(fontStats, fontStats.getColor()));
+		bestWord = new Label(null, new LabelStyle(fontStats, fontStats.getColor()));	
+		cluesUsed = new Label(null, new LabelStyle(fontStats, fontStats.getColor()));
 		
 		/* Creamos el grupo que va a contener las etiquetas de las estadísticas generales */
 		statsBox = new VerticalGroup();
-		statsBox.setPosition(10, 380);
+		statsBox.setPosition(10, 420); // 380
 		statsBox.align(Align.left);
 		
 		/* Añadimos las etiquetas al grupo */
@@ -130,13 +131,13 @@ public class StatsScreen extends BaseScreen {
 		
 		classroom.addListener(new CategoryStatsListener(missingWords, "classroom"));
 		
-		body_parts = new TextButton("Body-parts", 
+		bodyparts = new TextButton("Body-parts", 
 				new TextButtonStyle(new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("blue_button13.png", Texture.class))), 
 				null, 
 				null, 
 				fontStats));
 		
-		body_parts.addListener(new CategoryStatsListener(missingWords, "bodyparts"));
+		bodyparts.addListener(new CategoryStatsListener(missingWords, "bodyparts"));
 		
 		feelings = new TextButton("Feelings", 
 				new TextButtonStyle(new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("blue_button13.png", Texture.class))), 
@@ -163,21 +164,21 @@ public class StatsScreen extends BaseScreen {
 		city.addListener(new CategoryStatsListener(missingWords, "city"));
 		
 		/* El botón free_time va por separado, por darle una mejor apariencia */
-		free_time = new TextButton("Free Time", 
+		freetime = new TextButton("Free Time", 
 				new TextButtonStyle(new TextureRegionDrawable(new TextureRegion(MissingWords.myManager.get("blue_button13.png", Texture.class))), 
 				null, 
 				null, 
 				fontStats));
 		
-		free_time.addListener(new CategoryStatsListener(missingWords, "freetime"));
-		free_time.setPosition(500, 30);
+		freetime.addListener(new CategoryStatsListener(missingWords, "freetime"));
+		freetime.setPosition(500, 70);
 		
-		stage.addActor(free_time);
+		stage.addActor(freetime);
 		
-		/* Creamos os grupos que van a contener las etiquetas de las estadísticas de categorías */
+		/* Creamos los grupos que van a contener las etiquetas de las estadísticas de categorías */
 		
 		categoriesLeft = new VerticalGroup();
-		categoriesLeft.setPosition(400, 380);
+		categoriesLeft.setPosition(400, 420); 
 		categoriesLeft.align(Align.left);
 		categoriesLeft.space(2);
 		
@@ -191,12 +192,12 @@ public class StatsScreen extends BaseScreen {
 		stage.addActor(categoriesLeft);
 		
 		categoriesRight = new VerticalGroup();
-		categoriesRight.setPosition(600, 337);
+		categoriesRight.setPosition(600, 377); 
 		categoriesRight.align(Align.left);
 		categoriesRight.space(2);
 		
 		categoriesRight.addActor(classroom);
-		categoriesRight.addActor(body_parts);
+		categoriesRight.addActor(bodyparts);
 		categoriesRight.addActor(feelings);
 		categoriesRight.addActor(university);
 		categoriesRight.addActor(city);
@@ -204,20 +205,62 @@ public class StatsScreen extends BaseScreen {
 		stage.addActor(categoriesRight);
 	}
 	
-	/* updateLabels(): actualiza los valores de las stats */
-	public void updateLabels() {
-		hits.setText("% hits: " + missingWords.getStatsData().getPercentageHits() + " %");
-		gamesWon.setText("Games won: " + missingWords.getStatsData().getGamesWon());
-		gamesLost.setText("Games lost: " + missingWords.getStatsData().getGamesLost());
-		largestWord.setText("Largest word: "  + missingWords.getStatsData().getLargestWord());
-		bestWord.setText("Best word: " + missingWords.getStatsData().getBestWord());
-		cluesUsed.setText("Clues used: " + missingWords.getStatsData().getCluesUsed());
+	@Override
+	public void updateLanguageStrings() {
+		switch(missingWords.selectedLanguage.toString()) {
+		case "german":
+			stats.setText(statsTitle_de);
+			general.setText(general_de);
+			hits.setText(hits_de + missingWords.getStatsData().getPercentageHits() + " %");
+			gamesWon.setText(gamesWon_de + missingWords.getStatsData().getGamesWon());
+			gamesLost.setText(gamesLost_de + missingWords.getStatsData().getGamesLost());
+			largestWord.setText(largestWord_de + "\n  " + missingWords.getStatsData().getLargestWord());
+			bestWord.setText(bestWord_de + "\n  " + missingWords.getStatsData().getBestWord());
+			cluesUsed.setText(cluesUsed_de + missingWords.getStatsData().getCluesUsed());
+			categories.setText(categories_de);
+			days.setText(days_de);
+			months.setText(months_de);
+			wquestions.setText(wQuestions_de);
+			colours.setText(colours_de);
+			size.setText(size_de);
+			classroom.setText(classroom_de);
+			bodyparts.setText(bodyParts_de);
+			feelings.setText(feelings_de);
+			university.setText(university_de);
+			city.setText(city_de);
+			freetime.setText(freetime_de);
+			break;
+		case "english":
+			stats.setText(statsTitle_en);
+			general.setText(general_en);
+			hits.setText(hits_en + missingWords.getStatsData().getPercentageHits() + " %");
+			gamesWon.setText(gamesWon_en + missingWords.getStatsData().getGamesWon());
+			gamesLost.setText(gamesLost_en + missingWords.getStatsData().getGamesLost());
+			largestWord.setText(largestWord_en + "\n  " + missingWords.getStatsData().getLargestWord());
+			bestWord.setText(bestWord_en + "\n  " + missingWords.getStatsData().getBestWord());
+			cluesUsed.setText(cluesUsed_en + missingWords.getStatsData().getCluesUsed());
+			categories.setText(categories_en);
+			days.setText(days_en);
+			months.setText(months_en);
+			wquestions.setText(wQuestions_en);
+			colours.setText(colours_en);
+			size.setText(size_en);
+			classroom.setText(classroom_en);
+			bodyparts.setText(bodyParts_en);
+			feelings.setText(feelings_en);
+			university.setText(university_en);
+			city.setText(city_en);
+			freetime.setText(freetime_en);
+			break;
+		}
 	}
 
 	@Override
 	public void render(float delta) {
 		super.render(delta);
 
+		stats.setPosition((MissingWords.VIEWPORT_WIDTH - stats.getMinWidth()) / 2, 450);
+		
 		stage.act();
 		stage.draw();
 	}
@@ -229,8 +272,8 @@ public class StatsScreen extends BaseScreen {
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 		super.show();
+		updateLanguageStrings();
 	}
 
 	@Override

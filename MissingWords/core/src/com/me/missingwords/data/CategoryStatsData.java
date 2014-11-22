@@ -26,7 +26,7 @@ public class CategoryStatsData {
 	public CategoryStatsData() {
 		categoryWords = new LinkedHashMap<String, Boolean>();
 		
-		f = Gdx.files.local("categoryData");
+		f = Gdx.files.external("categoryData");
 		FileHandle[] files = f.list();
 		
 		/* Comprobamos si se han creado los ficheros para las categorías */
@@ -167,7 +167,7 @@ public class CategoryStatsData {
 	/* write(): guarda los datos de la categoría en el fichero correspondiente */
 	public void write(LinkedHashMap<String, Boolean> object, String category, String language) {
 		String path = "categoryData/" + category + "-" + language + ".txt"; // ruta del fichero
-		f = Gdx.files.local(path);
+		f = Gdx.files.external(path);
 		ByteArrayOutputStream out = null; // Flujo de salida para escribir bytes
 		ObjectOutputStream oos = null; // Nos permite escribir objetos en un flujo
 		try {
@@ -189,7 +189,7 @@ public class CategoryStatsData {
 	@SuppressWarnings("unchecked")
 	public void read(String category, String language) {
 		String path = "categoryData/" + category + "-" + language + ".txt";
-		f = Gdx.files.local(path);
+		f = Gdx.files.external(path);
 		ByteArrayInputStream in = null;
 		ObjectInputStream ois = null;
 		

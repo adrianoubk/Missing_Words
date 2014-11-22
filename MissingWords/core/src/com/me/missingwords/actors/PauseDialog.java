@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
+import com.me.missingwords.MissingWords.Language;
 
 public class PauseDialog extends Dialog {
 	private MissingWords missingWords;
@@ -37,21 +38,41 @@ public class PauseDialog extends Dialog {
 		setStyle(style); // aplicamos el estilo
 		
 		/* Creamos un botón dentro del diálogo */
-		button("resume", "resume", new TextButtonStyle(
-				new TextureRegionDrawable(
-						new TextureRegion(MissingWords.myManager.get("upButton.png", Texture.class))),
-				new TextureRegionDrawable(
-						new TextureRegion(MissingWords.myManager.get("downButton.png", Texture.class))), 
-				null, 
-				new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false)));
+		if (missingWords.selectedLanguage == Language.english) 
+			button("Resume", "resume", new TextButtonStyle(
+					new TextureRegionDrawable(
+							new TextureRegion(MissingWords.myManager.get("upButton.png", Texture.class))),
+							new TextureRegionDrawable(
+									new TextureRegion(MissingWords.myManager.get("downButton.png", Texture.class))), 
+									null, 
+									new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false)));
+		else 
+			button("Resümee", "resume", new TextButtonStyle(
+					new TextureRegionDrawable(
+							new TextureRegion(MissingWords.myManager.get("upButton.png", Texture.class))),
+							new TextureRegionDrawable(
+									new TextureRegion(MissingWords.myManager.get("downButton.png", Texture.class))), 
+									null, 
+									new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false)));
 		
-		button("exit", "exit", new TextButtonStyle(
-				new TextureRegionDrawable(
+		if (missingWords.selectedLanguage == Language.english) 
+			button("Exit", "exit", new TextButtonStyle(
+					new TextureRegionDrawable(
 						new TextureRegion(MissingWords.myManager.get("upButton.png", Texture.class))),
-				new TextureRegionDrawable(
-						new TextureRegion(MissingWords.myManager.get("downButton.png", Texture.class))), 
-				null, 
-				new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false)));	
+						new TextureRegionDrawable(
+								new TextureRegion(MissingWords.myManager.get("downButton.png", Texture.class))), 
+								null, 
+								new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false)));
+		else
+			button("Beenden", "exit", new TextButtonStyle(
+					new TextureRegionDrawable(
+						new TextureRegion(MissingWords.myManager.get("upButton.png", Texture.class))),
+						new TextureRegionDrawable(
+								new TextureRegion(MissingWords.myManager.get("downButton.png", Texture.class))), 
+								null, 
+								new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), Gdx.files.internal("fonts/listFont.png"), false)));
+		
+		
 	}
 	
 	/* result(): Método que se ejecuta al pulsar el botón y cierra el diálogo */

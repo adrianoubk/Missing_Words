@@ -17,8 +17,9 @@ import com.me.missingwords.actors.Background;
 import com.me.missingwords.buttons.BackButton;
 import com.me.missingwords.listeners.BackButtonListener;
 import com.me.missingwords.listeners.ChangeLanguageListener;
+import com.me.missingwords.utils.LanguageMenusStrings;
 
-public class SettingsScreen extends BaseScreen {
+public class SettingsScreen extends BaseScreen implements LanguageMenusStrings {
 	private Background background;
 	private BitmapFont fontTitle, fontSettings;
 	private Label settings, language;
@@ -100,17 +101,43 @@ public class SettingsScreen extends BaseScreen {
 		about2.setPosition((MissingWords.VIEWPORT_WIDTH - about2.getMinWidth()) / 2, 5);
 		stage.addActor(about2);
 	}
+	
+	@Override
+	public void updateLanguageStrings() {
+		switch(missingWords.selectedLanguage.toString()) {
+		case "german":
+			settings.setText(settingsTitle_de);
+			language.setText(language_de);
+			break;
+		case "english":
+			settings.setText(settingsTitle_en);
+			language.setText(language_en);
+			break;
+		}
+	}
 
 	@Override
 	public void render(float delta) {
 		super.render(delta);
 		
+		updateLanguageStrings();
+		
+		settings.setPosition((MissingWords.VIEWPORT_WIDTH - settings.getMinWidth()) / 2, 400);
+		
 		if (!sound.isChecked()) {
-			sound.setText(" Sound Off");
+			if (missingWords.selectedLanguage == Language.english)
+				sound.setText(soundOff_en);
+			else
+				sound.setText(soundOff_de);
+			
 			missingWords.getSoundFX().setVolume(0);
 		}
 		else {
-			sound.setText(" Sound On");
+			if (missingWords.selectedLanguage == Language.english)
+				sound.setText(soundOn_en);
+			else
+				sound.setText(soundOn_de);
+			
 			missingWords.getSoundFX().setVolume(1);
 		}
 		

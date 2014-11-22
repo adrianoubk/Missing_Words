@@ -113,7 +113,10 @@ public class NPCPlayer extends Player {
 				
 				for (int i = 0; i < array.size; ++i) {
 					Tile t = (Tile) array.get(i);
-					word.append(t.getLetter()); // añadimos la letra al array de strings
+					if (i == 0)
+						word.append(t.getLetter().toUpperCase()); 
+					else
+						word.append(t.getLetter().toUpperCase()); // añadimos la letra al array de strings
 					score += t.getPoints(); // sumamos los puntos de la Tile
 				}
 				

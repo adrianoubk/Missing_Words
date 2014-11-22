@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
+import com.me.missingwords.MissingWords.Language;
 import com.me.missingwords.actors.Background;
 import com.me.missingwords.listeners.ExitGameListener;
 import com.me.missingwords.listeners.PlayAgainListener;
@@ -113,6 +114,9 @@ public class VictoryScreen extends BaseScreen {
 			null, 
 			fontButton));
 		
+		if (missingWords.selectedLanguage == Language.german)
+			exitButton.setText("Beenden");
+		
 		exitButton.addListener(new ExitGameListener(missingWords));
 		
 		/* Creamos el botón de jugar de nuevo */
@@ -123,6 +127,9 @@ public class VictoryScreen extends BaseScreen {
 				new TextureRegion(MissingWords.myManager.get("downButton.png", Texture.class))), 
 			null, 
 			fontButton));
+		
+		if (missingWords.selectedLanguage == Language.german)
+			playAgainButton.setText("Nochmal spielen?");
 		
 		playAgainButton.addListener(new PlayAgainListener(missingWords));
 		
@@ -176,16 +183,27 @@ public class VictoryScreen extends BaseScreen {
 		wordArray =  missingWords.getGameScreen().getHuman().getPlayedWords().toArray(
 				new String[missingWords.getGameScreen().getHuman().getPlayedWords().size()]);
 		
-		playedWords.setText("Played\nWords:\n" + 
-		" " + missingWords.getGameScreen().getHuman().getPlayedWords().size() + " of " + 
-		missingWords.getVocabulary().getVocabulary().size());
+		if (missingWords.selectedLanguage == Language.english) 
+			playedWords.setText("Played\nWords:\n" + 
+					" " + missingWords.getGameScreen().getHuman().getPlayedWords().size() + " of " + 
+					missingWords.getVocabulary().getVocabulary().size());
+		else
+			playedWords.setText("Gespielte\nWörter:\n" + 
+					" " + missingWords.getGameScreen().getHuman().getPlayedWords().size() + " von " + 
+					missingWords.getVocabulary().getVocabulary().size());
+		
 		
 		wordList.setItems(wordArray); // insertamos el array de strings
 		
 		/* Asignamos las cadenas a las etiquetas una vez que se conocen los datos */
-		totalTurns.setText("Total Turns: " + missingWords.getGameScreen().getTurn().getNumTurn());
-		
-		totalWords.setText("Total Words: " + missingWords.getGameScreen().getTotalWords());
+		if (missingWords.selectedLanguage == Language.english) {
+			totalTurns.setText("Total Turns: " + missingWords.getGameScreen().getTurn().getNumTurn());
+			totalWords.setText("Total Words: " + missingWords.getGameScreen().getTotalWords());
+		}
+		else {
+			totalTurns.setText("Spielrunden: " + missingWords.getGameScreen().getTurn().getNumTurn());
+			totalWords.setText("Gespielte Wörter: " + missingWords.getGameScreen().getTotalWords());
+		}
 		
 		winner.setText(missingWords.getGameScreen().getWinner() + " wins!");
 	}

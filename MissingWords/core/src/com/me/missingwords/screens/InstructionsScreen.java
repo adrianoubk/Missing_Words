@@ -13,6 +13,7 @@ import com.me.missingwords.MissingWords;
 import com.me.missingwords.actors.Background;
 import com.me.missingwords.buttons.BackButton;
 import com.me.missingwords.listeners.BackButtonListener;
+import com.me.missingwords.utils.LanguageMenusStrings;
 
 /**
  * 
@@ -20,7 +21,7 @@ import com.me.missingwords.listeners.BackButtonListener;
  *
  */
 
-public class InstructionsScreen extends BaseScreen {
+public class InstructionsScreen extends BaseScreen implements LanguageMenusStrings {
 	private Background background;
 	private Label title, instructions, translationLabel, letterLabel, lengthLabel;
 	private BackButton backButton;
@@ -84,6 +85,26 @@ public class InstructionsScreen extends BaseScreen {
 		lengthLabel.setPosition(70, 82);
 		stage.addActor(lengthLabel);
 	}
+	
+	@Override
+	public void updateLanguageStrings() {
+		switch(missingWords.selectedLanguage.toString()) {
+		case "german":
+			title.setText(instructionsTitle_de);
+			instructions.setText(instructionsLabel_de);
+			translationLabel.setText(translation_de);
+			letterLabel.setText(firstLetter_de);
+			lengthLabel.setText(length_de);
+			break;
+		case "english":
+			title.setText(instructionsTitle_en);
+			instructions.setText(instructionsLabel_en);
+			translationLabel.setText(translation_en);
+			letterLabel.setText(firstLetter_en);
+			lengthLabel.setText(length_en);
+			break;
+		}
+	}
 
 	@Override
 	public void render(float delta) {
@@ -96,6 +117,8 @@ public class InstructionsScreen extends BaseScreen {
 	@Override
 	public void show() {
 		super.show();
+		
+		updateLanguageStrings();
 	}
 
 	@Override

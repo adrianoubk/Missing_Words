@@ -46,26 +46,26 @@ public class MiniGameScreen extends BaseScreen {
 		stage.addActor(dice);
 		
 		/* Creamos los botones de lanzar, mover, esperar y continuar */
-		rollButton = new RollDiceButton();
+		rollButton = new RollDiceButton(missingWords);
 		rollButton.addListener(new RollListener(missingWords));
 		stage.addActor(rollButton);
 		
-		moveButton = new MoveButton();
+		moveButton = new MoveButton(missingWords);
 		moveButton.addListener(new MoveListener(missingWords));
 		stage.addActor(moveButton);
 		
-		waitButton = new WaitButton();
+		waitButton = new WaitButton(missingWords);
 		waitButton.addListener(new WaitListener(missingWords));
 		waitButton.setVisible(false);
 		stage.addActor(waitButton);
 		
-		continueButton = new ContinueButton();
+		continueButton = new ContinueButton(missingWords);
 		continueButton.addListener(new ContinueMiniListener(missingWords));
 		continueButton.setVisible(false);
 		stage.addActor(continueButton);
 		
 		/* Creamos la etiqueta de tiradas restantes */
-		rollsLeft = new RollsLeft();
+		rollsLeft = new RollsLeft(missingWords);
 		stage.addActor(rollsLeft);
 	}
 

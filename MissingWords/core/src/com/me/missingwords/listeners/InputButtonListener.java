@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.me.missingwords.MissingWords;
+import com.me.missingwords.MissingWords.Language;
 import com.me.missingwords.actors.Tile;
 
 /**
@@ -44,7 +45,10 @@ public class InputButtonListener extends ClickListener {
 		
 		for(int i = 0; i < array.size; ++i) {
 			Tile t = (Tile) array.get(i);
-			word.append(t.getLetter());
+			if (i == 0)
+				word.append(t.getLetter().toUpperCase());
+			else
+				word.append(t.getLetter());
 			score += t.getPoints();
 		}
 		
@@ -61,6 +65,8 @@ public class InputButtonListener extends ClickListener {
 			
 			/* Creamos una etiqueta y mostramos el mensaje */
 			Label nice = new Label("Nice!", lStyle);
+			if (missingWords.selectedLanguage == Language.german)
+				nice.setText("Schön!");
 			nice.setPosition(0, 0);
 			nice.addAction(Actions.fadeOut(1));
 			missingWords.getGameScreen().getStage().addActor(nice);
@@ -91,6 +97,10 @@ public class InputButtonListener extends ClickListener {
 			
 			Label notfound = new Label("Not found!", lStyle);
 			notfound.setPosition(630, 0);
+			if (missingWords.selectedLanguage == Language.german) {
+				notfound.setText("Nicht gefunden");
+				notfound.setPosition(550, 0);
+			}
 			notfound.addAction(Actions.fadeOut(1));
 			missingWords.getGameScreen().getStage().addActor(notfound);
 		}

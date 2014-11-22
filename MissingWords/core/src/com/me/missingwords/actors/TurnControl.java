@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Pool;
 import com.me.missingwords.MissingWords;
+import com.me.missingwords.MissingWords.Language;
 
 /**
  * 
@@ -110,14 +111,20 @@ public class TurnControl extends Label {
 		 * restablecemos las pistas que puede usar por turno
 		 */
 		if (missingWords.getGameScreen().getHuman().isMyTurn()) {
-			setPlayer("Your Turn");
+			if (missingWords.selectedLanguage == Language.english)
+				setPlayer("Your Turn");
+			else
+				setPlayer("Du bist dran!");
 			missingWords.getGameScreen().getHuman().setRolls(0);
 			missingWords.getGameScreen().getHuman().setCluesUsed(0);
 		}
 		else {
 			missingWords.getGameScreen().getNpc().setMyTurn(true);
 			missingWords.getGameScreen().getNpc().setRolls(0);
-			setPlayer("Npc's Turn");
+			if (missingWords.selectedLanguage == Language.english)
+				setPlayer("Npc's Turn");
+			else
+				setPlayer("Gegner ist dran!");
 		}
 		
 		/* Restablecemos las penalizaciones */

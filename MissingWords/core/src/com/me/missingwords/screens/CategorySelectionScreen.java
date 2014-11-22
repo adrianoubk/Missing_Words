@@ -16,6 +16,7 @@ import com.me.missingwords.actors.Background;
 import com.me.missingwords.buttons.BackButton;
 import com.me.missingwords.listeners.BackButtonListener;
 import com.me.missingwords.listeners.CategorySelectionListener;
+import com.me.missingwords.utils.LanguageMenusStrings;
 
 /**
  *  
@@ -23,7 +24,7 @@ import com.me.missingwords.listeners.CategorySelectionListener;
  *
  */
 
-public class CategorySelectionScreen extends BaseScreen {
+public class CategorySelectionScreen extends BaseScreen implements LanguageMenusStrings {
 	private Background background;
 	private Label title;
 	private TextButton days, months, wquestions, colours, size, classroom, bodyparts, feelings, 
@@ -122,8 +123,43 @@ public class CategorySelectionScreen extends BaseScreen {
 	}
 	
 	@Override
+	public void updateLanguageStrings() {
+		switch (missingWords.selectedLanguage.toString()) {
+		case "german":
+			title.setText(categorySelection_de);
+			days.setText(days_de);
+			months.setText(months_de);
+			wquestions.setText(wQuestions_de);
+			colours.setText(colours_de);
+			size.setText(size_de);
+			classroom.setText(classroom_de);
+			bodyparts.setText(bodyParts_de);
+			feelings.setText(feelings_de);
+			university.setText(university_de);
+			city.setText(city_de);
+			freetime.setText(freetime_de);
+			break;
+		case "english":
+			title.setText(categorySelection_en);
+			days.setText(days_en);
+			months.setText(months_en);
+			wquestions.setText(wQuestions_en);
+			colours.setText(colours_en);
+			size.setText(size_en);
+			classroom.setText(classroom_en);
+			bodyparts.setText(bodyParts_en);
+			feelings.setText(feelings_en);
+			university.setText(university_en);
+			city.setText(city_en);
+			freetime.setText(freetime_en);
+		}
+	}
+	
+	@Override
 	public void render(float delta) {
 		super.render(delta);
+		
+		title.setPosition((MissingWords.VIEWPORT_WIDTH - title.getMinWidth()) / 2, 400);
 		
 		stage.act();
 		stage.draw();
@@ -132,6 +168,8 @@ public class CategorySelectionScreen extends BaseScreen {
 	@Override
 	public void show() {
 		super.show();
+		
+		updateLanguageStrings();
 	}
 
 	@Override

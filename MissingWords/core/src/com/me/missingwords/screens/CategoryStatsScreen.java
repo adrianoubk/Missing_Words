@@ -20,9 +20,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.me.missingwords.MissingWords;
+import com.me.missingwords.MissingWords.Language;
 import com.me.missingwords.actors.Background;
 import com.me.missingwords.buttons.BackButton;
 import com.me.missingwords.listeners.BackButtonListener;
+import com.me.missingwords.utils.LanguageMenusStrings;
 
 /**
  * 
@@ -30,7 +32,7 @@ import com.me.missingwords.listeners.BackButtonListener;
  *
  */
 
-public class CategoryStatsScreen extends BaseScreen {
+public class CategoryStatsScreen extends BaseScreen implements LanguageMenusStrings {
 	private Background background;
 	private Table stageTable, left, right;
 	private BitmapFont font, fontList;
@@ -38,6 +40,7 @@ public class CategoryStatsScreen extends BaseScreen {
 	private List<String> list;
 	private BackButton backButton;
 	private int wordsDone;
+	private String percentageProgress;
 
 	public CategoryStatsScreen(MissingWords missingWords) {
 		super(missingWords);
@@ -87,7 +90,7 @@ public class CategoryStatsScreen extends BaseScreen {
 		left.row();
 		left.add(progress).expand();
 		left.row();
-		left.add(backButton).align(Align.left).pad(20);
+		left.add(backButton).align(Align.left).pad(10);
 		
 		/* Creamos la tabla derecha del SplitPane */
 		right = new Table();
@@ -101,6 +104,18 @@ public class CategoryStatsScreen extends BaseScreen {
 		stageTable.add(split).fill().expand(); // Añadimos el SplitPane a la stageTable
 		
 		stage.addActor(stageTable); // Añadimos la stageTable al stage
+	}
+	
+	@Override
+	public void updateLanguageStrings() {
+		switch (missingWords.selectedLanguage.toString()) {
+		case "german":
+			progress.setText(progress_de + percentageProgress + "%");
+			break;
+		case "english":
+			progress.setText(progress_en + percentageProgress + "%");
+			break;
+		}
 	}
 
 	@Override
@@ -142,15 +157,42 @@ public class CategoryStatsScreen extends BaseScreen {
 		list.setItems(wordArray);
 		
 		/* Establecemos el título de la categoría */
-		title.setText(missingWords.selectedCategory.toString());
+		if (missingWords.selectedLanguage == Language.english)
+			switch (missingWords.selectedCategory.toString()) {
+				case "days": title.setText(days_en); break;
+				case "months": title.setText(months_en); break;
+				case "wquestions": title.setText(wQuestions_en); break;
+				case "colours": title.setText(colours_en); break;
+				case "size": title.setText(size_en); break;
+				case "classroom": title.setText(classroom_en); break;
+				case "bodyparts": title.setText(bodyParts_en); break;
+				case "feelings": title.setText(feelings_en); break;
+				case "university": title.setText(university_en); break;
+				case "city": title.setText(city_en); break;
+				case "freetime": title.setText(freetime_en); break;
+			}
+		else
+			switch (missingWords.selectedCategory.toString()) {
+			case "days": title.setText(days_de); break;
+			case "months": title.setText(months_de); break;
+			case "wquestions": title.setText(wQuestions_de); break;
+			case "colours": title.setText(colours_de); break;
+			case "size": title.setText(size_de); break;
+			case "classroom": title.setText(classroom_de); break;
+			case "bodyparts": title.setText(bodyParts_de); break;
+			case "feelings": title.setText(feelings_de); break;
+			case "university": title.setText(university_de); break;
+			case "city": title.setText(city_de); break;
+			case "freetime": title.setText(freetime_de); break;
+			}
 		
 		/* Calculamos el progreso */
 		float totalProgress;
 		totalProgress = ((float)wordsDone / (float)words.size()) * 100;
 		DecimalFormat decimal = new DecimalFormat("0.00");
-		String percentageProgress = String.valueOf(decimal.format(totalProgress));
+		percentageProgress = String.valueOf(decimal.format(totalProgress));
 		
-		progress.setText("Progress:\n  " + percentageProgress + "%");
+		updateLanguageStrings();
 	}
 
 	@Override

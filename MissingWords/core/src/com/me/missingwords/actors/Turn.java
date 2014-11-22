@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.me.missingwords.MissingWords;
+import com.me.missingwords.MissingWords.Language;
 
 /**
  *
@@ -23,9 +24,11 @@ public class Turn extends Actor {
 	private BitmapFont font; // Fuente para el turno
 	private int numTurn; // Número del turno
 	private TextureRegion turnTexture;// Textura del cuadro de turno
+	private MissingWords missingWords;
 	
-	public Turn(int numTurn) {
+	public Turn(int numTurn, MissingWords missingWords) {
 		this.numTurn = numTurn;
+		this.missingWords = missingWords;
 		
 		font = new BitmapFont(
 			Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
@@ -37,17 +40,20 @@ public class Turn extends Actor {
 	public void draw(Batch batch, float parentAlpha) {
 		batch.draw(turnTexture, (MissingWords.VIEWPORT_WIDTH - turnTexture.getRegionWidth()) / 2, POSITION_Y);
 		font.setColor(Color.MAROON);
-		font.draw(batch, "Turn " + numTurn, calculatePosition().x , calculatePosition().y);
+		if (missingWords.selectedLanguage == Language.english)
+			font.draw(batch, "Turn " + numTurn, calculatePosition("Turn ").x , calculatePosition("Turn ").y);
+		else
+			font.draw(batch, "Spielrunde " + numTurn, calculatePosition("Spielrunde ").x , calculatePosition("Spielrunde ").y);
 	}
 
 	/* calculatePosition(): calcula la posición de la fuente del turno */
-	private Vector2 calculatePosition() {
+	private Vector2 calculatePosition(String turn) {
 		Vector2 pos = new Vector2();
 		
 		pos.x = ((MissingWords.VIEWPORT_WIDTH - turnTexture.getRegionWidth()) / 2) + 
-				((turnTexture.getRegionWidth() - font.getBounds("Turn " + numTurn).width) / 2);
+				((turnTexture.getRegionWidth() - font.getBounds(turn + numTurn).width) / 2);
 		pos.y = POSITION_Y + ((TEXTURE_PADDING + turnTexture.getRegionHeight() + 
-				font.getBounds("Turn " + numTurn).height) / 2);
+				font.getBounds(turn + numTurn).height) / 2);
 		
 		return pos;
 	}

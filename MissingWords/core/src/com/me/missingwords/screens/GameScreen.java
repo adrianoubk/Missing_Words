@@ -81,7 +81,7 @@ public class GameScreen extends BaseScreen {
 		stage.addActor(slider);
 		
 		/* Creamos la barra de turno */
-		turn = new Turn(0);
+		turn = new Turn(0, missingWords);
 		stage.addActor(turn);
 		
 		/* Creamos la barra de tiempo */
@@ -111,7 +111,7 @@ public class GameScreen extends BaseScreen {
 		/* Creamos el dialogo de pausa */
 		pauseDialog = new PauseDialog(missingWords);
 		
-		wordScore = new WordScore();
+		wordScore = new WordScore(missingWords);
 		stage.addActor(wordScore);
 	}
 
@@ -216,6 +216,8 @@ public class GameScreen extends BaseScreen {
 		randomWord = missingWords.getVocabulary().randomKey(); // palabra al azar del vocabulario
 		arrayWord = randomWord.split("(?!^)");
 		
+		arrayWord[0] = arrayWord[0].toLowerCase();		
+		
 		/* Muestro la palabra, SOLO PRUEBAS */
 		for (int i = 0; i < arrayWord.length; ++i) {
 			System.out.print(arrayWord[i]);
@@ -256,6 +258,7 @@ public class GameScreen extends BaseScreen {
 		 * Recorremos la palabra e intercambiamos las ocurrencias de ae, oe y ue por sus vocales
 		 * con diéresis
 		 */
+		/*
 		while (i < arrayWord.length) {
 			if ((arrayWord[i].equals("a") || arrayWord[i].equals("o") || arrayWord[i].equals("u")) 
 					&& (i + 1) < arrayWord.length && arrayWord[i + 1].equals("e")) {
@@ -271,6 +274,12 @@ public class GameScreen extends BaseScreen {
 				newArray.add(arrayWord[i]);
 				++i;
 			}
+		}
+		*/
+		
+		while (i < arrayWord.length) {
+			newArray.add(arrayWord[i]);
+			++i;
 		}
 		
 		return newArray;

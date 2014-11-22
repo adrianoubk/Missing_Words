@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.me.missingwords.MissingWords;
+import com.me.missingwords.MissingWords.Language;
 
 /**
  * 
@@ -28,14 +29,23 @@ public class InfoRoll extends VerticalGroup {
 		
 		missingWords = game;
 		
-		font = new BitmapFont(Gdx.files.internal("fonts/info.fnt"), 
-				Gdx.files.internal("fonts/info.png"), false); 
+		font = new BitmapFont(Gdx.files.internal("fonts/listFont.fnt"), 
+				Gdx.files.internal("fonts/listFont.png"), false); 
 		
 		/* Creamos las etiquetas con la información a mostrar */
-		title = new Label("   Points = roll(s)", new LabelStyle(font, Color.BLACK));
-		roll1 = new Label(" 1 to " + missingWords.getMin() + " = 1 roll" , new LabelStyle(font, Color.BLACK));
-		roll2 = new Label((missingWords.getMin() + 1)  + " to " + (missingWords.getMax() - 1) + " = 2 rolls", new LabelStyle(font, Color.BLACK));
-		roll3 = new Label("        " + missingWords.getMax() + "+ = 3 rolls" , new LabelStyle(font, Color.BLACK));
+		
+		if (missingWords.selectedLanguage == Language.english) {
+			title = new Label("   Points = roll(s)", new LabelStyle(font, Color.BLACK));
+			roll1 = new Label(" 1 to " + missingWords.getMin() + " = 1 roll" , new LabelStyle(font, Color.BLACK));
+			roll2 = new Label((missingWords.getMin() + 1)  + " to " + (missingWords.getMax() - 1) + " = 2 rolls", new LabelStyle(font, Color.BLACK));
+			roll3 = new Label("        " + missingWords.getMax() + "+ = 3 rolls" , new LabelStyle(font, Color.BLACK));
+		}
+		else {
+			title = new Label("  Punkte = würfeln", new LabelStyle(font, Color.BLACK));
+			roll1 = new Label("  1 bis " + missingWords.getMin() + " = 1 w." , new LabelStyle(font, Color.BLACK));
+			roll2 = new Label((missingWords.getMin() + 1)  + " bis " + (missingWords.getMax() - 1) + " = 2 w.", new LabelStyle(font, Color.BLACK));
+			roll3 = new Label("        " + missingWords.getMax() + "+ = 3 w." , new LabelStyle(font, Color.BLACK));
+		}
 		
 		addActor(title);
 		addActor(roll1);
