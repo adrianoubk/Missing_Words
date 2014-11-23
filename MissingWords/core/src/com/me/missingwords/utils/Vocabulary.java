@@ -28,10 +28,9 @@ public class Vocabulary {
 		FileHandle file = null;
 		
 		/* Cargamos el fichero de idioma */
-		
 		switch (language) {
-			case german: file = Gdx.files.internal("utils/vocabulary-german.txt"); break;
-			case english: file = Gdx.files.internal("utils/vocabulary-english.txt"); break;
+			case german: file = Gdx.files.external("MissingWordsData/GameData/vocabulary-german.txt"); break;
+			case english: file = Gdx.files.internal("MissingWordsData/GameData/vocabulary-english.txt"); break;
 		}
 		
 		BufferedReader br = new BufferedReader(file.reader());

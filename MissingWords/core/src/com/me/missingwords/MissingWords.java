@@ -113,6 +113,14 @@ public class MissingWords extends Game {
 		myBatch = new SpriteBatch();
 		myManager = new MyAssetManager();
 		
+		FileHandle to = Gdx.files.external("MissingWordsData/GameData");
+		FileHandle[] files;
+		
+		files = to.list();
+		
+		if (files.length == 0)
+			copyFiles();
+		
 		/* Cargamos los datos de las estadísticas */
 		statsData = new StatsData();
 		
@@ -217,6 +225,28 @@ public class MissingWords extends Game {
 		soundFX = new SoundFX();
 		tiles = new TextureAtlas();
 		tiles = myManager.get("tiles.atlas", TextureAtlas.class);
+	}
+	
+	public void copyFiles() {
+		FileHandle from = null;
+		
+		from = Gdx.files.internal("utils/english-spanish.txt");
+		from.copyTo(Gdx.files.external("MissingWordsData/GameData/english-spanish.txt"));
+			
+		from = Gdx.files.internal("utils/german-spanish.txt");
+		from.copyTo(Gdx.files.external("MissingWordsData/GameData/german-spanish.txt"));
+			
+		from = Gdx.files.internal("utils/score-limits-english.txt");
+		from.copyTo(Gdx.files.external("MissingWordsData/GameData/score-limits-english.txt"));
+			
+		from = Gdx.files.internal("utils/score-limits-german.txt");
+		from.copyTo(Gdx.files.external("MissingWordsData/GameData/score-limits-german.txt"));
+			
+		from = Gdx.files.internal("utils/vocabulary-english.txt");
+		from.copyTo(Gdx.files.external("MissingWordsData/GameData/vocabulary-english.txt"));
+			
+		from = Gdx.files.internal("utils/vocabulary-german.txt");
+		from.copyTo(Gdx.files.external("MissingWordsData/GameData/vocabulary-german.txt"));
 	}
 	
 	/* -------------- Getters and Setters -------------- */

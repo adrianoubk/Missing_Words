@@ -26,8 +26,8 @@ public class Dictionary {
 		/* Cargamos el fichero del diccionario a usar */
 		
 		switch (language) {
-			case german: file = Gdx.files.internal("utils/german-spanish.txt"); break;
-			case english: file = Gdx.files.internal("utils/english-spanish.txt"); break;
+			case german: file = Gdx.files.external("MissingWordsData/GameData/german-spanish.txt"); break;
+			case english: file = Gdx.files.external("MissingWordsData/GameData/english-spanish.txt"); break;
 		}
 		
 		BufferedReader br = new BufferedReader(file.reader());
