@@ -3,6 +3,7 @@ package com.me.missingwords;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -113,6 +114,9 @@ public class MissingWords extends Game {
 		myBatch = new SpriteBatch();
 		myManager = new MyAssetManager();
 		
+		/* Cargamos los datos de las estadísticas */
+		statsData = new StatsData();
+		
 		FileHandle to = Gdx.files.external("MissingWordsData/GameData");
 		FileHandle[] files;
 		
@@ -120,9 +124,6 @@ public class MissingWords extends Game {
 		
 		if (files.length == 0)
 			copyFiles();
-		
-		/* Cargamos los datos de las estadísticas */
-		statsData = new StatsData();
 		
 		categoryData = new CategoryStatsData();
 
@@ -200,8 +201,8 @@ public class MissingWords extends Game {
 		FileHandle file = null;
 		
 		switch(language) { // Leemos de un fichero o otro según el idioma
-			case german: file = Gdx.files.internal("utils/score-limits-german.txt"); break;
-			case english: file = Gdx.files.internal("utils/score-limits-english.txt"); break;
+			case german: file = Gdx.files.external("MissingWordsData/GameData/score-limits-german.txt"); break;
+			case english: file = Gdx.files.external("MissingWordsData/GameData/score-limits-english.txt"); break;
 		}
 		
 		BufferedReader br = new BufferedReader(file.reader());
@@ -210,14 +211,18 @@ public class MissingWords extends Game {
 		while ((line = br.readLine()) != null) { // leemos linea hasta que sea null
 			limits = line.split(" ");
 			
-			if (limits[0].equals("max")) // establecemos el máximo
+			if (limits[0].equals("max")) { // establecemos el máximo 
 				max = Integer.parseInt(limits[1]);
+				System.out.println("Asignando max");
+			}
 			
 			if (limits[0].equals("min")) // establecemos el mínimo
 				min = Integer.parseInt(limits[1]);
 		}
 		
 		br.close(); // cerramos el buffer
+		
+		System.out.println(max + " " + min);
 	}
 	
 	/* createObjects(): Crea objetos necesarios para el funcionamiento de la app */
@@ -229,23 +234,37 @@ public class MissingWords extends Game {
 	
 	public void copyFiles() {
 		FileHandle from = null;
+		String path = null;
 		
-		from = Gdx.files.internal("utils/english-spanish.txt");
+		if (Gdx.app.getType() == ApplicationType.Android)
+			path = "utils/android/";
+		else if (Gdx.app.getType() == ApplicationType.Desktop)
+			path = "utils/desktop/";	
+		
+		from = Gdx.files.internal(path + "english-spanish.txt");
 		from.copyTo(Gdx.files.external("MissingWordsData/GameData/english-spanish.txt"));
 			
-		from = Gdx.files.internal("utils/german-spanish.txt");
+		from = Gdx.files.internal(path + "german-spanish.txt");
 		from.copyTo(Gdx.files.external("MissingWordsData/GameData/german-spanish.txt"));
+		
+		/*
+		from = Gdx.files.internal(path + "scores-english.txt");
+		from.copyTo(Gdx.files.external("MissingWordsData/GameData/scores-english.txt"));
+		
+		from = Gdx.files.internal(path + "scores-german.txt");
+		from.copyTo(Gdx.files.external("MissingWordsData/GameData/scores-german.txt"));
+		*/
 			
-		from = Gdx.files.internal("utils/score-limits-english.txt");
+		from = Gdx.files.internal(path + "score-limits-english.txt");
 		from.copyTo(Gdx.files.external("MissingWordsData/GameData/score-limits-english.txt"));
 			
-		from = Gdx.files.internal("utils/score-limits-german.txt");
+		from = Gdx.files.internal(path + "score-limits-german.txt");
 		from.copyTo(Gdx.files.external("MissingWordsData/GameData/score-limits-german.txt"));
 			
-		from = Gdx.files.internal("utils/vocabulary-english.txt");
+		from = Gdx.files.internal(path + "vocabulary-english.txt");
 		from.copyTo(Gdx.files.external("MissingWordsData/GameData/vocabulary-english.txt"));
 			
-		from = Gdx.files.internal("utils/vocabulary-german.txt");
+		from = Gdx.files.internal(path + "vocabulary-german.txt");
 		from.copyTo(Gdx.files.external("MissingWordsData/GameData/vocabulary-german.txt"));
 	}
 	

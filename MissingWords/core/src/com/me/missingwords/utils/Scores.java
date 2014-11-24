@@ -28,8 +28,8 @@ public class Scores {
 		/* Cargamos el fichero de idioma */
 		
 		switch (language) {
-		case german: file = Gdx.files.internal("utils/scores-german.txt"); break;
-		case english: file = Gdx.files.internal("utils/scores-english.txt"); break;
+		case german: file = Gdx.files.internal("utils/desktop/scores-german.txt"); break;
+		case english: file = Gdx.files.internal("utils/desktop/scores-english.txt"); break;
 		}
 		
 		/* Buffer donde volcamos el contenido del fichero para leerlo */

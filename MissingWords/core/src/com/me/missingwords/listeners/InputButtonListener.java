@@ -47,6 +47,12 @@ public class InputButtonListener extends ClickListener {
 			Tile t = (Tile) array.get(i);
 			if (i == 0)
 				word.append(t.getLetter().toUpperCase());
+			else if (t.getLetter().equals("ae"))
+				word.append("ä");
+			else if (t.getLetter().equals("oe"))
+				word.append("ö");
+			else if (t.getLetter().equals("ue"))
+				word.append("ü");
 			else
 				word.append(t.getLetter());
 			score += t.getPoints();
@@ -66,7 +72,7 @@ public class InputButtonListener extends ClickListener {
 			/* Creamos una etiqueta y mostramos el mensaje */
 			Label nice = new Label("Nice!", lStyle);
 			if (missingWords.selectedLanguage == Language.german)
-				nice.setText("Schön!");
+				nice.setText("Gut!");
 			nice.setPosition(0, 0);
 			nice.addAction(Actions.fadeOut(1));
 			missingWords.getGameScreen().getStage().addActor(nice);

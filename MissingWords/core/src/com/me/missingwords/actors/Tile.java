@@ -25,6 +25,7 @@ public class Tile extends Actor {
 		this.points = points;
 		
 		tileTexture = MissingWords.tiles.findRegion(letter);
+		
 		setDefaultSize();
 	}
 	

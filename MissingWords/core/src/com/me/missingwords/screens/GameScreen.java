@@ -232,12 +232,15 @@ public class GameScreen extends BaseScreen {
 				adaptedWord.add(arrayWord[i]);		
 		}
 		
-		System.out.print("\n");
+		System.out.println("\n");
+		
+		System.out.print(adaptedWord);
 		
 		/* Creamos las fichas */
-		for (int i = 0; i < adaptedWord.size(); ++i) 
+		for (int i = 0; i < adaptedWord.size(); ++i) {
 			originalTiles.add(new Tile(
 					adaptedWord.get(i), missingWords.getScores().getScores().get(adaptedWord.get(i))));
+		}
 		
 		/* Transformo la palabra en un ArrayList para el NPC, por su fácil manejo */
 		adaptedWordNPC = new ArrayList<Tile>(originalTiles); 
@@ -278,9 +281,23 @@ public class GameScreen extends BaseScreen {
 		*/
 		
 		while (i < arrayWord.length) {
-			newArray.add(arrayWord[i]);
+			if (arrayWord[i].equals("ä"))
+				newArray.add("ae");
+			else if (arrayWord[i].equals("ö"))
+				newArray.add("oe");
+			else if (arrayWord[i].equals("ü"))
+				newArray.add("ue");
+			else
+				newArray.add(arrayWord[i]);
+			
 			++i;
 		}
+		
+		
+		/*while (i < arrayWord.length) {
+			newArray.add(arrayWord[i]);
+			++i;
+		}*/
 		
 		return newArray;
 	}

@@ -32,7 +32,7 @@ public interface LanguageMenusStrings {
 	
 	/* ALEMÁN */
 	public String statsTitle_de = "Statistiken";
-	public String general_de = "- General:";
+	public String general_de = "- Überblick:";
 	public String hits_de = "% Treffer: ";
 	public String gamesWon_de = "Gewonnene Spiele: ";
 	public String gamesLost_de = "Verlorene Spiele: ";
@@ -80,7 +80,7 @@ public interface LanguageMenusStrings {
 			    + "Wort darfst du würfeln und deine Spielerfigur\n"
 			    + "fortbewegen. Du musst mindestens 1 X würfeln. Erst\n"
 			    + "dann darfst du \"warten\" wählen. Achtung mit den\n"
-			    + "Löchern! Hilfen: Du darfst nur 2 Hilfen pro Wort.";
+			    + "Löchern! Hilfen: Du bekommst 2 Hilfen.";
 	public String translation_de = "-> Übersetzung (-2 würfeln)";
 	public String firstLetter_de = "-> Erster Buchstabe (-1 würfeln)";
 	public String length_de = "-> Wortlänge (-1 würfeln)";

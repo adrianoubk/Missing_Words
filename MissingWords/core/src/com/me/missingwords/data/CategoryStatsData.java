@@ -413,7 +413,7 @@ public class CategoryStatsData {
 		freetime = new LinkedHashMap<String, Boolean>();
 		
 		/* Creamos los ficheros en inglés */
-		f = Gdx.files.internal("utils/vocabulary-english.txt");
+		f = Gdx.files.external("MissingWordsData/GameData/vocabulary-english.txt"); // internal
 		
 		BufferedReader br = new BufferedReader(f.reader());
 		String line;
@@ -473,7 +473,7 @@ public class CategoryStatsData {
 		freetime.clear();
 		
 		/* Creamos los ficheros en alemán */
-		f = Gdx.files.internal("utils/vocabulary-german.txt");
+		f = Gdx.files.external("MissingWordsData/GameData/vocabulary-german.txt");
 		
 		br = new BufferedReader(f.reader());
 		
