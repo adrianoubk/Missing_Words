@@ -86,8 +86,8 @@ Lehrer,Profesor
 Dozent,Docente
 Student,Estudiante
 Studentin,Estudiante
-Schueler,Alumno
-Schuelerin,Alumna
+Schüler,Alumno
+Schülerin,Alumna
 Schere,Tijeras
 Lineal,Regla
 Haar,Pelo
