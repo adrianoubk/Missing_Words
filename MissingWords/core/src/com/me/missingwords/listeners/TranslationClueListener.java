@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.me.missingwords.MissingWords;
-import com.me.missingwords.actors.Tile;
 import com.me.missingwords.buttons.ClueButton;
 
 /**
@@ -47,23 +46,11 @@ public class TranslationClueListener extends AbstractListener {
 			/* Restablecemos el score */
 			missingWords.getGameScreen().getWordScore().setScore(0);
 			
-			/* Creamos un array de strings */
-			StringBuilder word = new StringBuilder();
-			
-			for(int i = 0; i < missingWords.getGameScreen().getAdaptedWordNPC().size(); ++i) {
-				Tile t = (Tile) missingWords.getGameScreen().getAdaptedWordNPC().get(i);
-				if (i == 0)
-					word.append(t.getLetter().toUpperCase());
-				else
-					word.append(t.getLetter());
-			}
-			
 			/* Creamos una etiqueta que indica la traducción */
-			
 			BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"), Gdx.files.internal("fonts/myfont.png"), false);
 			LabelStyle lStyle = new LabelStyle(font, Color.BLACK);
 			
-			Label l = new Label(missingWords.getDictionary().getDictionary().get(word.toString()), lStyle);
+			Label l = new Label(missingWords.getDictionary().getDictionary().get(missingWords.getGameScreen().getRandomWord()), lStyle);
 			l.setTouchable(Touchable.disabled);
 			l.setPosition((MissingWords.VIEWPORT_WIDTH - l.getMinWidth()) / 2, 40);
 			l.addAction(Actions.fadeOut(3));

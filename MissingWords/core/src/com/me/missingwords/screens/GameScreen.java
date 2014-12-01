@@ -42,7 +42,7 @@ public class GameScreen extends BaseScreen {
 	private SubmitButton submit;
 	private LengthClueBox lengthBox;
 	private int totalWords;
-	private String winner;
+	private String winner, randomWord;
 	private InfoRoll info;
 	private PauseDialog pauseDialog;
 	private WordScore wordScore;
@@ -206,7 +206,6 @@ public class GameScreen extends BaseScreen {
 	
 	/* createTiles(): crea los objetos de tipo Tile */
 	private void createTiles() {
-		String randomWord;
 		String[] arrayWord;
 		ArrayList<String> adaptedWord = new ArrayList<String>();
 		String randomLetter;
@@ -216,7 +215,7 @@ public class GameScreen extends BaseScreen {
 		randomWord = missingWords.getVocabulary().randomKey(); // palabra al azar del vocabulario
 		arrayWord = randomWord.split("(?!^)");
 		
-		arrayWord[0] = arrayWord[0].toLowerCase();		
+		arrayWord[0] = arrayWord[0].toLowerCase(); // Primera letra a minúscula	
 		
 		/* Muestro la palabra, SOLO PRUEBAS */
 		for (int i = 0; i < arrayWord.length; ++i) {
@@ -398,6 +397,10 @@ public class GameScreen extends BaseScreen {
 
 	public ArrayList<Tile> getAdaptedWordNPC() {
 		return adaptedWordNPC;
+	}
+
+	public String getRandomWord() {
+		return randomWord;
 	}
 
 	public NPCPlayer getNpc() {
