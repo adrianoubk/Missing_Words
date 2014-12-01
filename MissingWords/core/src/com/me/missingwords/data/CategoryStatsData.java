@@ -117,6 +117,8 @@ public class CategoryStatsData {
 		String line;
 		String[] word;
 		
+		line = br.readLine();
+		
 		while ((line = br.readLine()) != null) {	
 			word = line.split(",");
 			
@@ -272,6 +274,8 @@ public class CategoryStatsData {
 		f = Gdx.files.external("MissingWordsData/GameData/vocabulary-german.txt");
 		br = new BufferedReader(f.reader());
 		
+		line = br.readLine();
+		
 		while ((line = br.readLine()) != null) {	
 			word = line.split(",");
 			
@@ -419,7 +423,10 @@ public class CategoryStatsData {
 		String line;
 		String[] word;
 		
-		while((line = br.readLine()) != null) {	
+		line = br.readLine();
+		
+		while((line = br.readLine()) != null) {
+			System.out.println(line);
 			word = line.split(",");
 			
 			if (word[1].equals(Category.days.toString()))
@@ -477,7 +484,9 @@ public class CategoryStatsData {
 		
 		br = new BufferedReader(f.reader());
 		
-		while((line = br.readLine()) != null) {	
+		br.readLine();
+		
+		while((line = br.readLine()) != null) {
 			word = line.split(",");
 			
 			if (word[1].equals(Category.days.toString()))

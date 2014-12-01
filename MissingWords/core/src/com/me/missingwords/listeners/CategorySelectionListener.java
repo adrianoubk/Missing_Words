@@ -41,7 +41,9 @@ public class CategorySelectionListener extends AbstractListener {
 		missingWords.createUtils();
 		missingWords.createGameScreens();
 		missingWords.setScreen(missingWords.GameScreen);
-		/*missingWords.getCategoryData().read(missingWords.selectedCategory.toString(), 
-											missingWords.selectedLanguage.toString());*/
+		
+		/* Leemos la categoría para tener el array de palabras para las stats */
+		missingWords.getCategoryData().read(missingWords.selectedCategory.toString(), 
+											missingWords.selectedLanguage.toString());
 	}
 }

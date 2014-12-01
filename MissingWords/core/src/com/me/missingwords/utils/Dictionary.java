@@ -34,6 +34,8 @@ public class Dictionary {
 		String line;
 		String[] word;
 		
+		line = br.readLine();
+		
 		while((line = br.readLine()) != null) {	
 			word = line.split(",");
 			

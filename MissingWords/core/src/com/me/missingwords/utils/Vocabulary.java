@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -36,6 +37,8 @@ public class Vocabulary {
 		String line;
 		String[] word;
 		
+		line = br.readLine(); // saltar primera linea
+		
 		while((line = br.readLine()) != null) {	
 			word = line.split(",");
 			
@@ -47,9 +50,9 @@ public class Vocabulary {
 				}
 		}
 			
-		/*for (Entry<String, Category> e: vocabulary.entrySet()) {
+		for (Entry<String, Category> e: vocabulary.entrySet()) {
 			System.out.println(e.getKey() + "," + e.getValue());
-		}*/
+		}
 		
 		br.close();
 	}
