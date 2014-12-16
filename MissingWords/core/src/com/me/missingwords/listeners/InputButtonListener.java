@@ -62,7 +62,11 @@ public class InputButtonListener extends ClickListener {
 				else
 					word.append("ü");
 			else
-				word.append(t.getLetter());
+				if (i == 0)
+					word.append(t.getLetter().toUpperCase());
+				else
+					word.append(t.getLetter());
+			
 			score += t.getPoints();
 		}
 		
