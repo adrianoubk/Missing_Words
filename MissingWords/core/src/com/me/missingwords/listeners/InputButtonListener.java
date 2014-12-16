@@ -45,14 +45,22 @@ public class InputButtonListener extends ClickListener {
 		
 		for(int i = 0; i < array.size; ++i) {
 			Tile t = (Tile) array.get(i);
-			if (i == 0)
-				word.append(t.getLetter().toUpperCase());
-			else if (t.getLetter().equals("ae"))
-				word.append("ä");
+			
+			if (t.getLetter().equals("ae"))
+				if (i == 0)
+					word.append("ä".toUpperCase());
+				else
+					word.append("ä");
 			else if (t.getLetter().equals("oe"))
-				word.append("ö");
+				if (i == 0)
+					word.append("ö".toUpperCase());
+				else
+					word.append("ö");
 			else if (t.getLetter().equals("ue"))
-				word.append("ü");
+				if (i == 0)
+					word.append("ü".toUpperCase());
+				else
+					word.append("ü");
 			else
 				word.append(t.getLetter());
 			score += t.getPoints();

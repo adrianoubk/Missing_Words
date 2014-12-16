@@ -73,6 +73,7 @@ public class World {
 	/* generateHoles(): genera los agujeros aleatoriamente en el mapa */
 	private void generateHoles() {
 		Random r = new Random();
+		int counter = 0;
 		
 		for (int x = 0; x < pathLayer.getWidth(); ++x)
 			for (int y = 0; y < pathLayer.getHeight(); ++y) {
@@ -81,8 +82,13 @@ public class World {
 					continue;		
 				else if (cell.getTile().getProperties().containsKey("path")) {
 					int num = r.nextInt(10 - 1 + 1) + 1;
-					if (num >= 9)
-						cell.setTile(holeTile);
+					if (num >= 9) {
+						++counter;
+						if (counter <= 4)
+							cell.setTile(holeTile);
+					}
+					else
+						counter = 0;
 				}
 			}
 	}
